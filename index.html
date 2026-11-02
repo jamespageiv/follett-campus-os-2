@@ -819,6 +819,8 @@ button{font:inherit;cursor:pointer;color:inherit}
 .row.cur .content&gt;.bub,.row.cur .content&gt;.card,.row.cur .content&gt;.shot,.row.cur .content&gt;.ticket,.row.cur .content&gt;.maps,.row.cur .content&gt;.pay,.row.cur .content&gt;.rcpt,.row.cur .content&gt;.score,.row.cur .content&gt;.sv,.row.cur .content&gt;.car{outline:3px solid rgba(229,56,59,.35);outline-offset:2px}
 .bub{padding:9px 14px;border-radius:19px;font-size:15.5px;line-height:1.3;width:fit-content}
 .in .bub{background:var(--gray);border-bottom-left-radius:6px}
+.lnk{color:#0a6cdc;font-weight:600;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;cursor:pointer}
+.lnk img{width:1.05em;height:1.05em;vertical-align:-.17em;margin-right:.28em}
 .out .bub{background:var(--blue);color:#fff;border-bottom-right-radius:6px}
 .out .bub.photo{padding:3px}
 .read{font-size:11px;color:#8a8a8e;text-align:right;margin:1px 4px 0;width:100%}
@@ -1003,6 +1005,7 @@ const MOM={
  receipt:{t:&#x27;One transaction, three outcomes&#x27;,c:&#x27;The same transaction updates the student\&#x27;s points, the commission ledger, and the record the university CFO will see next.&#x27;,s:[&#x27;pos&#x27;,&#x27;loyalty&#x27;,&#x27;ledger&#x27;,&#x27;tender&#x27;]},
  half:{t:&#x27;Stay in the moment&#x27;,c:&#x27;Live athletics data keeps the thread useful during the event.&#x27;,s:[&#x27;athletics&#x27;]},
  nextday:{t:&#x27;One ledger&#x27;,c:&#x27;Ticket scan and purchase land in the same loyalty ledger, which is how a first-time fan becomes a repeat fan.&#x27;,s:[&#x27;loyalty&#x27;,&#x27;athletics&#x27;,&#x27;pos&#x27;]},
+ ambassador:{t:&#x27;The ambassador program&#x27;,c:&#x27;The assistant answers a peer-driven question and points to the campus Slack community. Rewards tie back to the same loyalty ledger, and the student opts in.&#x27;,s:[&#x27;slack&#x27;,&#x27;loyalty&#x27;,&#x27;consent&#x27;]},
  wish:{t:&#x27;Before day one&#x27;,c:&#x27;A wish list the family can claim and pay for, delivered to the dorm. Payers are Follett customers, and the student opts in.&#x27;,s:[&#x27;pos&#x27;,&#x27;inventory&#x27;,&#x27;consent&#x27;]},
  collab:{t:&#x27;The pop-up menu grows&#x27;,c:&#x27;A campus-exclusive drop, an alumni-made item and a Wolves NIL item sit beside the first-fan offer. NIL proceeds return to campus.&#x27;,s:[&#x27;pos&#x27;,&#x27;inventory&#x27;,&#x27;seg&#x27;,&#x27;athletics&#x27;]},
  tradein:{t:&#x27;Spring clean&#x27;,c:&#x27;Trade-in credit lands in the same loyalty ledger. The best pieces are resold and the rest are donated.&#x27;,s:[&#x27;pos&#x27;,&#x27;loyalty&#x27;,&#x27;inventory&#x27;]},
@@ -1121,6 +1124,8 @@ S.push(RICH(`&lt;div class=&quot;rcpt&quot;&gt;&lt;div class=&quot;ok&quot;&gt;$
 
 S.push(A(5),T(&#x27;Sat, Nov 21 &amp;middot; 10:03 AM&#x27;,26));
 S.push(IN(`Good game, ${NM}. You were one of 214 first-time fans last night, and you earned 120 Pack Points. Eighty more gets you a food and drink upgrade at the next home game.`,&#x27;nextday&#x27;));
+S.push(OUT(&#x27;My friend Becca is an N State ambassador. What is it?&#x27;,&#x27;Read 10:04 AM&#x27;));
+S.push(IN(&#x27;The Northfield State Ambassador program lets you earn Pack Points and potential income when you share Wolfpack content with your network. You can see it in action in &lt;span class=&quot;lnk&quot;&gt;&lt;img src=&quot;logo-slack.png&quot; alt=&quot;&quot;&gt;#nf-ambassadors&lt;/span&gt; on Slack, and apply to get started.&#x27;,&#x27;ambassador&#x27;));
 S.push(IN(&#x27;One more thing. Spring registration opens Nov 30. I looked at your likely spring schedule.&#x27;));
 S.push(RICH(`&lt;div class=&quot;sv&quot;&gt;&lt;b&gt;Spring course materials&lt;/b&gt;&lt;div class=&quot;bar&quot; style=&quot;background:#8b94a0;width:100%&quot;&gt;Market price &amp;nbsp; $389&lt;/div&gt;&lt;div class=&quot;bar&quot; style=&quot;background:#0a8f5b;width:55%&quot;&gt;Access &amp;nbsp; $212&lt;/div&gt;&lt;div class=&quot;big&quot;&gt;You save $177&lt;/div&gt;&lt;/div&gt;`,&#x27;spring&#x27;));
 S.push(CH(&#x27;Show my schedule&#x27;,&#x27;Remind me Nov 30&#x27;));
@@ -1399,6 +1404,7 @@ const MOM={
  receipt:{t:'One transaction, three outcomes',c:'The same transaction updates the student\'s points, the commission ledger, and the record the university CFO will see next.',s:['pos','loyalty','ledger','tender']},
  half:{t:'Stay in the moment',c:'Live athletics data keeps the thread useful during the event.',s:['athletics']},
  nextday:{t:'One ledger',c:'Ticket scan and purchase land in the same loyalty ledger, which is how a first-time fan becomes a repeat fan.',s:['loyalty','athletics','pos']},
+ ambassador:{t:'The ambassador program',c:'The assistant answers a peer-driven question and points to the campus Slack community. Rewards tie back to the same loyalty ledger, and the student opts in.',s:['slack','loyalty','consent']},
  wish:{t:'Before day one',c:'A wish list the family can claim and pay for, delivered to the dorm. Payers are Follett customers, and the student opts in.',s:['pos','inventory','consent']},
  collab:{t:'The pop-up menu grows',c:'A campus-exclusive drop, an alumni-made item and a Wolves NIL item sit beside the first-fan offer. NIL proceeds return to campus.',s:['pos','inventory','seg','athletics']},
  tradein:{t:'Spring clean',c:'Trade-in credit lands in the same loyalty ledger. The best pieces are resold and the rest are donated.',s:['pos','loyalty','inventory']},
