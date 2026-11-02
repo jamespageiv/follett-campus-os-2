@@ -242,6 +242,17 @@ html.ipad .alerts{grid-template-columns:repeat(2,1fr)}
 .slrow.ag label{font-size:13px;font-weight:600}.slrow.ag label small{display:block;font-weight:400;color:var(--mut);font-size:11.5px}
 .slrow.ag input{grid-column:1/3;width:100%}.slrow.ag b{text-align:right}
 .gr{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #eceef1}.gr small{display:block;color:var(--mut);font-size:12px}.gr .pill{flex:none;white-space:nowrap}
+.prm{margin:8px 0 6px;display:flex;flex-direction:column;gap:5px}
+.prm h6{margin:0 0 2px}
+.prc{display:flex;gap:9px;align-items:center;padding:3px 5px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;background:#fff}
+.prc:hover{border-color:#0b5cd5}
+.prc img{width:34px;height:34px;border-radius:8px;object-fit:cover;flex:none}
+.prc b{display:block;font-size:12.5px;line-height:1.25}.prc small{color:var(--mut);font-size:11px}
+.prm .link{font-size:12px;margin:2px 4px 0}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.pcard{padding:0;overflow:hidden}.pcard img{width:100%;height:230px;object-fit:cover;object-position:center top;display:block}
+.pcard .pb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pcard h4{margin:2px 0 0;font-size:16px}
 .srcl{font-size:11.5px;color:var(--mut);margin:8px 2px 0}
 .pby{display:flex;align-items:center;gap:8px;margin-left:6px;padding-left:14px;border-left:1px solid #e3e3e3;font-size:11px;color:var(--mut);white-space:nowrap}
 .pby img{height:20px;width:auto}
@@ -536,14 +547,14 @@ function showMemo(){
 </script>
 <script>
 /* ---------- nav + rail ---------- */
-const NAV=[['W','Workspaces'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Partner P&L & Cash','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['ag','AgenticOS outcomes','bulb'],['T','Tools'],['trust','Compliance & Trust','shield']];
+const NAV=[['W','Workspaces'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Partner P&L & Cash','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['ag','Wolfie PA Impact','bulb'],['T','Tools'],['trust','Compliance & Trust','shield']];
 const IPAD=/[?&]ipad=1/.test(location.search);if(IPAD)document.documentElement.classList.add('ipad');
 const NAV_IPAD=['home','action','fin','access','ag','trust'];
 function renderNav(){
   $('#nav').innerHTML=`<button class="btn-new" data-new>${ico('plus',16)}<span>New</span></button>`+NAV.filter(n=>!IPAD||(n.length>=3&&NAV_IPAD.includes(n[0]))).map(n=>{
     if(n.length===2)return `<h6>${n[1]}</h6>`;
     const cnt=n[0]==='action'?`<span class="n hot">${nOpen()}</span>`:n[0]==='access'?`<span class="n">${dispCount()}</span>`:'';
-    return `<div class="ni ${S.screen===n[0]?'on':''}" data-go="${n[0]}">${ico(n[2],18)}<span class="t">${n[1]}</span>${cnt}</div>`}).join('')+
+    return `<div class="ni ${S.screen===n[0]?'on':''}" data-go="${n[0]}">${ico(n[2],18)}<span class="t">${n[1]}</span>${cnt}</div>`+(n[0]==='ag'?promoRail():'')}).join('')+
   `<div class="navfoot"><div class="avatar">DW</div><div><b>Dana Whitfield</b><small>VP Finance and CFO</small></div></div>`;
   $('#bellN').textContent=nOpen();
 }
@@ -805,6 +816,20 @@ function invPreview(){
    <tr style="${done?'':'opacity:.5'}"><td><b>Services add-on, first-year move-in</b><div class="sub">${sv.lines.join(', ')}</div></td><td>${done?'<span class="pill green">Added</span>':'<span class="pill gray">Not approved</span>'}</td><td class="r"><b>${done?'+'+fmtK(sv.invoiceImpactK):'$0'}</b></td></tr></table>
    ${done?'':'<div class="sub" style="margin-top:8px">Approve the services add-on in the Action Center to add this line.</div>'}</div>`;
 }
+const PROMOS=[
+ {id:'bf',t:'Pre-Black Friday sale',d:'Nov 25 to 27',o:'20% off all branded items',img:'promo-blackfriday.jpg',st:'Upcoming',pill:'blue',n:'Online discount is applied once the order is processed. Not combinable with other offers.'},
+ {id:'hy',t:'Hydro flask sale',d:'Dec 2 to 10',o:'25% off flasks and accessories',img:'promo-hydro.jpg',st:'Upcoming',pill:'blue',n:'Store and online.'},
+ {id:'lp',t:'Sequoia Sunrise launch party',d:'Oct 21',o:'Campus coffee collab launch',img:'promo-launch.jpg',st:'Recent',pill:'gray',n:'A campus-exclusive collab with a local roaster.'},
+ {id:'gd',t:'Game-day gear',d:'Ongoing',o:'Wolfpack apparel for game day',img:'promo-gameday.jpg',st:'Active',pill:'green',n:'Pairs with the Arena Store pop-up.'},
+ {id:'ds',t:'In-store display',d:'Ongoing',o:'Mugs, bottles and plush by the register',img:'promo-store.jpg',st:'Active',pill:'green',n:'Gift-ready merchandise.'}];
+function promoRail(){
+  return `<div class="prm"><h6 style="display:flex;justify-content:space-between;align-items:center">Active promotions<span class="link" data-go="promo" style="font-size:11px;text-transform:none;letter-spacing:0">View all</span></h6>${PROMOS.slice(0,2).map(p=>`<div class="prc" data-go="promo" title="${p.t}"><img src="${p.img}" alt=""><div><b>${p.t}</b><small>${p.d}</small></div></div>`).join('')}</div>`;
+}
+function vPromo(){
+  return `<div class="h1">Active promotions</div><div class="sub">Store and online offers running through Follett POS. Sales and commission from each promotion land in Partner P&amp;L &amp; Cash.</div>
+  <div class="pgrid mt">${PROMOS.map(p=>`<div class="card pcard"><img src="${p.img}" alt="${p.t}"><div class="pb"><div style="display:flex;gap:8px;align-items:center"><span class="pill ${p.pill}">${p.st}</span><span class="sub">${p.d}</span></div><h4>${p.t}</h4><div>${p.o}</div><div class="sub">${p.n}</div><button class="btn sm" data-ask="Tell me about the ${p.t}">Ask Claude</button></div></div>`).join('')}</div>
+  <div class="srcl">Sources: Follett marketing calendar, POS event history</div>`;
+}
 const BIZ=[
  {id:'first',n:'First Shelf',what:'Alumni and maker shelf in every store',inv:'$18K',lift:'$64K sales',pay:'5 months',risk:'Low. Dropship take rate is assumed.'},
  {id:'colors',n:'Earn Your Colors',what:'Four-year loyalty tiers on Pack Points',inv:'$35K',lift:'$120K sales',pay:'7 months',risk:'Medium. Points liability sits on the ledger.'},
@@ -839,7 +864,7 @@ function actionBar(){
   const b=(fx,l,d)=>`<button class="btn ${S.done[fx]&&fx!=='boardDoc'?'done':''}" ${S.done[fx]&&fx!=='boardDoc'?'disabled':`data-fx="${fx}"`}>${S.done[fx]&&fx!=='boardDoc'?d:l}</button>`;
   return `<div class="abar">${b('boardDoc','Export board-ready one-pager','One-pager ready')}${b('setThresholds','Set alert thresholds','Thresholds saved')}${b('delegateAux','Delegate to auxiliary director','Delegated')}${b('scheduleQBR','Schedule a QBR','QBR on Dec 3')}</div>`;
 }
-/* ---------- AgenticOS outcomes ---------- */
+/* ---------- Wolfie PA Impact ---------- */
 const agMoney=n=>n>=1e6?'$'+(n/1e6).toFixed(2)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+Math.round(n);
 const agInt=n=>Math.round(n).toLocaleString();
 const agX=n=>n==null?'n/a':isFinite(n)?n.toFixed(1)+'x':'high';
@@ -877,7 +902,7 @@ function agRest(r){
 }
 function vAg(){
   const r=AGENTICOS.compute(S.ag);
-  return `<div class="h1">AgenticOS outcomes <span class="pill amber" style="vertical-align:middle;margin-left:8px">Illustrative data</span></div><div class="sub">What the student assistant is worth to the university, using a matched cohort and a credited lift. Net tuition, retention, affordability and cash. Sources: matched cohort model (illustrative), Institutional Research aggregate.</div>
+  return `<div class="h1">Wolfie PA Impact <span class="pill amber" style="vertical-align:middle;margin-left:8px">Illustrative data</span></div><div class="sub">What the student assistant is worth to the university, using a matched cohort and a credited lift. Net tuition, retention, affordability and cash. Sources: matched cohort model (illustrative), Institutional Research aggregate.</div>
   <div id="agtop" class="mt">${agTop(r)}</div>${agAssump()}<div id="agrest">${agRest(r)}</div>`;
 }
 document.addEventListener('input',e=>{
@@ -885,8 +910,8 @@ document.addEventListener('input',e=>{
   S.ag[k]=+e.target.value;const r=AGENTICOS.compute(S.ag);
   $('#agv-'+k).textContent=agInputVal(k,S.ag[k]);$('#agtop').innerHTML=agTop(r);$('#agrest').innerHTML=agRest(r);
 });
-const VIEWS={home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,ag:vAg,trust:vTrust};
-const TITLES={home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',ag:'AgenticOS outcomes',trust:'Compliance & Trust'};
+const VIEWS={home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,ag:vAg,promo:vPromo,trust:vTrust};
+const TITLES={home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',ag:'Wolfie PA Impact',promo:'Active promotions',trust:'Compliance & Trust'};
 </script>
 <style>.page.homep{display:flex;flex-direction:column;padding-bottom:14px}.homep .chatwrap{flex:1;width:100%;min-height:0}.thread:empty{display:none}</style>
 <script>
@@ -895,6 +920,10 @@ const P=(h)=>({t:'p',h}),F=(...i)=>({t:'fu',i});
 const SRC=(...s)=>({t:'src',s});
 const ACT=(fx,title,desc,label)=>({t:'act',fx,title,desc,label});
 const RULES=[
+ {m:/(promotion|black friday|hydro|launch party|game.day gear|in.store display|tell me about the)/,f:()=>({steps:['Reading the Follett marketing calendar','Checking POS offers and online discount rules'],blocks:[
+  {t:'tbl',h:['Promotion','Dates','Offer','Status'],r:PROMOS.map(p=>[p.t,p.d,p.o,p.st])},
+  P('Offers run in store and online through Follett POS. The online discount applies once the order is processed, and the Pre-Black Friday offer cannot be combined with others. Results land in <b>Partner P&amp;L &amp; Cash</b> as the sales come in.'),
+  F('Which spring campus commerce lines should I approve?','Show me the Arena Store pop-up results'),SRC('Follett marketing calendar','POS event history')]})},
  {m:/(which departments.*total access)/,f:()=>{const p=CD.ACCESSPLAN,ta=S.ta,sales=ta.p*2*ta.e*(1-ta.o/100)/1e6,comm=sales*.08;return {steps:['Reading adoption clusters by department','Sizing Total Access against the Inclusive Access run-rate'],blocks:[
   {t:'stats',i:[['Departments clustering',String(p.clusters.length),p.clusters.join(', ')],['Student savings','$'+p.saveStudentsM.toFixed(2)+'M','Modeled, per term'],['Commission (8% assumed)','$'+comm.toFixed(2)+'M','At your Total Access sliders']]},
   P('Start with <b>'+p.clusters.join(', ')+'</b>. These departments already moved to Access and their peers tend to follow, so a Total Access pilot meets the least resistance there. Billing gets simpler too: one rate and one census rule.'),
@@ -904,10 +933,10 @@ const RULES=[
   {t:'stats',i:[['Students in Access','11,900','412 of 1,180 sections'],['Savings vs list','$1.61M','$135 per student per term (modeled)'],['Opt-out rate','6.4%','+1.0 pt vs last fall']]},
   P('Access is saving students money and keeping them in class, and the cohort retains <b>'+(CD.OUTCOME.access.retention-CD.OUTCOME.non.retention).toFixed(1)+' points better</b> (an association, not proof of cause). The one drag on the university side is billing: <b>'+fmtK(dispTotal())+'</b> is held, and 52% of it traces to a single census date.'),
   S.done.fixCensus?ACT('confirmCohorts','Send cohort fixes to Registrar','Four corrections, $63.8K.','Send fixes'):ACT('fixCensus','Confirm Sep 12 census date','Releases 7 invoices ($110.2K).','Confirm census date'),F('What is driving Business College opt-outs?','Show me the Access outcome proof'),SRC('CourseTracks','Invoice ledger','Institutional Research (aggregate)')]})},
- {m:/(student assistant|student impact|agentic)/,f:()=>{const r=AGENTICOS.compute(S.ag),sg=AGSIG[r.signal];return {steps:['Reading assistant usage and the matched cohort (aggregate)','Applying the credited lift from AgenticOS outcomes'],blocks:[
+ {m:/(student assistant|student impact|agentic)/,f:()=>{const r=AGENTICOS.compute(S.ag),sg=AGSIG[r.signal];return {steps:['Reading assistant usage and the matched cohort (aggregate)','Applying the credited lift from Wolfie PA Impact'],blocks:[
   {t:'stats',i:[['Active students',agInt(r.activeStudents),'Weekly active, illustrative'],['Students retained',agInt(r.retained),'At a credited lift of '+(r.creditedLift*100).toFixed(1)+' pts'],['Net tuition retained',agMoney(r.revenueRetained),agX(r.returnPerDollar)+' return per $1 of cost']]},
-  P('The signal is <b>'+sg[0]+'</b>. Active students persist '+S.ag.lift.toFixed(1)+' points better than a matched comparison group, and only '+S.ag.credit+'% of that is credited to AgenticOS because students who opt in tend to differ from those who do not. Break-even is '+(r.breakEvenLift*100).toFixed(2)+' points.'),
-  P('<span class="sub">Label: all figures are illustrative and use a matched cohort, not proof of cause. Change the assumptions in AgenticOS outcomes.</span>'),
+  P('The signal is <b>'+sg[0]+'</b>. Active students persist '+S.ag.lift.toFixed(1)+' points better than a matched comparison group, and only '+S.ag.credit+'% of that is credited to Wolfie PA because students who opt in tend to differ from those who do not. Break-even is '+(r.breakEvenLift*100).toFixed(2)+' points.'),
+  P('<span class="sub">Label: all figures are illustrative and use a matched cohort, not proof of cause. Change the assumptions in Wolfie PA Impact.</span>'),
   ACT('outcomeShare','Share outcome proof with Provost and board packet','Aggregate only, with its source.','Share'),F('Which courses need attention?','Can you show student names?'),SRC('Assistant usage (aggregate)','Matched cohort model')]}}},
  {m:/(how is the bookstore performing)/,f:()=>({steps:['Tying POS lines to the statement','Comparing commission and events to plan'],blocks:[
   {t:'stats',i:[['Commission YTD','$1.49M','+10.7% vs last year'],['Guarantee coverage','110%','$2.87M projected vs $2.6M'],['General merchandise','$638K','+18%, led by Homecoming']]},

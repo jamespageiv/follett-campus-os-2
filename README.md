@@ -22,7 +22,7 @@ Replace public/index.html, then commit and `git push heroku HEAD:main`.
 - Needs only Node 20. Heroku Eco dynos sleep when idle; first load can take a few seconds.
 
 
-## AgenticOS outcomes tab
+## Wolfie PA Impact tab
 A CFO view (Follett Partnership Portal, `cfo.html`) that turns student-assistant outcomes into institutional value. All data is illustrative.
 
 - **Where it lives:** `agenticos-model.js` holds the pure `AGENTICOS.compute(assumptions)` function, the defaults, the slider metadata, the funnel config and the mock data (scorecard, segments, guardrails, evidence notes). `cfo.html` only renders it (`vAg`).

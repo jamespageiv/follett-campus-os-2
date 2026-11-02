@@ -1,4 +1,4 @@
-/* AgenticOS outcomes model. Pure calculation plus illustrative mock data, no DOM access.
+/* Wolfie PA Impact model. Pure calculation plus illustrative mock data, no DOM access.
    Swap DATA and DEFAULTS for an API response later; compute() only needs the assumptions object.
    All figures are fabricated for the prototype. */
 (function(root){
@@ -10,7 +10,7 @@
     ['baseline','Baseline term-to-term persistence',70,95,1,'%','Matched non-users'],
     ['adoption','Weekly active adoption',10,80,1,'%','Share of eligible students'],
     ['lift','Observed persistence lift',0,8,0.1,'pts','Active vs matched non-users'],
-    ['credit','Share of lift credited to AgenticOS',0,100,5,'%','Discounts for opt-in selection bias'],
+    ['credit','Share of lift credited to Wolfie PA',0,100,5,'%','Discounts for opt-in selection bias'],
     ['cost','Program cost per active student',40,300,5,'$','Per year']];
   var CONFIG={
     activatedShare:0.7,   /* weekly active students as a share of activated students */
