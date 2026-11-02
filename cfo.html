@@ -924,6 +924,19 @@ const P=(h)=>({t:'p',h}),F=(...i)=>({t:'fu',i});
 const SRC=(...s)=>({t:'src',s});
 const ACT=(fx,title,desc,label)=>({t:'act',fx,title,desc,label});
 const RULES=[
+ {m:/(alumni segment|alumni.*perform)/,f:()=>({steps:['Reading alumni sales across store and e-commerce','Comparing channels and the golf pro shop collabs'],blocks:[
+  {t:'stats',i:[['Alumni in-store','+2%','vs last year'],['Emblematic merchandise','+19%','Since Q2, driven by golf pro shop collabs'],['E-commerce','+12%','Year over year']]},
+  P('Alumni sales in store are up <b>2%</b>, so the growth is not coming from the register. The <b>golf pro shop collabs are driving emblematic merchandise up 19% since Q2</b>, and <b>e-commerce is up 12% year over year</b>. Alumni are buying more online and through partner venues than at the store.'),
+  P('<span class="sub">Label: directional, aggregate figures from the POS and e-commerce ledgers. Segments are anonymized and meet the minimum group size of 10.</span>'),
+  F('Explore campaign attribution','Evaluate pro shop partnerships'),SRC('POS and e-commerce ledgers (aggregate)','Alumni segment (anonymized)')]})},
+ {m:/(campaign attribution)/,f:()=>({steps:['Joining orders to campaign touches (aggregate, opt-in)','Separating promotion lift from baseline sales'],blocks:[
+  {t:'stats',i:[['Homecoming pop-up',fmtK(NFD.campaigns.homecoming.salesK),'+'+NFD.campaigns.homecoming.vsLY+'% vs last year'],['Arena Store pop-up',fmtK(POP.salesK),NFD.arena.firstTimeFans+' first-time fans'],['Alumni e-commerce','+12%','Year over year']]},
+  P('Event campaigns are the clearest to attribute because the sale happens at the event. Alumni e-commerce growth is harder: it follows email and alumni association touches, and some of it would have happened anyway. Attribution here is <b>modeled, not controlled</b>, so treat it as a ranking, not a proof.'),
+  F('Evaluate pro shop partnerships','Which spring campus commerce lines should I approve?'),SRC('POS event history','E-commerce ledger (aggregate)','Campaign model')]})},
+ {m:/(pro.?shop)/,f:()=>{const g=CD.CALENDAR.find(x=>x.id==='cal6');return {steps:['Reading golf pro shop collab sales','Comparing the pilot against the store and e-commerce stack'],blocks:[
+  {t:'stats',i:[['Emblematic merchandise','+19%','Since Q2, golf pro shop collabs'],['Spring pilot sales',fmtK(g.revK),'Golf Pro Shop pilot at the university course'],['Your commission',fmtK(g.commK),'Same merch, e-commerce and POS stack']]},
+  P('The pro shop collabs are the strongest lift in the alumni segment, and the spring pilot adds a <b>new venue on the same stack</b>, so there is no new system to run. The open questions are venue agreement with the university course and whether the lift holds outside the first season.'),
+  ACT('calendarAll','Approve all spring lines','Includes the Golf Pro Shop pilot. Writes every line to the event calendar.','Approve all'),F('Explore campaign attribution','Which spring campus commerce lines should I approve?'),SRC('POS and e-commerce ledgers (aggregate)','Event calendar')]}}},
  {m:/(promotion|black friday|hydro|launch party|game.day gear|in.store display|tell me about the)/,f:()=>({steps:['Reading the Follett marketing calendar','Checking POS offers and online discount rules'],blocks:[
   {t:'tbl',h:['Promotion','Dates','Offer','Status'],r:PROMOS.map(p=>[p.t,p.d,p.o,p.st])},
   P('Offers run in store and online through Follett POS. The online discount applies once the order is processed, and the Pre-Black Friday offer cannot be combined with others. Results land in <b>Partner P&amp;L &amp; Cash</b> as the sales come in.'),
