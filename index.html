@@ -216,7 +216,7 @@ body.pm .talk{display:block}
 .rb-base{position:absolute;left:0;right:0;bottom:92px;height:2px;background:rgba(255,255,255,.9)}
 @media(max-width:900px){.rb-grid{grid-template-columns:1fr;gap:34px}.rb-v{justify-content:flex-start}.rb-stk.big{--w:250px}.rb-stk.sm{--w:92px}}
 @media(prefers-reduced-motion:reduce){.rb-ly{transition:none}}
-.wrap.wide{max-width:1620px}
+.wrap.wide{max-width:1780px}
 .vig:not(#v-stud) .win{max-width:1378px;margin-left:auto;margin-right:auto}
 .s3grid{display:grid;grid-template-columns:490px 1fr;gap:18px;align-items:start}
 .cfogrid{display:grid;grid-template-columns:924px 400px;gap:18px;align-items:start;justify-content:center;max-width:1378px;margin:0 auto}
@@ -258,16 +258,16 @@ body.pm .talk{display:block}
 .orbl line.on{stroke-dasharray:none;stroke-width:1.5;opacity:.5}
 .orbl line.now{stroke-dasharray:5 11;stroke-width:2.6;opacity:1;animation:orbflow .9s linear infinite;filter:drop-shadow(0 0 4px currentColor)}
 @keyframes orbflow{to{stroke-dashoffset:-16}}
-.orbsim{position:absolute;top:14px;right:16px;font-size:10px;font-weight:800;letter-spacing:.14em;color:#aeeafc;border:1px solid rgba(174,234,252,.4);border-radius:99px;padding:3px 9px;z-index:3}
-.orbcap{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:min(620px,calc(100% - 220px));text-align:center;z-index:3;animation:capin .4s ease both}
+.orbsim{position:absolute;top:14px;right:16px;font-size:12px;font-weight:800;letter-spacing:.14em;color:#aeeafc;border:1px solid rgba(174,234,252,.4);border-radius:99px;padding:3px 9px;z-index:3}
+.orbcap{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:min(800px,calc(100% - 300px));text-align:center;z-index:3;animation:capin .4s ease both}
 @keyframes capin{from{opacity:0;transform:translate(-50%,6px)}}
-.orbcap .lb{font-size:10.5px;letter-spacing:.16em;font-weight:800;color:#aeeafc;display:flex;align-items:center;justify-content:center;gap:8px}
+.orbcap .lb{font-size:12.5px;letter-spacing:.16em;font-weight:800;color:#aeeafc;display:flex;align-items:center;justify-content:center;gap:8px}
 .orbcap .lb i{width:8px;height:8px;border-radius:50%;background:#ff6b5e;animation:pl 1.2s infinite}
-.orbcap h4{font:400 24px var(--serif);margin:4px 0 4px}
-.orbcap p{font-size:13px;line-height:1.45;color:rgba(255,255,255,.78)}
-.orbc{position:absolute;width:240px;text-align:center;transform:translateX(-50%);z-index:2}
+.orbcap h4{font:400 32px var(--serif);margin:5px 0 0}
+.orbcap p{font-size:16px;line-height:1.45;color:rgba(255,255,255,.88)}
+.orbc{position:absolute;width:290px;text-align:center;transform:translateX(-50%);z-index:2}
 .orbc .stu{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);height:206px;width:auto;margin-bottom:0;pointer-events:none;-webkit-mask-image:linear-gradient(#000 74%,transparent);mask-image:linear-gradient(#000 74%,transparent)}
-.orbc .d3{font-size:9.5px;letter-spacing:.2em;font-weight:800;color:rgba(174,234,252,.75);height:16px;margin-bottom:4px}
+.orbc .d3{font-size:11.5px;letter-spacing:.2em;font-weight:800;color:rgba(174,234,252,.75);height:16px;margin-bottom:4px}
 .orbc .av{position:relative;width:112px;height:112px;margin:0 auto 8px}
 .orbc .av:before{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(174,234,252,.3);animation:orbpulse 2.8s ease-out infinite}
 @keyframes orbpulse{to{transform:scale(1.28);opacity:0}}
@@ -275,19 +275,19 @@ body.pm .talk{display:block}
 .orbc .av svg circle+circle{transition:stroke-dashoffset .8s ease}
 .orbc .av b{position:absolute;inset:14px;border-radius:50%;background:linear-gradient(145deg,#d9f4fd,#5fc3ea);color:var(--ink);display:grid;place-items:center;font:400 38px var(--serif)}
 .orbc .txt{display:inline-block;padding:6px 14px 8px;border-radius:14px;background:rgba(15,40,57,.82)}
-.orbc h4{font-size:17px}
-.orbc small{display:block;font-size:11.5px;color:rgba(255,255,255,.65)}
-.orbc .sg2{display:inline-block;margin:6px 0 4px;font-size:11px;font-weight:700;padding:3px 11px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
-.orbc .tr{font-size:11.5px;color:rgba(255,255,255,.7)}.orbc .tr b{font-size:15px;color:#fff}
+.orbc h4{font-size:21px}
+.orbc small{display:block;font-size:14px;color:rgba(255,255,255,.8)}
+.orbc .sg2{display:inline-block;margin:6px 0 4px;font-size:14px;font-weight:700;padding:4px 13px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.orbc .tr{font-size:14px;color:rgba(255,255,255,.85)}.orbc .tr b{font-size:19px;color:#fff}
 .og{display:contents}
-.ogl{font-size:10px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;line-height:1.5;z-index:2}
-.ogl span{display:block;font-size:12px;letter-spacing:0;opacity:.85}
+.ogl{font-size:13px;letter-spacing:.13em;font-weight:800;text-transform:uppercase;line-height:1.5;z-index:2}
+.ogl span{display:block;font-size:16px;letter-spacing:0;opacity:1}
 .orb:not(.flat) .ogl{position:absolute}
-.orb:not(.flat) .og[data-g=U] .ogl{left:20px;top:134px}
-.orb:not(.flat) .og[data-g=F] .ogl{right:20px;top:134px;text-align:right}
+.orb:not(.flat) .og[data-g=U] .ogl{left:22px;top:112px}
+.orb:not(.flat) .og[data-g=F] .ogl{right:22px;top:112px;text-align:right}
 .orb:not(.flat) .og[data-g=N] .ogl{left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
-.orbn{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;padding:6px 13px 6px 10px;border-radius:99px;border:1.5px dashed rgba(255,255,255,.28);background:rgba(13,36,51,.6);color:rgba(255,255,255,.55);font:600 11.5px var(--sans);white-space:nowrap;cursor:pointer;z-index:2;transition:background .35s,color .35s,border-color .35s,box-shadow .35s,transform .35s}
-.orbn i{width:8px;height:8px;border-radius:50%;background:var(--oc);opacity:.75;flex:none}
+.orbn{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:9px;padding:.55em 1.1em .55em .85em;border-radius:99px;border:2px dashed rgba(255,255,255,.45);background:rgba(13,36,51,.8);color:rgba(255,255,255,.92);font:700 var(--ofs,15px) var(--sans);white-space:nowrap;cursor:pointer;z-index:2;transition:background .35s,color .35s,border-color .35s,box-shadow .35s,transform .35s}
+.orbn i{width:.7em;height:.7em;border-radius:50%;background:var(--oc);opacity:1;flex:none}
 .orbn:hover{border-color:rgba(255,255,255,.6);color:#fff}
 .orbn.on{border-style:solid;border-color:var(--oc);background:var(--oc);color:#0d2433;font-weight:800}
 .orbn.on i{background:#0d2433;opacity:.5}
@@ -295,11 +295,11 @@ body.pm .talk{display:block}
 .orbn.sel{outline:2px solid #fff;outline-offset:2px}
 .orbn.fresh{animation:orbpop .7s ease}
 @keyframes orbpop{35%{transform:translate(-50%,-50%) scale(1.3)}}
-.orbd{position:absolute;left:50%;width:340px;transform:translateX(-50%);background:rgba(13,36,51,.92);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:9px 30px 9px 12px;font-size:11px;line-height:1.4;color:rgba(255,255,255,.85);z-index:4;display:none}
+.orbd{position:absolute;left:50%;width:min(520px,calc(100% - 60px));transform:translateX(-50%);background:#0d2433;border:1px solid rgba(255,255,255,.35);box-shadow:0 12px 36px rgba(0,0,0,.55);border-radius:14px;padding:14px 38px 14px 18px;font-size:15px;line-height:1.45;color:rgba(255,255,255,.92);z-index:4;display:none}
 .orbd.show{display:block;animation:pop .3s ease both}
 .orbd b{color:#fff}.orbd div{margin-top:3px}
 .orbx{position:absolute;top:6px;right:8px;border:0;background:none;color:rgba(255,255,255,.6);font-size:18px;line-height:1;cursor:pointer}
-.orbhint{position:absolute;left:0;right:0;bottom:7px;text-align:center;font-size:10.5px;color:rgba(255,255,255,.45)}
+.orbhint{position:absolute;left:0;right:0;bottom:9px;text-align:center;font-size:13px;color:rgba(255,255,255,.7)}
 .orb.flat{height:auto;padding:16px 14px 30px}
 .orb.flat .orbsim,.orb.flat .orbcap,.orb.flat .orbc,.orb.flat .orbd,.orb.flat .orbhint{position:static;transform:none;width:auto}
 .orb.flat .orbsim{display:inline-block;margin-bottom:10px}
@@ -1273,7 +1273,7 @@ build();
 "></iframe>
 <div class="orb" id="orb"></div>
 </div>
-<div class="talk"><b>Talk track · student vignette (I'll walk through the demo scroll)</b><p>"Hey Emma, midterms are behind you. Let me know if you want me to sign you up for some tutoring in Econ. They have some open spots on Wednesday mornings."</p><p>Someone is going to do this. I have a version of it on my phone right now. I only gave my agent my email address and it just monitors it. About three weeks in, it had figured out what was important to me. One Saturday afternoon I got a text: "James, just a reminder, the kids won't have school on 11/2 and 11/3. Tomorrow's the last day to register for the day camp at Long Elementary. Want me to reserve a spot?"</p><p>That was one data source, and it is full of terrible data. What if it knew all my courses, my learning materials, my faculty, all my past semesters, grades and progress? What if my agent knew every opportunity to engage with my fellow students and help me connect?</p><p>To pull that off takes trust, which is your first company value. What builds trust? Data, and time. The more you learn about someone over a longer period, the more you know how much you can trust them.</p></div>
+<div class="talk"><b>Talk track · student vignette (I'll walk through the demo scroll)</b><p>"Hey Emma, midterms are behind you. Let me know if you want me to sign you up for some tutoring in Econ. They have some open spots on Wednesday mornings."</p><p>Someone is going to do this. I have a version of it on my phone right now. I only gave my agent my email address and it just monitors it. About three weeks in, it had figured out what was important to me. One Saturday afternoon I got a text: "James, just a reminder, the kids won't have school on 11/2 and 11/3. Tomorrow's the last day to register for the day camp at Long Elementary. Want me to reserve a spot?"</p><p>That was one data source, and it is full of terrible data. What if it knew all my courses, my learning materials, my faculty, all my past semesters, grades and progress? What if my agent knew every opportunity to engage with my fellow students and help me connect?</p><p>To pull that off takes trust, which is your first company value. What builds trust? Data, and time. The more you learn about someone over a longer period, the more you know how much you can trust them.</p><div id="momNotes"></div></div>
 </div>
 <div class="vig" id="v-cfo">
 <div class="cfogrid">
@@ -1423,7 +1423,7 @@ function orbBuild(){
  <div class="orbc" id="orbc"><img class="stu" src="student.png" alt="" aria-hidden="true"><div class="d3">STUDENT 360 · DATA 360</div><div class="av"><svg width="112" height="112" viewBox="0 0 112 112"><circle cx="56" cy="56" r="46" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="6"/><circle id="orbring" cx="56" cy="56" r="46" fill="none" stroke="#aeeafc" stroke-width="6" stroke-linecap="round" stroke-dasharray="${RING}" stroke-dashoffset="${RING}" transform="rotate(-90 56 56)"/></svg><b>E</b></div>
  <div class="txt"><h4>Emma M.</h4><small>Junior · Economics · Northfield State</small><div class="sg2" id="orbseg"></div><div class="tr"><b id="orbtr">0</b> trust depth · <span id="orbday">Day 0</span></div></div></div>`
  +['U','F','N'].map(g=>`<div class="og" data-g="${g}"><div class="ogl" style="color:${OC[g]}">${GROUPS[g].n}<span id="oc-${g}"></span></div>${keys.filter(k=>SRC[k].g===g).map(k=>`<button class="orbn" id="on-${k}" data-id="${k}" style="--oc:${OC[g]}" title="${SRC[k].n}"><i></i>${SHORT[k]}</button>`).join('')}</div>`).join('')
- +`<div class="orbd" id="orbd"></div><div class="orbhint">Lit sources have been used by the story. Click any source for its fields, basis and effort.</div>`;
+ +`<div class="orbd" id="orbd"></div>`;
  $('#orb').addEventListener('click',e=>{
   const n=e.target.closest('.orbn');
   if(n){sel=sel===n.dataset.id?null:n.dataset.id;sdraw()}
@@ -1435,18 +1435,19 @@ function orbLayout(){
  const o=$('#orb'),W=o.clientWidth;if(!W)return;
  const flat=W<720;o.classList.toggle('flat',flat);
  if(flat){o.querySelectorAll('.orbn,.ogl,#orbc,#orbd').forEach(el=>{el.style.left=el.style.top=''});return}
- const keys=Object.keys(SRC),H=o.clientHeight,capH=118,cx=W/2,cy=capH+(H-capH)/2,rx=W/2-104,ry=(H-capH)/2-46,ax=cx,ay=cy-42;
+ const fs=Math.max(12.5,Math.min(18,(W-184)/53)),mg=Math.round(fs*7.6);o.style.setProperty('--ofs',fs.toFixed(1)+'px');
+ const keys=Object.keys(SRC),H=o.clientHeight,capH=96,cx=W/2,cy=capH+(H-capH)/2,rx=W/2-mg,ry=(H-capH)/2-50,ax=cx,ay=cy-42;
  const P={};
  ['U','F'].forEach(g=>{const ks=keys.filter(k=>SRC[k].g===g);
   ks.forEach((k,i)=>{const t=(-52+i*104/(ks.length-1))*Math.PI/180;P[k]=[cx+(g==='F'?rx:-rx)*Math.cos(t),cy+ry*Math.sin(t)]})});
- const nk=keys.filter(k=>SRC[k].g==='N'),sp=Math.max(152,Math.min(210,(W-240)/(nk.length-1)));nk.forEach((k,i)=>{P[k]=[cx+(i-(nk.length-1)/2)*sp,cy+ry]});
+ const nk=keys.filter(k=>SRC[k].g==='N'),sp=Math.max(fs*11,Math.min(270,(W-2*mg)/(nk.length-1)));nk.forEach((k,i)=>{P[k]=[cx+(i-(nk.length-1)/2)*sp,cy+ry]});
  keys.forEach(k=>{const [x,y]=P[k],d=Math.hypot(x-ax,y-ay),r=62,ln=$('#ol-'+k);
   $('#on-'+k).style.left=x+'px';$('#on-'+k).style.top=y+'px';
   ln.setAttribute('x1',x);ln.setAttribute('y1',y);ln.setAttribute('x2',ax+(x-ax)*r/d);ln.setAttribute('y2',ay+(y-ay)*r/d)});
  [['orbe1',1],['orbe2',.5]].forEach(([id,s])=>{const e=$('#'+id);e.setAttribute('cx',cx);e.setAttribute('cy',cy);e.setAttribute('rx',rx*s);e.setAttribute('ry',ry*s)});
  $('#orbc').style.left=cx+'px';$('#orbc').style.top=(cy-118)+'px';
- $('#orbd').style.top=(cy+128)+'px';
- $('.og[data-g=N] .ogl').style.top=(cy+ry-58)+'px';
+ $('#orbd').style.top=(cy+110)+'px';
+ $('.og[data-g=N] .ogl').style.top=(cy+ry-76)+'px';
 }
 function orbDraw(act,now,trust,b,started){
  const keys=Object.keys(SRC),m=MOM[ps.key];
@@ -1457,7 +1458,7 @@ function orbDraw(act,now,trust,b,started){
  ['U','F','N'].forEach(g=>{const ks=keys.filter(k=>SRC[k].g===g);$('#oc-'+g).textContent=ks.filter(k=>act.has(k)).length+' of '+ks.length});
  const ck=ps.key+'|'+ps.all;
  if(ck!==orbKey){orbKey=ck;
-  $('#orbcap').innerHTML=`<div class="lb"><i></i>${started?'NOW POWERING THE TEXT':'READY'}</div><h4>${m?m.t:'Tap the phone, scroll, or press Play to start'}</h4><p>${m?m.c:'Each message lights up the data it needs. Sources stay lit, so by the end you can see what it takes and who has to say yes.'}</p>`}
+  $('#orbcap').innerHTML=`<div class="lb"><i></i>${started?'NOW POWERING THE TEXT':'READY'}</div><h4>${m?m.t:'Tap the phone, scroll, or press Play to start'}</h4>`}
  $('#orbring').style.strokeDashoffset=RING*(1-trust/100);
  $('#orbtr').textContent=trust;$('#orbday').textContent='Day '+ps.day;
  $('#orbseg').textContent=started?SEGS[b]:'Not yet segmented';
@@ -1512,10 +1513,17 @@ function ugLines(){
   return `<path d="M${x1} ${hy} C${m} ${hy},${m} ${y},${x2} ${y}" fill="none" stroke="${nw?'#b7a3ff':'rgba(111,177,255,.4)'}" stroke-width="${nw?2:1.3}" ${nw?'stroke-dasharray="5 5"':''}>${nw?'<animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.4s" repeatCount="indefinite"/>':''}</path>`}).join('');
 }
 ugBuild();
+/* data graph callouts live in the presenter notes, not on the graph */
+(function(){const n=$('#momNotes');if(!n)return;
+ const e=t=>`<span style="font-weight:700">${t}</span>`;
+ n.innerHTML=`<p style="margin-top:14px">${e('Data graph callouts, in story order')}</p>`
+  +`<p>${e('Before Play:')} Each message lights up the data it needs. Sources stay lit, so by the end you can see what it takes and who has to say yes.</p>`
+  +Object.values(MOM).map(m=>`<p>${e(m.t+':')} ${m.c}</p>`).join('')
+  +`<p>${e('Any time:')} Lit sources have been used by the story. Click any source for its fields, basis and effort.</p>`})();
 /* scale the demo as one unit so it fits the window height without browser zoom */
 function fitDemo(){
  const base=document.querySelector("#v-stud.show")?960:document.querySelector("#v-cfo.show")?740:830,s=innerWidth>1180?Math.max(.55,Math.min(1,(innerHeight-150)/base)):1;
- document.querySelectorAll('.s3grid,.cfogrid,.vig:not(#v-stud) .win').forEach(el=>{el.style.zoom=s<1?s:'';el.style.maxWidth=s<1?(el.classList.contains('s3grid')?'1590px':'1378px'):'';el.style.margin=s<1?'0 auto':''});
+ document.querySelectorAll('.s3grid,.cfogrid,.vig:not(#v-stud) .win').forEach(el=>{el.style.zoom=s<1?s:'';el.style.maxWidth=s<1?(el.classList.contains('s3grid')?'1750px':'1378px'):'';el.style.margin=s<1?'0 auto':''});
 }
 addEventListener('resize',fitDemo);fitDemo();
 function ddRender(){
