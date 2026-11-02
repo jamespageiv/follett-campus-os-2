@@ -48,6 +48,12 @@ button{font:inherit;cursor:pointer;color:inherit}
 .navfoot small{display:block;color:var(--mut);font-size:11px}
 .main{display:grid;grid-template-columns:1fr 340px;min-width:0;min-height:0}
 .main.norail{grid-template-columns:1fr}
+.main.railoff{grid-template-columns:1fr 44px}
+.rail.off{padding:10px 6px;overflow:hidden}
+.railbtn{border:1.5px solid var(--line);background:#fff;border-radius:8px;width:28px;height:28px;cursor:pointer;font-size:16px;line-height:1;color:var(--mut);flex:none}
+.railbtn:hover{border-color:#0b5cd5;color:#0b5cd5}
+.railtab{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;background:none;border:0;cursor:pointer;color:var(--mut);font:inherit}
+.railtab span{writing-mode:vertical-rl;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 .page{overflow:auto;padding:22px 28px 40px;min-width:0}
 .rail{border-left:1px solid var(--line);background:#fff;padding:20px 18px;overflow:auto}
 .rail h5,.sec{font-size:11px;letter-spacing:.1em;color:var(--mut);font-weight:700;text-transform:uppercase;margin:0 0 10px}
@@ -545,7 +551,7 @@ function rail(){
   const dot={UP:'#0a8f5b',STEADY:'#8b94a0',SOFT:'#f0a21b',REVIEW:'#c62828'};
   const st=[['General merchandise','$638K','UP'],['Inclusive Access','$360K','UP'],['Physical materials','$280K','SOFT'],['Digital materials','$216K',S.done.requestCredit?'UP':'REVIEW']];
   const top=INS.filter(open).sort(byRank).slice(0,3);
-  return `<div class="railhead"><h5 style="margin:0">Live Intelligence</h5></div>
+  return `<div class="railhead"><h5 style="margin:0">Live Intelligence</h5><button class="railbtn" data-rail title="Collapse Live Intelligence" aria-label="Collapse Live Intelligence" aria-expanded="true">&#8250;</button></div>
   <div class="grid3" style="grid-template-columns:repeat(3,1fr);gap:8px">
    <div class="tile click" data-go="fin"><div class="l">Comm YTD</div><div class="v" style="font-size:21px">$1.49M</div><div class="s up">${ico('up',11)} 10.7% YoY</div></div>
    <div class="tile click" data-go="fin"><div class="l">Guarantee</div><div class="v" style="font-size:21px">110%</div><div class="s">$2.87M proj</div></div>
@@ -1068,8 +1074,8 @@ function renderAll(){
   const hv=$('#in-home')?$('#in-home').value:'';
   renderNav();
   const showRail=S.screen==='home'||S.screen==='action';
-  const m=$('#main');m.className='main'+(showRail?'':' norail');
-  m.innerHTML=`<div class="page ${S.screen==='home'?'homep':''}">${VIEWS[S.screen]()}</div>`+(showRail?`<aside class="rail">${rail()}</aside>`:'');
+  const m=$('#main');m.className='main'+(showRail?'':' norail')+(showRail&&S.railOff?' railoff':'');
+  m.innerHTML=`<div class="page ${S.screen==='home'?'homep':''}">${VIEWS[S.screen]()}</div>`+(showRail?(S.railOff?`<aside class="rail off"><button class="railtab" data-rail title="Show Live Intelligence" aria-label="Show Live Intelligence" aria-expanded="false"><span class="railbtn" style="writing-mode:horizontal-tb;display:grid;place-items:center">&#8249;</span><span>Live intelligence</span></button></aside>`:`<aside class="rail">${rail()}</aside>`):'');
   $('#topTitle').textContent=TITLES[S.screen];
   $('#fab').classList.toggle('hide',S.screen==='home'||S.drawer);
   if($('#in-home'))$('#in-home').value=hv;
@@ -1078,11 +1084,12 @@ function renderAll(){
 function go(s){S.screen=s;S.col=null;if(s==='home')S.drawer=false;$('#drawer').classList.toggle('open',S.drawer&&s!=='home');renderAll();const p=$('.page');if(p)p.scrollTop=0;if(S.drawer&&s!=='home')buildDrawer()}
 function openDrawer(){S.drawer=true;buildDrawer();$('#drawer').classList.add('open');$('#fab').classList.add('hide')}
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-go],[data-new],[data-hist],[data-conv],[data-ask],[data-fx],[data-dismiss],[data-col],[data-scen],[data-send],[data-fab],[data-dclose],[data-close],[data-copy],[data-tie],[data-reset],[data-cal],[data-calc],[data-calsave],[data-csv],[data-biz]');
+  const t=e.target.closest('[data-go],[data-new],[data-hist],[data-conv],[data-ask],[data-fx],[data-dismiss],[data-col],[data-scen],[data-send],[data-fab],[data-dclose],[data-close],[data-copy],[data-tie],[data-reset],[data-cal],[data-calc],[data-calsave],[data-csv],[data-biz],[data-rail]');
   if(!t)return;const d=t.dataset;
   if(d.go!==undefined)return go(d.go);
   if('tie' in d){toast('Opening the student receipt beat.');try{window.parent.postMessage({campusosNav:'student',beat:'receipt'},'*')}catch(err){}return}
   if('reset' in d)return resetAll(false);
+  if('rail' in d){S.railOff=!S.railOff;return renderAll()}
   if(d.biz){const p=d.biz.split(':');return bizSet(p[0],p[1])}
   if(d.cal)return calApprove(d.cal);
   if(d.calc){S.calOpen=S.calOpen===d.calc?null:d.calc;return renderAll()}
