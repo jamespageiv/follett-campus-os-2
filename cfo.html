@@ -913,7 +913,11 @@ document.addEventListener('input',e=>{
 const VIEWS={home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,ag:vAg,promo:vPromo,trust:vTrust};
 const TITLES={home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',ag:'Wolfie PA Impact',promo:'Active promotions',trust:'Compliance & Trust'};
 </script>
-<style>.page.homep{display:flex;flex-direction:column;padding-bottom:14px}.homep .chatwrap{flex:1;width:100%;min-height:0}.thread:empty{display:none}</style>
+<style>.page.homep{display:flex;flex-direction:column;padding-bottom:14px}.homep .chatwrap{flex:1;width:100%;min-height:0}.thread:empty{display:none}
+.homep .chatwrap{display:flex;flex-direction:column;overflow:auto;padding-right:4px}
+.homep .thread{flex:none;overflow:visible;padding-bottom:18px}
+.homep .inputbar{position:sticky;bottom:6px;margin-top:auto;box-shadow:0 0 0 10px var(--bg);z-index:2}
+.homep .agentbar{position:sticky;top:0;z-index:3;background:var(--bg);padding-bottom:8px}</style>
 <script>
 /* ---------- chat knowledge ---------- */
 const P=(h)=>({t:'p',h}),F=(...i)=>({t:'fu',i});
@@ -1090,7 +1094,9 @@ function renderThread(id){
   }
   el.innerHTML=c.msgs.map((m,i)=>msgHTML(m,i===c.msgs.length-1)).join('');
   el.scrollTop=el.scrollHeight;
-  if(IPAD){const w=el.closest('.chatwrap');if(w)w.scrollTop=w.scrollHeight}
+  {const w=el.closest('.chatwrap');if(w){const us=el.querySelectorAll('.msg.u'),u=us[us.length-1],bar=w.querySelector('.agentbar');
+    /* anchor the newest question at the top so the intro scrolls away and the answer has room */
+    w.scrollTop=u?u.getBoundingClientRect().top-w.getBoundingClientRect().top+w.scrollTop-(bar?bar.offsetHeight+4:0)-4:w.scrollHeight}}
 }
 function refreshThreads(){renderThread('home');renderThread('drawer')}
 function buildDrawer(){
