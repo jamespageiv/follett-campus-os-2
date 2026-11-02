@@ -203,6 +203,18 @@ input[type=range]{width:100%}
 .empty{color:var(--mut);font-style:italic;padding:8px 0}
 .notice{border:1.5px dashed #c9ced6;border-radius:12px;padding:10px 14px;font-size:12.5px;color:var(--mut);background:#fafbfc}
 @media(max-width:1180px){.main{grid-template-columns:1fr}.rail{display:none}.grid4{grid-template-columns:repeat(2,1fr)}.chips .chip:nth-child(n+3){display:none}}
+html.ipad .chips,html.ipad .fab,html.ipad .foot span:last-child,html.ipad .fine{display:none}
+html.ipad .shell{grid-template-columns:224px 1fr}
+html.ipad .top{padding:8px 16px}html.ipad .brand{font-size:16px}
+html.ipad .chatwrap{max-width:560px!important}
+html.ipad [data-reset],html.ipad .agentbar{display:none}
+html.ipad .page.homep{padding:0}
+html.ipad .homep .chatwrap{display:flex;flex-direction:column;overflow:auto;height:100%;padding:28px 28px 0}
+html.ipad .homep .thread{flex:none;overflow:visible;padding-bottom:18px}
+html.ipad .homep .inputbar{position:sticky;bottom:12px;margin-top:auto;box-shadow:0 0 0 12px var(--bg)}
+html.ipad .pchips{flex-direction:column;align-items:stretch;gap:10px;max-width:440px}
+html.ipad .pchip{border-radius:16px}
+html.ipad .greet{font-size:30px}
 @media(max-width:820px){.shell{grid-template-columns:64px 1fr}.nav h6,.ni span.t,.btn-new span,.navfoot div,.ni .n{display:none}.ni{justify-content:center}.grid2,.grid3{grid-template-columns:1fr}.page{padding:16px}.chips{display:none}.greet{font-size:24px}}
 
 .foot{padding:5px 18px;border-top:1px solid var(--line);background:#fff;font-size:11px;color:var(--mut);display:flex;gap:14px;justify-content:space-between;align-items:center}
@@ -478,8 +490,10 @@ function showMemo(){
 <script>
 /* ---------- nav + rail ---------- */
 const NAV=[['W','Workspaces'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Financials','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['T','Tools'],['trust','Data & Trust','shield']];
+const IPAD=/[?&]ipad=1/.test(location.search);if(IPAD)document.documentElement.classList.add('ipad');
+const NAV_IPAD=['home','action','fin','access'];
 function renderNav(){
-  $('#nav').innerHTML=`<button class="btn-new" data-new>${ico('plus',16)}<span>New</span></button>`+NAV.map(n=>{
+  $('#nav').innerHTML=`<button class="btn-new" data-new>${ico('plus',16)}<span>New</span></button>`+NAV.filter(n=>!IPAD||(n.length===3&&NAV_IPAD.includes(n[0]))).map(n=>{
     if(n.length===2)return `<h6>${n[1]}</h6>`;
     const cnt=n[0]==='action'?`<span class="n hot">${nOpen()}</span>`:n[0]==='access'?`<span class="n">${dispCount()}</span>`:'';
     return `<div class="ni ${S.screen===n[0]?'on':''}" data-go="${n[0]}">${ico(n[2],18)}<span class="t">${n[1]}</span>${cnt}</div>`}).join('')+
@@ -521,8 +535,8 @@ function vHome(){
   const hist=S.hist?`<div class="card mt" style="padding:8px">${S.convs.map((c,k)=>`<div class="ni ${k===S.ci?'on':''}" data-conv="${k}">${ico('chat',15)}<span class="t">${c.title}</span><span class="n">${c.msgs.length/2|0} turns</span></div>`).join('')}</div>`:'';
   const conv=S.convs[S.ci];
   const intro=conv.msgs.length?'':`<div class="greet">Good morning, Dana.</div>
-   <p class="greetp">Commission is at <b>$1.49M</b> (+10.7%) and you cover the <b>$2.6M</b> guarantee at <b>110%</b>. <b>${n} decision${n===1?'':'s'}</b> need you, with <b>${fmtK(dispTotal())}</b> of Access billing still in dispute. Parents Weekend approval is due Oct 30.</p>
-   <div class="pchips">${['What changed since Friday?','Why are Access invoices stuck?','Is our commission statement right?','How ready are we for renewal?','Which courses need attention?','Which spring campus commerce lines should I approve?','Show me the Arena Store pop-up results','What if we move to Total Access?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>`;
+   <p class="greetp">Commission is at <b>$1.49M</b> (+10.7%) and you cover the <b>$2.6M</b> guarantee at <b>110%</b>. <b>${n} decision${n===1?'':'s'}</b> need you${IPAD?'.':`, with <b>${fmtK(dispTotal())}</b> of Access billing still in dispute. Parents Weekend approval is due Oct 30.`}</p>
+   <div class="pchips">${(IPAD?['What changed since Friday?','Why are Access invoices stuck?','Which spring campus commerce lines should I approve?']:['What changed since Friday?','Why are Access invoices stuck?','Is our commission statement right?','How ready are we for renewal?','Which courses need attention?','Which spring campus commerce lines should I approve?','Show me the Arena Store pop-up results','What if we move to Total Access?']).map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>`;
   return `<div class="chatwrap" style="max-width:920px;margin:0 auto">${greet}${hist}${intro}<div class="thread" id="thread-home"></div>${inputBar('home')}<div class="fine">The Partner Command Center can make mistakes. Validate critical figures. Data is synthetic for this prototype.</div></div>`;
 }
 function inputBar(id){return `<div class="inputbar">${''}<input id="in-${id}" placeholder="Ask a follow-up or type a command" autocomplete="off"><span style="color:var(--mut)">${ico('mic',18)}</span><button class="send" data-send="${id}">${ico('up',18,'#fff')}</button></div>`}
@@ -794,7 +808,7 @@ const RULES=[
   P('Trade-off to weigh: faculty and student-choice concerns slow adoption, and large campuses see 12 to 24 month sales cycles.'),F('How ready are we for renewal?','Which courses need attention?'),SRC('Access program model','Contract (rate assumed)')]}}},
  {m:/(change|friday|brief|priorit|today|morning|attention|where should)/,f:()=>{const o=INS.filter(open);return {steps:['Scanning ledger, invoices and signals since Friday 5pm','Ranking by dollars at stake and deadline'],blocks:[
   P(o.length?`<b>${o.length} things need you.</b> Ranked by dollars and deadline:`:'<b>You are clear.</b> Every decision is handled. I will flag anything new.'),
-  ...(o.length?[{t:'tbl',h:['#','Item','Action','Due'],r:o.map((i,k)=>[k+1,i.title,i.btn,{inv:'Today',comm:'This week',oo:'Nov 14',ew:'Nov 1',pw:'Oct 30',rn:'Nov 12'}[i.id]])}]:[]),
+  ...(o.length?[{t:'tbl',h:['#','Item','Action','Due'],r:o.slice(0,IPAD?5:o.length).map((i,k)=>[k+1,i.title,i.btn,{inv:'Today',comm:'This week',oo:'Nov 14',ew:'Nov 1',pw:'Oct 30',rn:'Nov 12'}[i.id]||'This week'])}]:[]),
   P('If you only do one thing today, <b>confirm the census date</b>. It frees $110.2K and takes two minutes.'),F('Why are Access invoices stuck?','Is our commission statement right?'),SRC('Agent activity log (6 agents)')]}}}
 ];
 const ZONELBL={Follett:['Follett data','Visible to Follett and to you.'],University:['University data','School-official use only. Aggregate on this screen.'],CFO:['CFO-only','Never visible to Follett.'],Enriched:['Enriched with consent','Anonymized segments only.']};
@@ -866,6 +880,7 @@ function renderThread(id){
   }
   el.innerHTML=c.msgs.map((m,i)=>msgHTML(m,i===c.msgs.length-1)).join('');
   el.scrollTop=el.scrollHeight;
+  if(IPAD){const w=el.closest('.chatwrap');if(w)w.scrollTop=w.scrollHeight}
 }
 function refreshThreads(){renderThread('home');renderThread('drawer')}
 function buildDrawer(){

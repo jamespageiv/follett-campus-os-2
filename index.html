@@ -219,6 +219,35 @@ body.pm .talk{display:block}
 .wrap.wide{max-width:1620px}
 .vig:not(#v-stud) .win{max-width:1378px;margin-left:auto;margin-right:auto}
 .s3grid{display:grid;grid-template-columns:490px 1fr;gap:18px;align-items:start}
+.cfogrid{display:grid;grid-template-columns:924px 400px;gap:18px;align-items:start;justify-content:center;max-width:1378px;margin:0 auto}
+.ipad{position:relative;width:924px;padding:22px;border-radius:44px;background:#15171c;box-shadow:inset 0 0 0 2px #2c2f36,0 14px 40px rgba(14,36,51,.28)}
+.ipad:after{content:"";position:absolute;left:50%;top:8px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#2e323a}
+.ipscr{border-radius:20px;overflow:hidden;background:#fff}
+.ipad .cfof{height:680px}
+.ug{position:relative;height:724px;border-radius:18px;overflow:hidden;color:#fff;background:radial-gradient(ellipse at 30% 52%,#245a78 0,#16384f 46%,#0d2433 100%);box-shadow:0 14px 40px rgba(14,36,51,.28)}
+.ug:before{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.07) 1px,transparent 1.6px) 0 0/22px 22px;pointer-events:none}
+.ugl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ugh{position:absolute;left:18px;top:16px;right:110px;z-index:2}
+.ugh .lb{font-size:10.5px;letter-spacing:.16em;font-weight:800;color:#aeeafc}
+.ugh h4{font:400 22px var(--serif);margin:5px 0 3px}
+.ugh p{font-size:12px;line-height:1.4;color:rgba(255,255,255,.7)}
+.ughub{position:absolute;left:16px;width:84px;height:84px;margin-top:-42px;border-radius:50%;z-index:2;display:grid;place-items:center;text-align:center;background:#0d2433;border:2px solid #aeeafc;box-shadow:0 0 0 6px rgba(174,234,252,.12),0 0 28px rgba(174,234,252,.25)}
+.ughub b{display:block;font:400 22px var(--serif);line-height:1}.ughub small{display:block;font-size:8.5px;letter-spacing:.1em;font-weight:800;color:#aeeafc;margin-top:3px}
+.ugcol{position:absolute;left:124px;right:16px;top:100px;display:flex;flex-direction:column;gap:8px;z-index:2}
+.uggl{font-size:10px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;margin-top:2px}
+.ugcol .gap{height:10px}
+.ugn{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border-radius:12px;color:#fff;cursor:pointer;font:600 12px var(--sans);transition:background .25s,box-shadow .25s,border-color .25s}
+.ugn.live{padding:6px 12px;border:1.5px dashed rgba(255,255,255,.3);background:rgba(13,36,51,.6);color:rgba(255,255,255,.75)}
+.ugn.live i{width:8px;height:8px;border-radius:50%;background:var(--oc);flex:none}
+.ugn.live:hover{border-color:rgba(255,255,255,.6);color:#fff}
+.ugn.new{padding:6px 12px;border:1.5px solid #b7a3ff;background:rgba(183,163,255,.16);box-shadow:0 0 0 3px rgba(183,163,255,.1),0 0 18px rgba(183,163,255,.28)}
+.ugn.new:hover{background:rgba(183,163,255,.28)}
+.ugn.new span{flex:1;min-width:0}.ugn.new b{display:block;font-size:12.5px}.ugn.new small{display:block;font-size:10.5px;font-weight:500;color:rgba(255,255,255,.72);margin-top:1px}
+.ugn.new em{font-style:normal;font-size:8.5px;font-weight:800;letter-spacing:.1em;color:#0d2433;background:#b7a3ff;border-radius:99px;padding:2px 7px;flex:none}
+.ugn.sel{outline:2px solid #fff;outline-offset:2px}
+.ugd{position:absolute;left:16px;right:16px;bottom:14px;z-index:3;font-size:11.5px;line-height:1.45;color:rgba(255,255,255,.8);background:rgba(13,36,51,.88);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px 12px}
+.ugd b{color:#fff}.ugd.hint{background:none;border:0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.5);padding:0}
+@media(max-width:1180px){.cfogrid{grid-template-columns:1fr}.ipad{width:auto;max-width:924px;margin:0 auto}.ug{max-width:924px;margin:0 auto;width:100%}}
 .phonef{width:490px;height:960px;border:0;background:transparent;display:block;max-width:100%}
 .cfof{width:100%;height:830px;border:0;display:block;background:#fff}
 .orb{position:relative;height:960px;border-radius:18px;overflow:hidden;color:#fff;background:radial-gradient(ellipse at 50% 54%,#245a78 0,#16384f 46%,#0d2433 100%);box-shadow:0 14px 40px rgba(14,36,51,.28)}
@@ -1238,8 +1267,10 @@ build();
 <div class="talk"><b>Talk track · student vignette (I'll walk through the demo scroll)</b><p>"Hey Emma, midterms are behind you. Let me know if you want me to sign you up for some tutoring in Econ. They have some open spots on Wednesday mornings."</p><p>Someone is going to do this. I have a version of it on my phone right now. I only gave my agent my email address and it just monitors it. About three weeks in, it had figured out what was important to me. One Saturday afternoon I got a text: "James, just a reminder, the kids won't have school on 11/2 and 11/3. Tomorrow's the last day to register for the day camp at Long Elementary. Want me to reserve a spot?"</p><p>That was one data source, and it is full of terrible data. What if it knew all my courses, my learning materials, my faculty, all my past semesters, grades and progress? What if my agent knew every opportunity to engage with my fellow students and help me connect?</p><p>To pull that off takes trust, which is your first company value. What builds trust? Data, and time. The more you learn about someone over a longer period, the more you know how much you can trust them.</p></div>
 </div>
 <div class="vig" id="v-cfo">
-<div class="win"><div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="url">Campus OS · Partner Command Center (sample)</span><span class="sim">SIMULATED</span></div>
-<iframe class="cfof" title="Partner Command Center" data-src="cfo.html"></iframe></div>
+<div class="cfogrid">
+<div class="ipad"><div class="ipscr"><iframe class="cfof" title="Partner Command Center" data-src="cfo.html?ipad=1"></iframe></div></div>
+<div class="ug" id="ug"></div>
+</div>
 <div class="talk"><b>Talk track · CFO vignette and close</b><p>Click through. Watch the moment the CFO approves, and the moment Follett's days-to-pay drops.</p><p>So with the critical data you have today, some you leverage and some stashed in silos, and with data we are confident you can obtain, we believe you can build the Follett Campus OS.</p></div>
 </div>
 <div class="vig" id="v-teams">
@@ -1461,10 +1492,45 @@ $('#s-play').onclick=()=>cmd('play');
 $('#s-reset').onclick=()=>{ps={key:null,day:0,active:[],beat:0,all:false};cmd('restart');sdraw()};
 orbBuild();
 sdraw();
+/* ===== UNIVERSITY GRAPH (CFO view) ===== */
+const UG_LIVE=['sis','pos','sam','ledger','tender'];
+const UG_NEW=[['consent','Unlocks every other feed'],['loyalty','Links in-store sales to students'],['memory','Personal nudges, higher attach'],['slack','Belonging signal, retention lift'],['venue','Arena and pop-up revenue'],['alumni','Alumni commerce for life']];
+let ugSel=null;
+function ugBuild(){
+ const g=$('#ug');if(!g)return;
+ g.innerHTML=`<svg class="ugl" id="ugl"></svg><span class="orbsim">SIMULATED</span>
+ <div class="ugh"><div class="lb">UNIVERSITY 360 · NORTHFIELD STATE</div><h4>What powers this view</h4><p>${UG_LIVE.length} live feeds today. <b style="color:#b7a3ff">${UG_NEW.length} net-new initiatives</b> we can add.</p></div>
+ <div class="ughub" id="ughub"><div><b>NSU</b><small>UNIVERSITY 360</small></div></div>
+ <div class="ugcol" id="ugcol"><div class="uggl" style="color:${OC.U}">Live today</div>
+ ${UG_LIVE.map(k=>`<button class="ugn live" id="ug-${k}" data-id="${k}" style="--oc:${OC[SRC[k].g]}"><i></i>${SHORT[k]}</button>`).join('')}
+ <div class="gap"></div><div class="uggl" style="color:#b7a3ff">Net-new initiatives</div>
+ ${UG_NEW.map(([k,u])=>`<button class="ugn new" id="ug-${k}" data-id="${k}"><span><b>${SHORT[k]}</b><small>${u}</small></span><em>NEW</em></button>`).join('')}</div>
+ <div class="ugd hint" id="ugd">Click any source. Violet nodes are net-new.</div>`;
+ g.addEventListener('click',e=>{const n=e.target.closest('.ugn');if(!n)return;
+  ugSel=ugSel===n.dataset.id?null:n.dataset.id;ugDraw()});
+ new ResizeObserver(ugLines).observe(g);
+ ugDraw();ugLines();
+}
+function ugDraw(){
+ document.querySelectorAll('#ug .ugn').forEach(b=>b.classList.toggle('sel',b.dataset.id===ugSel));
+ const d=$('#ugd');
+ if(!ugSel){d.className='ugd hint';d.textContent='Click any source. Violet nodes are net-new.';return}
+ const r=SRC[ugSel];d.className='ugd';
+ d.innerHTML=`<b>${r.n}</b> · ${STATUSL[r.c]} · Effort ${r.e}<div style="margin-top:3px">${r.w}</div>`;
+}
+function ugLines(){
+ const g=$('#ug'),svg=$('#ugl'),col=$('#ugcol'),hub=$('#ughub');if(!g||!g.offsetHeight)return;
+ const newK=UG_NEW.map(x=>x[0]),ids=[...UG_LIVE,...newK],ys=ids.map(k=>{const b=$('#ug-'+k);return col.offsetTop+b.offsetTop+b.offsetHeight/2});
+ const hy=(Math.min(...ys)+Math.max(...ys))/2;hub.style.top=hy+'px';
+ const x1=hub.offsetLeft+hub.offsetWidth,x2=col.offsetLeft;
+ svg.innerHTML=ids.map((k,i)=>{const nw=newK.includes(k),y=ys[i],m=(x1+x2)/2;
+  return `<path d="M${x1} ${hy} C${m} ${hy},${m} ${y},${x2} ${y}" fill="none" stroke="${nw?'#b7a3ff':'rgba(111,177,255,.4)'}" stroke-width="${nw?2:1.3}" ${nw?'stroke-dasharray="5 5"':''}>${nw?'<animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.4s" repeatCount="indefinite"/>':''}</path>`}).join('');
+}
+ugBuild();
 /* scale the demo as one unit so it fits the window height without browser zoom */
 function fitDemo(){
- const base=document.querySelector("#v-stud.show")?960:830,s=innerWidth>1180?Math.max(.55,Math.min(1,(innerHeight-150)/base)):1;
- document.querySelectorAll('.s3grid,.vig:not(#v-stud) .win').forEach(el=>{el.style.zoom=s<1?s:'';el.style.maxWidth=s<1?(el.classList.contains('s3grid')?'1590px':'1378px'):'';el.style.margin=s<1?'0 auto':''});
+ const base=document.querySelector("#v-stud.show")?960:document.querySelector("#v-cfo.show")?740:830,s=innerWidth>1180?Math.max(.55,Math.min(1,(innerHeight-150)/base)):1;
+ document.querySelectorAll('.s3grid,.cfogrid,.vig:not(#v-stud) .win').forEach(el=>{el.style.zoom=s<1?s:'';el.style.maxWidth=s<1?(el.classList.contains('s3grid')?'1590px':'1378px'):'';el.style.margin=s<1?'0 auto':''});
 }
 addEventListener('resize',fitDemo);fitDemo();
 function ddRender(){
