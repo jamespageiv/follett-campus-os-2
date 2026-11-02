@@ -584,7 +584,7 @@ function vHome(){
    <div class="srcl">Sources: POS tie-out, invoice ledger, Institutional Research cohort comparison (aggregate)</div>
    <div class="xlabel">Explore</div>
    <div class="xcards">${EXPLORE.map(x=>`<button class="xcard" data-ask="${x[2]}"><span class="xi">${ico(x[3],20,'#0b5cd5')}</span><span><b>${x[0]}</b><small>${x[1]}</small></span></button>`).join('')}</div>
-   ${IPAD?'':`<div class="xlabel" style="margin-top:18px">Or ask</div><div class="pchips">${['What changed since Friday?','Is our commission statement right?','How ready are we for renewal?','Which courses need attention?','Which spring campus commerce lines should I approve?','Show me the Arena Store pop-up results','What if we move to Total Access?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>`}`;
+   ${IPAD?'':`<div class="xlabel" style="margin-top:18px">Or ask</div><div class="pchips">${['Which courses need attention?','Which spring campus commerce lines should I approve?','Which departments should explore Total Access?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>`}`;
   return `<div class="chatwrap" style="max-width:920px;margin:0 auto">${greet}${hist}${intro}<div class="thread" id="thread-home"></div>${inputBar('home')}<div class="fine">The Follett Partnership Portal can make mistakes. Validate critical figures. Data is synthetic for this prototype.</div></div>`;
 }
 function inputBar(id){return `<div class="inputbar">${''}<input id="in-${id}" placeholder="Ask a follow-up or type a command" autocomplete="off"><span style="color:var(--mut)">${ico('mic',18)}</span><button class="send" data-send="${id}">${ico('up',18,'#fff')}</button></div>`}
@@ -889,6 +889,11 @@ const P=(h)=>({t:'p',h}),F=(...i)=>({t:'fu',i});
 const SRC=(...s)=>({t:'src',s});
 const ACT=(fx,title,desc,label)=>({t:'act',fx,title,desc,label});
 const RULES=[
+ {m:/(which departments.*total access)/,f:()=>{const p=CD.ACCESSPLAN,ta=S.ta,sales=ta.p*2*ta.e*(1-ta.o/100)/1e6,comm=sales*.08;return {steps:['Reading adoption clusters by department','Sizing Total Access against the Inclusive Access run-rate'],blocks:[
+  {t:'stats',i:[['Departments clustering',String(p.clusters.length),p.clusters.join(', ')],['Student savings','$'+p.saveStudentsM.toFixed(2)+'M','Modeled, per term'],['Commission (8% assumed)','$'+comm.toFixed(2)+'M','At your Total Access sliders']]},
+  P('Start with <b>'+p.clusters.join(', ')+'</b>. These departments already moved to Access and their peers tend to follow, so a Total Access pilot meets the least resistance there. Billing gets simpler too: one rate and one census rule.'),
+  P('<span class="sub">Label: the 8% commission is an assumption. Your contract amendment sets the real rate. Change the price, eligible students and opt-out sliders in Access &amp; Invoicing.</span>'),
+  ACT('accessPlan','Send to Provost and schedule review','The proposal goes out with a review on the calendar.','Send proposal'),F('What if we move to Total Access?','Show me the Access outcome proof'),SRC('Adoption file','SIS feeds (aggregate)','Access program model')]}}},
  {m:/(how is access performing)/,f:()=>({steps:['Reading Access enrollment, opt-outs and invoices','Comparing student savings to university billing'],blocks:[
   {t:'stats',i:[['Students in Access','11,900','412 of 1,180 sections'],['Savings vs list','$1.61M','$135 per student per term (modeled)'],['Opt-out rate','6.4%','+1.0 pt vs last fall']]},
   P('Access is saving students money and keeping them in class, and the cohort retains <b>'+(CD.OUTCOME.access.retention-CD.OUTCOME.non.retention).toFixed(1)+' points better</b> (an association, not proof of cause). The one drag on the university side is billing: <b>'+fmtK(dispTotal())+'</b> is held, and 52% of it traces to a single census date.'),
