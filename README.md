@@ -31,3 +31,15 @@ A CFO view (Follett Partnership Portal, `cfo.html`) that turns student-assistant
 - **Funnel rates:** activated = active / 0.7 (capped at eligible), flagged = 18% of active, followed up = 80% of flagged. Edit `CONFIG` to change them.
 - **Swapping in real data:** replace `DEFAULTS` with values from your source, and `DATA` with an API response of the same shape. Nothing else reads the mock values. The "Student impact" answer on the portal home reads the same model, so the numbers match.
 - **Wording:** copy uses "matched cohort" and "credited lift" and makes no causal claim. Consent, data sharing and FERPA treatment are pending validation by product and legal.
+
+
+## SPR tab (Sales Command Center)
+A strategic partnership review view in `group.html`, replacing the hand-built deck. All data is synthetic.
+
+- **Files:** `spr-model.js` holds the pure logic (section config, ranking, deltas, readiness gaps, single-store hiding, internal-only filter, comment redaction). `spr-data.js` builds mock data per campus from the 12 sample campuses. `group.js` only renders. Nothing in the first two touches the DOM.
+- **Section config:** `SPRMODEL.SECTIONS` sets the 12 sections and their order. Each session copies it into `S.spr.cfg` (`visible`, `collapsed`), and the Sections button reorders or hides them per meeting. Add `internal:true` to a section in `SECTIONS` to keep it out of Present mode, the export and the share link. Single items carry `internal:true` and go through `SPRMODEL.filterInternal(items, mode)`.
+- **Modes:** Prep shows seller notes, talking points, agent reasons and renewal strategy. Present hides everything marked internal. The export and the share link (`group.html?spr=<campus>&period=<id>&present=1`) always render Present and are read-only.
+- **Export:** Export snapshot renders the Present view into a print-ready page and opens the browser print dialog. Choose Save as PDF. Each export is also saved to the campus's meeting history for the session.
+- **State:** Edited takeaways, pinned or removed highlights, deck choices, notes and action items are kept per campus for the session. Reset demo state clears them. Open action items carry forward for that campus.
+- **Swapping in real data:** replace `SPRDATA.build(campus, period, ctx)` with a function that returns the same shape. Nothing else reads the mock values.
+- **Wording:** generated copy says "associated with" and compares against the prior-year period. It makes no causal claims.

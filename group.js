@@ -38,13 +38,13 @@ function crumbs(){
     h+=' <span>/</span> <button data-a="reg:'+c.region+'">'+c.region+'</button> <span>/</span> <button data-a="mkt:'+c.market+'">'+c.market+'</button> <span>/</span> <b>'+c.n+' ('+storeNames(c)[0]+')</b>';}
   else{if(S.region)h+=' <span>/</span> '+(S.market?'<button data-a="reg:'+S.region+'">'+S.region+'</button>':'<b>'+S.region+'</b>');
     if(S.market)h+=' <span>/</span> <b>'+S.market+'</b>';
-    if(S.view!=='home')h+=' <span>/</span> <b>'+{ops:'Operations Control',growth:'Access Growth Console',programs:'Campus programs'}[S.view]+'</b>'}
+    if(S.view!=='home')h+=' <span>/</span> <b>'+{ops:'Operations Control',growth:'Access Growth Console',programs:'Campus programs',spr:'SPR'}[S.view]+'</b>'}
   $('#crumbs').innerHTML=h;
-  var items=[['home','Sales Command Center'],['growth','Access Growth Console'],['programs','Campus programs'],['ops','Operations Control']];
+  var items=[['home','Sales Command Center'],['growth','Access Growth Console'],['programs','Campus programs'],['spr','SPR'],['ops','Operations Control']];
   $('#nav').innerHTML=items.map(function(i){var on=S.view===i[0]||(S.view==='campus'&&i[0]==='home');return '<button class="'+(on?'on':'')+'" data-a="view:'+i[0]+'">'+i[1]+'</button>'}).join('')+'<span class="sp"></span><button class="reset" data-a="reset">Reset demo state</button>';
 }
 function render(){var m=$('#main'),st=m.scrollTop;crumbs();
-  var f={home:vHome,campus:vCampus,ops:vOps,growth:vGrowth,programs:vPrograms}[S.view];m.innerHTML=f();m.scrollTop=st;
+  var f={home:vHome,campus:vCampus,ops:vOps,growth:vGrowth,programs:vPrograms,spr:vSpr}[S.view];m.innerHTML=f();m.scrollTop=st;
   if(S.anim){S.anim=false;animateDays()}}
 function banner(){var b=$('#banner');b.className='banner'+(S.bannerOn?' on':'');
   b.innerHTML=S.bannerOn?'<span class="dot"></span><span><b>CFO approved the $2.44M fall Access invoice.</b> Northfield State days-to-pay fell from '+NF.daysToPay.before+' to '+NF.daysToPay.after+' and the cash panel updated.</span><button data-a="bn" aria-label="Dismiss">&times;</button>':''}
@@ -369,6 +369,171 @@ function prepText(kind,c){
 }
 function openModal(t,b){$('#mt').textContent=t;$('#mb').textContent=b;$('#modal').classList.add('on')}
 
+/* ====================== SPR: strategic partnership review ====================== */
+function sprFresh(){return {mode:'prep',period:'ytd',cfg:SPRMODEL.defaultConfig(),tp:true,cust:false,filter:'all',by:{},snaps:[],ask:null}}
+S.spr=sprFresh();S.ro=false;
+(function(){var q=location.search,m=/[?&]spr=([a-z]+)/.exec(q),p=/[?&]period=(ytd|term|last)/.exec(q);
+  if(m&&byId[m[1]]){S.view='spr';S.campus=m[1];S.prep=m[1];S.spr.mode='present';S.ro=true;document.documentElement.classList.add('ro');if(p)S.spr.period=p[1]}})();
+function sprCtx(c){return {guar:guarK(c),proj:projK(c),disp:disp(c),stores:storeNames(c),today:'2026-11-01'}}
+function sprEd(id){var b=S.spr.by;return b[id]||(b[id]={take:{},hl:null,pins:{},rm:{},opp:null,deck:{},notes:'',actions:null,comm:{}})}
+function sprData(c){return SPRDATA.build(c,S.spr.period,sprCtx(c))}
+function spA(E,d){return E.actions||(E.actions=d.actions.map(function(a){return {id:a.id,t:a.t,owner:a.owner,due:a.due,status:a.status}}))}
+function spHl(E,d){if(!E.hl)E.hl=d.highlights.map(function(h){return h.id});return E.hl}
+function sFmt(n,unit){return unit==='k'?money(n):n}
+function sup(g){return '<span class="'+(g>=0?'up':'dn')+'">'+sgn(g)+'%</span>'}
+function srcL(label,fresh){return '<span class="srcl">Source: '+label+'. Updated '+fresh+'.</span>'}
+function kpiT(l,v,s,cls){return '<div class="card kpi '+(cls||'')+'"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>'}
+function hb(rows,label){
+  var mx=Math.max.apply(null,rows.map(function(r){return Math.max(r.cur,r.prev)}));
+  return '<div role="img" aria-label="'+esc(label+': '+rows.map(function(r){return r.n+' '+money(r.cur)+', '+sgn(r.g)+'% versus last year'}).join('; '))+'">'+rows.map(function(r){
+    return '<div class="hb"><span class="hl">'+esc(r.n)+'</span><div class="bar"><i style="width:'+Math.round(r.cur/mx*100)+'%"></i><u style="left:'+Math.round(r.prev/mx*100)+'%" title="Last year"></u></div><b>'+money(r.cur)+'</b>'+sup(r.g)+'</div>'}).join('')+'</div>'+
+    '<table class="sr"><caption>'+esc(label)+'</caption><tr><th>Item</th><th>Now</th><th>Last year</th></tr>'+rows.map(function(r){return '<tr><td>'+esc(r.n)+'</td><td>'+money(r.cur)+'</td><td>'+money(r.prev)+'</td></tr>'}).join('')+'</table>';
+}
+function tk(E,key,text,ed){
+  var v=E.take[key]!=null?E.take[key]:text;
+  return ed?'<div class="tk"><label>Key takeaway (editable)</label><textarea rows="2" data-spr="take:'+key+'">'+esc(v)+'</textarea></div>':'<p class="tkp"><b>Key takeaway.</b> '+esc(v)+'</p>';
+}
+function tpBox(d,id,show){
+  if(!show||!d.talking[id])return '';
+  return '<div class="tp"><b>Talking points <span class="tag warn">Internal only</span></b><ul>'+d.talking[id].map(function(t){return '<li>'+esc(t[0])+' <span class="sub">Data: '+esc(t[1])+'</span></li>'}).join('')+'</ul></div>';
+}
+
+function sprSection(id,c,d,E,mode,live){
+  var ed=live&&mode==='prep',tp=live&&mode==='prep'&&S.spr.tp,h='';
+  if(id==='health'){
+    var m=SPRMODEL.filterInternal([
+      {h:kpiT('Renewal score',d.health.ready+'<span class="sub"> /100</span>','Readiness index',d.health.ready<65?'bad':'')},
+      {h:kpiT('Contract end',d.health.end,monthsTo(c)+' months out')},
+      {h:kpiT('Guarantee coverage',d.health.cover+'%',money(sprCtx(c).proj)+' projected',d.health.cover<100?'bad':'good')},
+      {h:kpiT('Customer service (SMG)',d.health.smg,'Score out of 100')},
+      {h:kpiT('Disputed invoices',money(d.health.disp),'Open now',d.health.disp>200?'bad':'')},
+      {h:kpiT('Days since executive contact',d.health.contactDays,'Longest gap across four contacts',d.health.contactDays>85?'bad':''),internal:true}],mode);
+    h='<div class="grid" style="grid-template-columns:repeat('+m.length+',1fr);gap:10px">'+m.map(function(x){return x.h}).join('')+'</div>'+srcL('contract record and invoice ledger','daily');
+  }
+  if(id==='highlights'){
+    var order=spHl(E,d).filter(function(k){return !E.rm[k]}).sort(function(a,b){return (E.pins[b]?1:0)-(E.pins[a]?1:0)});
+    var by={};d.highlights.forEach(function(x){by[x.id]=x});
+    function list(kind,title){
+      var ids=order.filter(function(k){return by[k].kind===kind});
+      return '<div><h3>'+title+'</h3>'+(ids.length?'<ul class="hl-list">'+ids.map(function(k,i){var x=by[k];
+        return '<li><div><b>'+(E.pins[k]?'Pinned: ':'')+esc(x.t)+'</b>'+(mode==='prep'?'<div class="why int">Why this: '+esc(x.why)+'</div>':'')+'</div>'+
+          (ed?'<span class="ctl"><button class="btn sm" data-a="sprhl:'+k+':pin" aria-label="Pin">'+(E.pins[k]?'Unpin':'Pin')+'</button><button class="btn sm" data-a="sprhl:'+k+':up" aria-label="Move up">Up</button><button class="btn sm" data-a="sprhl:'+k+':down" aria-label="Move down">Down</button><button class="btn sm" data-a="sprhl:'+k+':rm" aria-label="Remove">Remove</button></span>':'')+'</li>'}).join('')+'</ul>':'<div class="sub">Nothing here.</div>')+'</div>';
+    }
+    h='<div class="grid g2">'+list('good','What went well since the last review')+list('work','Areas being worked on')+'</div>'+
+      (ed&&Object.keys(E.rm).length?'<button class="btn sm" data-a="sprhl:all:restore">Restore removed items</button>':'')+srcL('agent summary of POS, SMG and invoice data','daily');
+  }
+  if(id==='community'){
+    h='<div class="grid g3">'+d.community.map(function(x,i){var v=E.comm[i]!=null?E.comm[i]:x.v;
+      return '<div class="card kpi"><div class="l">'+esc(x.t)+'</div>'+(ed?'<input class="inl" data-spr="comm:'+i+'" value="'+esc(v)+'" aria-label="'+esc(x.t)+'">':'<div class="v">'+esc(v)+'</div>')+'<div class="s">'+esc(x.n)+'</div></div>'}).join('')+'</div>'+srcL('campus partnership records (placeholder)','as entered');
+  }
+  if(id==='financial'){
+    var ch=d.sales.channels,sum=function(a,k){return a.reduce(function(t,x){return t+x[k]},0)},dl=SPRMODEL.delta(sum(ch,'cur'),sum(ch,'prev'));
+    var depts=d.sales.depts.filter(function(x){return S.spr.filter==='all'||x.line===S.spr.filter});
+    var dd=SPRMODEL.delta(sum(depts,'cur'),sum(depts,'prev'));
+    h='<div class="card"><h3>Sales vs last year by channel</h3>'+hb(ch,'Sales by channel')+tk(E,'ch',SPRMODEL.takeaway('Total sales',dl,'channel'),ed)+'</div>';
+    if(SPRMODEL.showByStore(c)){var sd=SPRMODEL.delta(sum(d.sales.stores,'cur'),sum(d.sales.stores,'prev'));
+      h+='<div class="card" style="margin-top:12px"><h3>Sales vs last year by store</h3>'+hb(d.sales.stores,'Sales by store')+tk(E,'st',SPRMODEL.takeaway('Store sales',sd,'stores'),ed)+'</div>'}
+    h+='<div class="card" style="margin-top:12px"><div class="row" style="align-items:center"><h3 style="flex:1">Sales vs last year by department</h3>'+(live?'<div class="seg2">'+[['all','All'],['hard','Hardlines'],['soft','Softlines']].map(function(f){return '<button class="'+(S.spr.filter===f[0]?'on':'')+'" data-a="sprfilter:'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>':'')+'</div>'+
+      hb(depts,'Sales by department')+tk(E,'dp'+S.spr.filter,SPRMODEL.takeaway('Department sales',dd,'dept'),ed)+'</div>'+srcL('POS and e-commerce ledgers','daily');
+  }
+  if(id==='service'){
+    var mx=Math.max.apply(null,d.service.trend),mn=Math.min.apply(null,d.service.trend);
+    h='<div class="grid g2"><div class="card"><h3>Customer service score (SMG)</h3><div class="row" style="align-items:flex-end;gap:18px"><div class="big" style="font-size:32px;font-weight:800">'+d.health.smg+'</div>'+
+      '<div class="spark" role="img" aria-label="SMG score, last six months: '+d.service.trend.join(', ')+'" style="flex:1">'+d.service.trend.map(function(v){return '<i style="height:'+Math.round(14+(v-mn)/(Math.max(1,mx-mn))*40)+'px" title="'+v+'"></i>'}).join('')+'</div></div><div class="sub">Last six months</div></div>'+
+      '<div class="card"><h3>Comment cards</h3><div class="sub">Names and contact details are removed before display.</div><ul class="cm">'+d.service.comments.map(function(t){return '<li>'+esc(SPRMODEL.redact(t))+'</li>'}).join('')+'</ul></div></div>'+srcL('customer comment cards and SMG survey','weekly');
+  }
+  if(id==='materials'){
+    var mc=d.materials.cur,mu=d.materials.up,gaps=SPRMODEL.readinessGaps(d.materials.courses,'2026-11-01');
+    h='<h3>Current term</h3><div class="grid g6" style="grid-template-columns:repeat(5,1fr);gap:10px">'+
+      kpiT('Titles adopted',mc.titles,sup(SPRMODEL.delta(mc.titles,mc.titlesLY).pct)+' vs last year')+kpiT('Adoption',mc.adoptPct+'%','Of courses with a list')+
+      kpiT('Available at start',mc.availStart+'%','Day-one availability')+kpiT('Units sold',mc.units.toLocaleString(),sup(SPRMODEL.delta(mc.units,mc.unitsLY).pct)+' vs last year')+kpiT('Market share',mc.share+'%','Of enrolled students')+'</div>'+
+      '<h3 style="margin-top:14px">Upcoming term</h3><div class="grid g3" style="gap:10px">'+kpiT('Titles adopted',mu.titles,'Goal '+mu.goal)+kpiT('Adoption vs goal',mu.adoptVsGoal+'%',mu.adoptVsGoal>=100?'Goal met':'Below goal',mu.adoptVsGoal<90?'bad':'')+kpiT('Order availability',mu.avail+'%','Goal '+mu.availGoal+'%',mu.avail<mu.availGoal?'bad':'')+'</div>'+
+      '<h3 style="margin-top:14px">Adoption readiness: courses not yet adopted</h3>'+(gaps.length?'<table><thead><tr><th>Course</th><th>Title</th><th>Deadline</th><th>Countdown</th></tr></thead><tbody>'+gaps.map(function(g){return '<tr><td><b>'+g.code+'</b></td><td>'+g.title+'</td><td>'+g.deadline+'</td><td><span class="tag '+(g.urgent?'err':'warn')+'">'+g.days+' days</span></td></tr>'}).join('')+'</tbody></table>':'<div class="sub">Every course is adopted.</div>')+srcL('adoption file and inventory system','daily');
+  }
+  if(id==='access'){
+    var a=d.access;
+    h='<div class="grid g6" style="grid-template-columns:repeat(4,1fr);gap:10px">'+kpiT('Students served',a.served.toLocaleString(),'In Access sections')+kpiT('Unique titles',a.titles,'Across '+a.sections+' sections')+kpiT('Reported savings',money(a.savingsK),'Assumed, per term')+kpiT('Participation',a.participation+'%','Opt-out '+a.optout+'%',a.optout>7?'bad':'')+'</div>'+
+      '<div class="grid g2" style="margin-top:12px"><div class="card"><h3>Digital vs physical</h3><div class="hb"><span class="hl">Digital</span><div class="bar"><i style="width:'+a.digital+'%"></i></div><b>'+a.digital+'%</b></div><div class="hb"><span class="hl">Physical</span><div class="bar mid"><i style="width:'+(100-a.digital)+'%"></i></div><b>'+(100-a.digital)+'%</b></div></div>'+
+      '<div class="card"><h3>Top publisher partners</h3>'+a.pubs.map(function(p){return '<div class="hb"><span class="hl">'+p[0]+'</span><div class="bar"><i style="width:'+p[1]*2+'%"></i></div><b>'+p[1]+'%</b></div>'}).join('')+'</div></div>'+srcL('Access provisioning and publisher files','daily');
+  }
+  if(id==='merch'){
+    var mg=d.merch;
+    h='<div class="grid g2"><div class="card"><h3>New this fiscal year</h3><ul class="cm">'+mg.fresh.map(function(x){return '<li><b>'+x[0]+'</b> <span class="tag '+(x[1]==='Live'?'ok':'blue')+'">'+x[1]+'</span><div class="sub">'+x[2]+'</div></li>'}).join('')+'</ul></div>'+
+      '<div class="card"><h3>Exclusive apparel brands</h3><div class="chips">'+mg.brands.map(function(b){return '<span class="tag blue">'+b+'</span>'}).join('')+'</div><h3 style="margin-top:12px">Ways to partner on social and email</h3><div class="sub" style="font-size:13px;color:var(--ink)">'+esc(mg.ask)+'</div></div></div>'+
+      '<div class="card" style="margin-top:12px;padding:0;overflow:auto"><table><thead><tr><th>Campaign</th><th>Date</th><th>Status</th></tr></thead><tbody>'+mg.campaigns.map(function(x){return '<tr><td><b>'+x.t+'</b></td><td>'+x.date+'</td><td><span class="tag '+(x.status==='Complete'?'ok':x.status==='Needs approval'?'warn':'blue')+'">'+x.status+'</span></td></tr>'}).join('')+'</tbody></table></div>'+srcL('marketing calendar','weekly');
+  }
+  if(id==='tech'){
+    h='<div class="card" style="padding:0;overflow:auto"><table><thead><tr><th>Rollout</th><th>Phase</th><th>Date</th></tr></thead><tbody>'+d.tech.map(function(x){return '<tr><td><b>'+x.t+'</b></td><td><span class="tag '+(x.phase==='Live'?'ok':x.phase==='Planning'?'':'blue')+'">'+x.phase+'</span></td><td>'+x.date+'</td></tr>'}).join('')+'</tbody></table></div>'+srcL('technology rollout plan for '+esc(c.n),'weekly');
+  }
+  if(id==='growth'){
+    var ranked=SPRMODEL.rankOpportunities(c),top=E.opp||ranked.slice(0,5).map(function(o){return o.id});E.opp=top;
+    var byo={};ranked.forEach(function(o){byo[o.id]=o});
+    h='<div class="sub" style="margin-bottom:8px">Ranked by the agent for '+esc(c.n)+'. '+(mode==='prep'?'Swap any item, then add it to the deck.':'')+'</div><div class="grid" style="gap:10px">'+top.map(function(id2,i){var o=byo[id2],inD=!!E.deck[id2];
+      return '<div class="card opp"><div style="flex:1"><b>'+(i+1)+'. '+esc(o.t)+'</b><div class="sub">Timing: '+esc(o.trigger)+'</div>'+(mode==='prep'?'<div class="why int">Why this: '+esc(o.reason)+' Rough size '+money(o.sizeK)+' (assumed).</div>':'')+'</div>'+
+        (ed?'<span class="ctl"><button class="btn sm" data-a="sprswap:'+i+'">Swap</button><button class="btn sm '+(inD?'':'pri')+'" data-a="sprdeck:'+id2+'">'+(inD?'In deck':'Add to deck')+'</button></span>':(inD?'<span class="tag ok">In deck</span>':''))+'</div>'}).join('')+'</div>'+
+      '<div class="sub" style="margin-top:8px">In deck: '+(Object.keys(E.deck).filter(function(k){return E.deck[k]}).length?Object.keys(E.deck).filter(function(k){return E.deck[k]}).map(function(k){return byo[k].t}).join(', '):'none yet')+'</div>'+srcL('opportunity library and campus signals','daily');
+  }
+  if(id==='partner'){
+    var pt=d.partner;
+    h='<div class="grid g3" style="gap:10px">'+kpiT('Contract term',esc(pt.term),'Ends '+pt.end)+kpiT('Commission earned',money(pt.earnedK),'of '+money(pt.guarK)+' guarantee ('+pt.earnedPct+'%)')+kpiT('Bonus and scholarship',pt.bonus+' / '+pt.scholarship,'Status')+'</div>'+
+      '<div class="card" style="margin-top:12px"><h3>Progress to commission tiers</h3>'+pt.tiers.map(function(t){return '<div class="hb"><span class="hl">'+t[0]+'</span><div class="bar '+(t[1]<70?'bad':t[1]<95?'mid':'')+'"><i style="width:'+t[1]+'%"></i></div><b>'+t[1]+'%</b></div>'}).join('')+'</div>'+
+      '<div class="card" style="margin-top:12px"><h3>Renewal next steps</h3><ul class="cm">'+pt.next.map(function(n){return '<li>'+esc(n)+'</li>'}).join('')+'</ul></div>'+
+      (mode==='prep'?'<div class="card int" style="margin-top:12px"><h3>Renewal strategy guidance <span class="tag warn">Internal only</span></h3><div style="font-size:13px">'+esc(pt.strategy)+'</div></div>':'')+srcL('contract record and commission ledger','daily');
+  }
+  if(id==='discuss'){
+    var acts=spA(E,d);
+    h=(mode==='prep'?'<div class="card int"><h3>Live notes <span class="tag warn">Internal only</span></h3>'+(ed?'<textarea rows="4" data-spr="notes" placeholder="Notes from the meeting" style="width:100%">'+esc(E.notes)+'</textarea>':'<div style="font-size:13px">'+esc(E.notes||'No notes yet.')+'</div>')+'</div>':'')+
+      '<div class="card" style="margin-top:12px"><h3>Action items</h3><div class="sub">Open items carry forward to the next review for '+esc(c.n)+'.</div><table><thead><tr><th>Item</th><th>Owner</th><th>Due</th><th>Status</th>'+(ed?'<th></th>':'')+'</tr></thead><tbody>'+
+      acts.map(function(x,i){return '<tr><td>'+esc(x.t)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.due)+'</td><td><span class="tag '+(x.status==='done'?'ok':'blue')+'">'+(x.status==='done'?'Done':'Open')+'</span></td>'+(ed?'<td><button class="btn sm" data-a="spract:done:'+i+'">'+(x.status==='done'?'Reopen':'Mark done')+'</button> <button class="btn sm" data-a="spract:rm:'+i+'">Remove</button></td>':'')+'</tr>'}).join('')+'</tbody></table>'+
+      (ed?'<div class="row" style="margin-top:10px"><input class="inl" id="actnew" placeholder="New action item" style="flex:1"><button class="btn" data-a="spract:add">Add</button></div>':'')+'</div>'+
+      (ed?'<div style="margin-top:12px"><button class="btn pri" data-a="sprfollow">Draft follow-up email</button></div>':'');
+  }
+  return h+tpBox(d,id,tp);
+}
+
+function sprStrip(d){
+  var mv=SPRMODEL.movers(d.metrics.map(function(m){return {k:m.k,label:m.label,cur:m.cur,prev:m.prev,goodHigh:m.goodHigh}}),2),all=mv.up.concat(mv.down);
+  return '<div class="card strip"><b>What changed since the last review (Aug 12)</b><div class="chips" style="margin-top:6px">'+all.map(function(x){return '<span class="chg '+(x.good?'good':'bad')+'">'+(x.pct>0?'Up ':'Down ')+Math.abs(x.pct).toFixed(1)+'%: '+esc(x.label)+'</span>'}).join('')+'</div></div>';
+}
+function sprSections(c,d,mode,live){
+  var E=sprEd(c.id),secs=SPRMODEL.visibleSections(S.spr.cfg,mode);
+  return secs.map(function(s){
+    var collapsed=live&&s.collapsed;
+    return '<section class="card sprsec" id="spr-'+s.id+'"><div class="sprh"><h2>'+s.t+'</h2><span class="sp"></span>'+(live?'<button class="btn sm" data-a="sprtoggle:'+s.id+'" aria-expanded="'+(!collapsed)+'">'+(collapsed?'Expand':'Collapse')+'</button>':'')+'</div>'+
+      (collapsed?'':'<div class="sprb">'+sprSection(s.id,c,d,E,mode,live)+'</div>')+'</section>'}).join('');
+}
+function sprDoc(c,d,mode){
+  return '<div class="prdoc"><h1>Strategic partnership review: '+esc(c.n)+'</h1><div class="sub">'+d.periodName+'. Data as of '+d.asOf+'. Snapshot saved Nov 1, 2026. Synthetic data.</div>'+sprStrip(d)+sprSections(c,d,mode,false)+'</div>';
+}
+function sprShareUrl(c){return location.origin+location.pathname+'?spr='+c.id+'&period='+S.spr.period+'&present=1'}
+function vSpr(){
+  var c=byId[S.campus],d=sprData(c),mode=S.ro?'present':S.spr.mode,E=sprEd(c.id),ro=S.ro;
+  var top='';
+  if(!ro){
+    var hist=d.history.map(function(x,i){return '<button class="chip" data-a="sprhist:'+i+'">'+x.date+' '+x.title+'</button>'}).join('')+S.spr.snaps.filter(function(x){return x.cid===c.id}).map(function(x,i){return '<button class="chip" data-a="sprsnap:'+S.spr.snaps.indexOf(x)+'">Saved '+x.date+' ('+x.period+')</button>'}).join('');
+    top='<div class="card sprtop"><div class="row" style="align-items:center;flex-wrap:wrap;gap:10px"><h2 style="font-size:20px">SPR</h2><span class="sub">Strategic partnership review</span><span class="sp" style="flex:1"></span>'+
+      '<label class="sub">Campus <select id="sprcamp">'+C.map(function(x){return '<option value="'+x.id+'"'+(x.id===S.campus?' selected':'')+'>'+x.n+'</option>'}).join('')+'</select></label>'+
+      '<label class="sub">Period <select id="sprperiod">'+Object.keys(SPRDATA.PERIODS).map(function(k){return '<option value="'+k+'"'+(S.spr.period===k?' selected':'')+'>'+SPRDATA.PERIODS[k].n+'</option>'}).join('')+'</select></label>'+
+      '<span class="sub">Data as of '+d.asOf+'</span>'+
+      '<div class="seg2" role="group" aria-label="Mode"><button class="'+(mode==='prep'?'on':'')+'" data-a="sprmode:prep">Prep</button><button class="'+(mode==='present'?'on':'')+'" data-a="sprmode:present">Present</button></div></div>'+
+      '<div class="row" style="align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px"><button class="btn" data-a="sprexport">Export snapshot</button><button class="btn" data-a="sprshare">Share link</button><button class="btn" data-a="sprcust">Sections</button>'+(mode==='prep'?'<button class="btn" data-a="sprtp">'+(S.spr.tp?'Hide':'Show')+' talking points</button>':'')+
+      '<span class="sp" style="flex:1"></span><input id="sprq" class="inl" placeholder="Ask about '+esc(c.n)+'" style="min-width:240px" aria-label="Ask about this campus"><button class="btn pri" data-a="sprask">Ask</button></div>'+
+      (S.spr.cust?'<div class="cust"><b>Sections for this meeting</b>'+S.spr.cfg.map(function(x,i){var m=SPRMODEL.sectionMeta(x.id);return '<div class="cr"><label><input type="checkbox" data-a="sprvis:'+x.id+'" '+(x.visible?'checked':'')+'> '+m.t+'</label><button class="btn sm" data-a="sprmove:'+x.id+':-1" aria-label="Move up">Up</button><button class="btn sm" data-a="sprmove:'+x.id+':1" aria-label="Move down">Down</button></div>'}).join('')+'</div>':'')+
+      (S.spr.ask?'<div class="ans" style="max-height:none"><div class="q">'+esc(S.spr.ask.q)+'</div>'+S.spr.ask.html+'</div>':'')+
+      '<div style="margin-top:10px"><span class="sub">Meeting history (read-only): </span><span class="chips" style="display:inline-flex">'+hist+'</span></div></div>';
+  }
+  var jump=SPRMODEL.visibleSections(S.spr.cfg,mode).map(function(s){return '<button data-a="sprjump:'+s.id+'">'+s.t+'</button>'}).join('');
+  return top+(ro?'<div class="card" style="margin-bottom:12px"><b>Strategic partnership review: '+esc(c.n)+'</b> <span class="sub">Read-only customer view. '+d.periodName+'. Data as of '+d.asOf+'.</span></div>':'')+
+    '<div class="sprwrap"><nav class="sprjump" aria-label="Sections">'+jump+'</nav><div class="sprbody">'+sprStrip(d)+sprSections(c,d,mode,!ro)+'</div></div>';
+}
+function sprFollowup(c,d){
+  var E=sprEd(c.id),acts=spA(E,d),open=acts.filter(function(a){return a.status!=='done'});
+  return ['Subject: Follow-up from our partnership review','','Thank you for the time today. A few notes from our conversation:','',
+    '- Guarantee coverage is '+d.health.cover+'% and the customer service score is '+d.health.smg+'.','- Access participation is '+d.access.participation+'% with an assumed savings of '+money(d.access.savingsK)+'.','',
+    'Next steps:'].concat(open.map(function(a){return '- '+a.t+' ('+a.owner+', due '+a.due+')'})).concat(['','Synthetic draft for review before sending.']).join('\n');
+}
+function sprSnapText(x){return x.lines.join('\n')}
+
 /* ====================== events ====================== */
 document.addEventListener('click',function(e){
   var el=e.target.closest('[data-a]');
@@ -399,19 +564,45 @@ document.addEventListener('click',function(e){
    case 'play':{var p=PROGRAMS.filter(function(x){return x.id===a[1]})[0],taken=Object.keys(p.res).concat(S.plays.filter(function(x){return x[0]===p.id}).map(function(x){return x[1]}));
      var nxt=C.filter(function(c){return taken.indexOf(c.id)<0}).sort(function(x,y){return y.enroll-x.enroll})[0];
      if(nxt){S.plays.push([p.id,nxt.id]);toast('Queued '+p.n+' at '+nxt.n+'. Campus Commerce will draft the plan.')}else toast('Already running at every campus');break}
-   case 'prep':{var c2=byId[S.prep];var kind=a[1];openModal({brief:'Campus brief',spr:'Strategic partnership review',news:'Monthly partner newsletter'}[kind]+': '+c2.n,prepText(kind,c2));return}
+   case 'prep':{var c2=byId[S.prep];var kind=a[1];if(kind==='spr'){S.campus=S.prep;S.view='spr';break}openModal({brief:'Campus brief',spr:'Strategic partnership review',news:'Monthly partner newsletter'}[kind]+': '+c2.n,prepText(kind,c2));return}
+   case 'sprmode':S.spr.mode=a[1];break;
+   case 'sprtoggle':S.spr.cfg.forEach(function(x){if(x.id===a[1])x.collapsed=!x.collapsed});break;
+   case 'sprvis':S.spr.cfg.forEach(function(x){if(x.id===a[1])x.visible=el.checked});break;
+   case 'sprmove':{var mi=-1;S.spr.cfg.forEach(function(x,j){if(x.id===a[1])mi=j});var mj=mi+(+a[2]);if(mi>=0&&mj>=0&&mj<S.spr.cfg.length){var mt=S.spr.cfg[mi];S.spr.cfg[mi]=S.spr.cfg[mj];S.spr.cfg[mj]=mt}break}
+   case 'sprcust':S.spr.cust=!S.spr.cust;break;
+   case 'sprtp':S.spr.tp=!S.spr.tp;break;
+   case 'sprfilter':S.spr.filter=a[1];break;
+   case 'sprhl':{var E1=sprEd(S.campus),d1=sprData(byId[S.campus]),ids=spHl(E1,d1),hid=a[1],op=a[2],kindOf={};d1.highlights.forEach(function(x){kindOf[x.id]=x.kind});
+     if(hid==='all'){E1.rm={}}else if(op==='pin')E1.pins[hid]=!E1.pins[hid];else if(op==='rm')E1.rm[hid]=true;
+     else{var ix=ids.indexOf(hid),step=op==='up'?-1:1,jx=ix+step;while(jx>=0&&jx<ids.length&&(kindOf[ids[jx]]!==kindOf[hid]||E1.rm[ids[jx]]))jx+=step;if(ix>=0&&jx>=0&&jx<ids.length){ids[ix]=ids[jx];ids[jx]=hid}}break}
+   case 'sprswap':{var E2=sprEd(S.campus),rk=SPRMODEL.rankOpportunities(byId[S.campus]),old=E2.opp[+a[1]];E2.opp=SPRMODEL.swapOpportunity(rk,E2.opp,+a[1]);delete E2.deck[old];break}
+   case 'sprdeck':{var E3=sprEd(S.campus);E3.deck[a[1]]=!E3.deck[a[1]];break}
+   case 'sprfollow':{var c4=byId[S.campus];openModal('Draft follow-up email: '+c4.n,sprFollowup(c4,sprData(c4)));return}
+   case 'sprhist':{var hh=sprData(byId[S.campus]).history[+a[1]];openModal('Past review: '+hh.title+' ('+hh.date+')',sprSnapText(hh));return}
+   case 'sprsnap':{var sn=S.spr.snaps[+a[1]];openModal('Saved snapshot ('+sn.date+')',sprSnapText(sn));return}
+   case 'sprshare':{var c6=byId[S.campus];openModal('Share link: read-only customer view',sprShareUrl(c6)+'\n\nOpens the Present view for '+c6.n+'. Internal notes, talking points and renewal strategy are not included.');return}
+   case 'sprexport':{var c7=byId[S.campus],d7=sprData(c7);$('#printroot').innerHTML=sprDoc(c7,d7,'present');
+     S.spr.snaps.unshift({cid:c7.id,date:'Nov 1, 2026',period:d7.periodName,lines:[c7.n+' snapshot (Present view)',d7.periodName,'Guarantee coverage '+d7.health.cover+'%','Customer service score '+d7.health.smg,'Access participation '+d7.access.participation+'%']});
+     toast('Snapshot saved to meeting history. Choose Save as PDF in the print dialog.');setTimeout(function(){try{window.print()}catch(x){}},60);break}
+   case 'sprjump':{var tgt=$('#spr-'+a[1]);if(tgt)tgt.scrollIntoView({behavior:'smooth',block:'start'});return}
+   case 'sprask':{var q2=($('#sprq')||{}).value;if(q2&&q2.trim()){S.spr.ask=answer(q2+' ('+byId[S.campus].n+')');S.spr.ask.q=q2}break}
+   case 'spract':{var E8=sprEd(S.campus),acts=spA(E8,sprData(byId[S.campus]));
+     if(a[1]==='add'){var ni=$('#actnew'),nv=ni&&ni.value.trim();if(nv)acts.push({id:'n'+acts.length+'x',t:nv,owner:'Seller',due:'2026-11-15',status:'open'})}
+     else if(a[1]==='done'){var it=acts[+a[2]];it.status=it.status==='done'?'open':'done'}else if(a[1]==='rm')acts.splice(+a[2],1);break}
    case 'askq':ask(el.getAttribute('data-q'));return;
    case 'askgo':ask($('#askin').value.trim());return;
    case 'cfo':try{window.parent.postMessage({campusosNav:'cfo'},'*')}catch(x){}toast('Opening the CFO workspace');return;
    case 'toast':toast(a.slice(1).join(':'));return;
-   case 'reset':B.reset();S.step=null;S.ex={};S.loop={};S.leads={};S.motion={};S.plays=[];S.bannerOn=false;banner();toast('Demo state reset');break;
+   case 'reset':B.reset();S.step=null;S.ex={};S.loop={};S.leads={};S.motion={};S.plays=[];S.spr=sprFresh();S.bannerOn=false;banner();toast('Demo state reset');break;
    case 'bn':S.bannerOn=false;banner();return;
   }
   render();
 });
 document.addEventListener('change',function(e){var t=e.target;
-  if(t.id==='scope'){S.scope=t.value;render()}else if(t.id==='agentsel'){S.agent=t.value;render()}else if(t.id==='prepsel'){S.prep=t.value}});
-document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='askin')ask(e.target.value.trim())});
+  if(t.id==='scope'){S.scope=t.value;render()}else if(t.id==='agentsel'){S.agent=t.value;render()}else if(t.id==='prepsel'){S.prep=t.value}else if(t.id==='sprcamp'){S.campus=t.value;S.prep=t.value;render()}else if(t.id==='sprperiod'){S.spr.period=t.value;render()}});
+document.addEventListener('input',function(e){var t=e.target,k=t.getAttribute&&t.getAttribute('data-spr');if(!k)return;var E=sprEd(S.campus),p=k.split(':');
+  if(p[0]==='take')E.take[p[1]]=t.value;else if(p[0]==='notes')E.notes=t.value;else if(p[0]==='comm')E.comm[p[1]]=t.value});
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='askin')ask(e.target.value.trim());if(e.key==='Enter'&&e.target.id==='sprq'){var b=document.querySelector('[data-a="sprask"]');if(b)b.click()}});
 
 B.on(function(type,payload,st){
   if(type==='accessPaid'&&st.accessPaid&&!S.bannerOn){S.bannerOn=true;S.anim=true;banner()}
