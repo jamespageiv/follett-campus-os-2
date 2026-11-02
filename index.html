@@ -1281,10 +1281,8 @@ build();
 <div class="talk"><b>Talk track · student vignette (I'll walk through the demo scroll)</b><p>"Hey Emma, midterms are behind you. Let me know if you want me to sign you up for some tutoring in Econ. They have some open spots on Wednesday mornings."</p><p>Someone is going to do this. I have a version of it on my phone right now. I only gave my agent my email address and it just monitors it. About three weeks in, it had figured out what was important to me. One Saturday afternoon I got a text: "James, just a reminder, the kids won't have school on 11/2 and 11/3. Tomorrow's the last day to register for the day camp at Long Elementary. Want me to reserve a spot?"</p><p>That was one data source, and it is full of terrible data. What if it knew all my courses, my learning materials, my faculty, all my past semesters, grades and progress? What if my agent knew every opportunity to engage with my fellow students and help me connect?</p><p>To pull that off takes trust, which is your first company value. What builds trust? Data, and time. The more you learn about someone over a longer period, the more you know how much you can trust them.</p><div id="momNotes"></div></div>
 </div>
 <div class="vig" id="v-cfo">
-<div class="cfogrid">
-<div class="ipad"><div class="ipscr"><iframe class="cfof" title="Follett Partnership Portal" data-src="cfo.html?ipad=1"></iframe></div></div>
-<div class="ug" id="ug"></div>
-</div>
+<div class="win"><div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="url">Follett Partnership Portal · Northfield State University</span><span class="sim">SIMULATED</span></div>
+<iframe class="cfof" title="Follett Partnership Portal" data-src="cfo.html"></iframe></div>
 <div class="talk"><b>Talk track · CFO vignette and close</b><p>Click through. Watch the moment the CFO approves, and the moment Follett's days-to-pay drops.</p><p>The three campus ideas sit on the same screen as decisions to approve: First Shelf, Earn Your Colors and Campus Comes to Town.</p><p>So with the critical data you have today, some you leverage and some stashed in silos, and with data we are confident you can obtain, we believe you can build the Follett Campus OS.</p></div>
 </div>
 <div class="vig" id="v-teams">
@@ -1528,7 +1526,7 @@ ugBuild();
   +`<p>${e('Any time:')} Lit sources have been used by the story. Click any source for its fields, basis and effort.</p>`})();
 /* scale the demo as one unit so it fits the window height without browser zoom */
 function fitDemo(){
- const base=document.querySelector("#v-stud.show")?960:document.querySelector("#v-cfo.show")?740:830,s=innerWidth>1180?Math.max(.55,Math.min(1,(innerHeight-150)/base)):1;
+ const base=document.querySelector("#v-stud.show")?960:830,s=innerWidth>1180?Math.max(.55,Math.min(1,(innerHeight-150)/base)):1;
  document.querySelectorAll('.s3grid,.cfogrid,.vig:not(#v-stud) .win').forEach(el=>{el.style.zoom=s<1?s:'';el.style.maxWidth=s<1?(el.classList.contains('s3grid')?'1750px':'1378px'):'';el.style.margin=s<1?'0 auto':''});
 }
 addEventListener('resize',fitDemo);fitDemo();

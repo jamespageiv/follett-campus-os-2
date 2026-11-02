@@ -225,7 +225,20 @@ html.ipad .shell{grid-template-columns:224px 1fr}
 .row2>div>span{font-size:12.5px;color:var(--mut)}
 html.ipad .xcards{grid-template-columns:1fr;gap:8px}html.ipad .xcard{padding:10px 12px}
 html.ipad .alerts{grid-template-columns:repeat(2,1fr)}
-.pby{display:none}
+.sig{display:flex;gap:12px;align-items:flex-start;border-radius:14px;padding:12px 14px;border:1.5px solid}
+.sig .sg{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff}
+.sig b{display:block;font-size:16px}.sig span:not(.sg){font-size:13px;line-height:1.4}
+.sig.ok{background:#e9f7f0;border-color:#0a8f5b}.sig.ok .sg{background:#0a8f5b}
+.sig.warn{background:#fff6e0;border-color:#f0a21b}.sig.warn .sg{background:#c98200}
+.sig.bad{background:#fdecec;border-color:#c62828}.sig.bad .sg{background:#c62828}
+.agin{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 22px;margin-top:8px}
+.slrow.ag{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:8px 0}
+.slrow.ag label{font-size:13px;font-weight:600}.slrow.ag label small{display:block;font-weight:400;color:var(--mut);font-size:11.5px}
+.slrow.ag input{grid-column:1/3;width:100%}.slrow.ag b{text-align:right}
+.gr{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #eceef1}.gr small{display:block;color:var(--mut);font-size:12px}.gr .pill{flex:none;white-space:nowrap}
+.srcl{font-size:11.5px;color:var(--mut);margin:8px 2px 0}
+.pby{display:flex;align-items:center;gap:8px;margin-left:6px;padding-left:14px;border-left:1px solid #e3e3e3;font-size:11px;color:var(--mut);white-space:nowrap}
+.pby img{height:20px;width:auto}
 html.ipad .pby{display:flex;align-items:center;gap:8px;margin-left:auto;padding-left:14px;border-left:1px solid #e3e3e3;font-size:11px;color:var(--mut);white-space:nowrap}
 html.ipad .pby img{height:20px;width:auto}
 html.ipad .top{padding:8px 16px}html.ipad .brand{font-size:16px}
@@ -286,6 +299,7 @@ html.ipad .greet{font-size:30px}
 <div class="toast" id="toast"></div>
 <div class="modalbg" id="modalbg"><div class="modal" id="modal"></div></div>
 <script src="campus-data.js"></script>
+<script src="agenticos-model.js"></script>
 <script>
 /* ===== Campus AOS CFO prototype. All figures are synthetic, shaped like Follett objects. ===== */
 const $=(s,r=document)=>r.querySelector(s);
@@ -371,7 +385,7 @@ const LOG0=[
   {t:'06:20',a:'Retention Signals Agent',m:'Scored week-6 digital access for '+NFD.sections.toLocaleString()+' sections. '+NFD.gateway.length+' gateway courses below 70%.'},
   {t:'06:33',a:'Renewal Agent',m:'Refreshed readiness score ('+NFD.renewal.score+') and peer benchmarks (62 institutions).'}];
 const S={screen:'home',drawer:false,disp:DISP0,done:{},dismissed:{},log:LOG0.map(l=>({...l})),cal:{},calNote:{},calOpen:null,
- biz:{},scen:'base',convs:[],ci:0,hist:false,col:null,ta:{p:400,e:17000,o:5}};
+ ag:{...AGENTICOS.DEFAULTS},biz:{},scen:'base',convs:[],ci:0,hist:false,col:null,ta:{p:400,e:17000,o:5}};
 const ST=()=>{const t=Date.now();return new Date(t).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})};
 const dispTotal=()=>S.disp.filter(d=>d.st!=='released').reduce((a,d)=>a+d.amt,0);
 const dispCount=()=>S.disp.filter(d=>d.st!=='released').length;
@@ -496,7 +510,7 @@ function syncFromBus(st,initial){
   if(CD.CALENDAR.every(x=>S.cal[x.id]==='approved'))S.done.calendarAll=true;
 }
 function resetAll(fromBus){
-  S.disp=DISP_BASE.map(d=>({...d,st:'open'}));S.done={};S.biz={};S.dismissed={};S.cal={};S.calNote={};S.calOpen=null;S.log=LOG0.map(l=>({...l}));
+  S.disp=DISP_BASE.map(d=>({...d,st:'open'}));S.done={};S.biz={};S.ag={...AGENTICOS.DEFAULTS};S.dismissed={};S.cal={};S.calNote={};S.calOpen=null;S.log=LOG0.map(l=>({...l}));
   $('#modalbg').classList.remove('on');
   if(!fromBus)BUS.reset();
   renderAll();toast('Demo reset on every surface.');
@@ -516,9 +530,9 @@ function showMemo(){
 </script>
 <script>
 /* ---------- nav + rail ---------- */
-const NAV=[['W','Workspaces'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Partner P&L & Cash','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['T','Tools'],['trust','Compliance & Trust','shield']];
+const NAV=[['W','Workspaces'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Partner P&L & Cash','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['ag','AgenticOS outcomes','bulb'],['T','Tools'],['trust','Compliance & Trust','shield']];
 const IPAD=/[?&]ipad=1/.test(location.search);if(IPAD)document.documentElement.classList.add('ipad');
-const NAV_IPAD=['home','action','fin','access','trust'];
+const NAV_IPAD=['home','action','fin','access','ag','trust'];
 function renderNav(){
   $('#nav').innerHTML=`<button class="btn-new" data-new>${ico('plus',16)}<span>New</span></button>`+NAV.filter(n=>!IPAD||(n.length>=3&&NAV_IPAD.includes(n[0]))).map(n=>{
     if(n.length===2)return `<h6>${n[1]}</h6>`;
@@ -567,6 +581,7 @@ function vHome(){
   const conv=S.convs[S.ci];
   const intro=conv.msgs.length?'':`<div class="greet">Good morning, Dana.</div>
    <p class="greetp">Your Follett partnership is protecting margin, cash and students. Commission is at <b>$1.49M</b> (+10.7%) and covers the <b>$2.6M</b> guarantee at <b>110%</b>. Students in Access retain <b>4.3 points</b> better${IPAD?'.':`, and <b>${fmtK(dispTotal())}</b> of billing is waiting on one census date.`}</p>
+   <div class="srcl">Sources: POS tie-out, invoice ledger, Institutional Research cohort comparison (aggregate)</div>
    <div class="xlabel">Explore</div>
    <div class="xcards">${EXPLORE.map(x=>`<button class="xcard" data-ask="${x[2]}"><span class="xi">${ico(x[3],20,'#0b5cd5')}</span><span><b>${x[0]}</b><small>${x[1]}</small></span></button>`).join('')}</div>
    ${IPAD?'':`<div class="xlabel" style="margin-top:18px">Or ask</div><div class="pchips">${['What changed since Friday?','Is our commission statement right?','How ready are we for renewal?','Which courses need attention?','Which spring campus commerce lines should I approve?','Show me the Arena Store pop-up results','What if we move to Total Access?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>`}`;
@@ -624,6 +639,7 @@ function vFin(){
    <div class="tile"><div class="l">Sales through store</div><div class="v">$9.70M</div><div class="s">Blended rate 15.4%</div></div>
    <div class="tile"><div class="l">Guarantee coverage</div><div class="v">${Math.round(SCEN[S.scen].v/GUAR*100)}%</div><div class="s">${SCEN[S.scen].n}</div></div>
    <div class="tile"><div class="l">Open variance</div><div class="v" style="color:${credit?'var(--green)':'var(--red)'}">${credit?'$0':'$41.8K'}</div><div class="s">${credit?'Credit requested':'Digital rate'}</div></div></div>
+  <div class="srcl">Sources: Follett POS (nightly batch), commission ledger, contract rate card</div>
   <div class="grid2 mt"><div class="card"><h3>Monthly commission vs last year</h3><div class="sub">*October through the 24th</div>${barChart()}<div class="sub" style="display:flex;gap:14px"><span><b style="color:#cdd2d9">&#9632;</b> Last year</span><span><b style="color:#0b5cd5">&#9632;</b> This year</span></div></div>
    <div class="card"><h3>Guarantee coverage</h3><div class="sub">Pick a scenario. The model reruns on the full-year commission ledger.</div>
     <div class="seg mt" style="margin-top:10px">${Object.keys(SCEN).map(k=>`<button class="${S.scen===k?'on':''}" data-scen="${k}">${SCEN[k].n}</button>`).join('')}</div>${guarGauge()}
@@ -636,12 +652,12 @@ function vFin(){
      <div class="sub" style="margin:8px 0">Likely cause (inferred): 3 new digital bundle SKUs added Sep 1 were mapped to the physical-materials rate table. Confirm with Follett Finance.</div>
      <button class="btn ${credit?'done':'pri'}" ${credit?'disabled':'data-fx="requestCredit"'}>${credit?'Credit requested':'Request same-week credit'}</button> <button class="btn" data-ask="Show me the commission variance and what caused it">Ask Claude</button></div></td></tr>`:S.col===i?`<tr><td colspan="6" style="background:#fafbfc"><div class="sub" style="padding:4px">Statement ties to POS within 0.1%. No variance. ${c.k} commission is $${c.comm}K at ${c.rate}% on $${c.sales.toFixed(2)}M.</div></td></tr>`:''}`).join('')}
    <tr><td><b>Total</b></td><td class="r"><b>$9.70M</b></td><td class="r">15.4%</td><td class="r"><b>$${tot}K</b></td><td class="r" style="color:var(--green)"><b>+${((tot/ly-1)*100).toFixed(1)}%</b></td><td></td></tr></table></div>
-  <div class="card mt"><h3>Invoice schedule and cash timing</h3><div class="sub">Reconciled to the general ledger. ${NFD.registerLines.toLocaleString()} POS lines tied to the October statement.</div>
+  <div class="card mt"><h3>Invoice schedule and cash timing</h3><div class="sub">Reconciled to the general ledger. ${NFD.registerLines.toLocaleString()} POS lines tied to the October statement. Sources: Revenue Cloud and ERP, POS tie-out.</div>
    <table style="margin-top:8px"><tr><th>Item</th><th>Date</th><th class="r">Amount</th><th>Status</th></tr>
    <tr><td><b>October commission statement</b></td><td>Nov 15</td><td class="r">$1.45M paid</td><td>${credit?'<span class="pill green">Credit requested</span>':'<span class="pill red">$41.8K variance</span>'}</td></tr>
    <tr><td><b>${NFD.accessInvoice.label}</b></td><td>${NFD.accessInvoice.due}</td><td class="r">$${NFD.accessInvoice.amountM.toFixed(2)}M net</td><td>${S.done.payInvoice?'<span class="pill green">Scheduled</span>':S.done.fixCensus?'<span class="pill blue">Ready to approve</span>':'<span class="pill amber">Held on census date</span>'}</td></tr>
    <tr><td><b>Guaranteed minimum</b></td><td>Aug 31, 2027</td><td class="r">$2.60M</td><td><span class="pill green">Covered at ${Math.round(SCEN[S.scen].v/GUAR*100)}%</span></td></tr></table></div>
-  <div class="card mt"><h3>Auxiliary contribution margin</h3><div class="sub">Store, merchandise, events and athletics retail against 62 peers (illustrative).</div>
+  <div class="card mt"><h3>Auxiliary contribution margin</h3><div class="sub">Store, merchandise, events and athletics retail against 62 peers (illustrative). Sources: Follett POS, IPEDS peer set.</div>
    <table style="margin-top:8px"><tr><th>Line</th><th class="r">Contribution margin</th><th class="r">Peer median</th><th></th></tr>
    ${[['Course materials','21.4%','20.1%','up'],['General merchandise','38.2%','35.6%','up'],['Events and pop-ups','31.0%','33.5%','dn'],['Athletics retail','27.5%','29.0%','dn']].map(r=>`<tr><td>${r[0]}</td><td class="r"><b>${r[1]}</b></td><td class="r">${r[2]}</td><td>${r[3]==='up'?'<span class="pill green">Ahead</span>':'<span class="pill amber">Behind</span>'}</td></tr>`).join('')}</table>
    <h3 style="margin-top:16px">Business cases</h3>${bizTable()}</div>
@@ -661,6 +677,7 @@ function vAccess(){
    <div class="tile"><div class="l">Opt-out rate</div><div class="v">6.4%</div><div class="s dn">+1.0 pt vs last fall</div></div>
    <div class="tile"><div class="l">Student savings (modeled)</div><div class="v">$1.61M</div><div class="s">$135 per student per term</div></div>
    <div class="tile"><div class="l">In dispute</div><div class="v" style="color:${disp?'var(--red)':'var(--green)'}">${fmtK(disp)}</div><div class="s">${dispCount()} of $2.84M billed (${(disp/tot*100).toFixed(1)}%)</div></div></div>
+  <div class="srcl">Sources: CourseTracks and SAM, Registrar SIS file, invoice ledger</div>
   <div class="card mt"><div class="sech">${ico('bulb',17,'#0b5cd5')} Affordability and retention impact <span class="sp"></span><span class="sub">Aggregate only</span></div>
    <div class="grid4"><div class="tile"><div class="l">Savings vs list price</div><div class="v">$135</div><div class="s">per student per term (modeled)</div></div>
     <div class="tile"><div class="l">Day-one access</div><div class="v">94%</div><div class="s up">+6 pts vs last fall</div></div>
@@ -816,8 +833,54 @@ function actionBar(){
   const b=(fx,l,d)=>`<button class="btn ${S.done[fx]&&fx!=='boardDoc'?'done':''}" ${S.done[fx]&&fx!=='boardDoc'?'disabled':`data-fx="${fx}"`}>${S.done[fx]&&fx!=='boardDoc'?d:l}</button>`;
   return `<div class="abar">${b('boardDoc','Export board-ready one-pager','One-pager ready')}${b('setThresholds','Set alert thresholds','Thresholds saved')}${b('delegateAux','Delegate to auxiliary director','Delegated')}${b('scheduleQBR','Schedule a QBR','QBR on Dec 3')}</div>`;
 }
-const VIEWS={home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,trust:vTrust};
-const TITLES={home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',trust:'Compliance & Trust'};
+/* ---------- AgenticOS outcomes ---------- */
+const agMoney=n=>n>=1e6?'$'+(n/1e6).toFixed(2)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+Math.round(n);
+const agInt=n=>Math.round(n).toLocaleString();
+const agX=n=>n==null?'n/a':isFinite(n)?n.toFixed(1)+'x':'high';
+const agPct=(n,d=1)=>(n*100).toFixed(d)+'%';
+const AGSIG={expand:['Expand','ok','&#10003;','The credited lift clears break-even with room to spare.'],hold:['Hold and measure','warn','!','The credited lift is near break-even, so keep measuring before committing more.'],pause:['Pause and review','bad','&#10005;','The credited lift is below break-even at these assumptions.']};
+function agTop(r){
+  const sg=AGSIG[r.signal];
+  return `<div class="sig ${sg[1]}"><span class="sg">${sg[2]}</span><div><b>${sg[0]}</b><span>Credited lift is ${(r.creditedLift*100).toFixed(1)} pts against a break-even of ${r.breakEvenLift==null?'n/a':(r.breakEvenLift*100).toFixed(2)+' pts'}, a ratio of ${agX(r.ratio)}. ${sg[3]}</span></div></div>
+  <div class="grid4 mt"><div class="tile"><div class="l">Additional students retained</div><div class="v">${agInt(r.retained)}</div><div class="s">Credited lift on ${agInt(r.activeStudents)} active students</div></div>
+   <div class="tile"><div class="l">Net tuition revenue retained</div><div class="v">${agMoney(r.revenueRetained)}</div><div class="s">Per year</div></div>
+   <div class="tile"><div class="l">Return per $1 of cost</div><div class="v">${agX(r.returnPerDollar)}</div><div class="s">Program cost ${agMoney(r.programCost)}</div></div>
+   <div class="tile"><div class="l">Cost per added retained student</div><div class="v">${r.costPerRetained==null?'n/a':agMoney(r.costPerRetained)}</div><div class="s">Program cost divided by students retained</div></div></div>`;
+}
+function agInputVal(k,v){return k==='eligible'?agInt(v):k==='tuition'||k==='cost'?'$'+agInt(v):k==='lift'?(+v).toFixed(1)+' pts':v+'%'}
+function agAssump(){
+  return `<div class="card mt"><div class="sech">${ico('bulb',17,'#0b5cd5')} Assumptions <span class="sp"></span><span class="sub">Change any value and everything recalculates</span></div>
+  <div class="agin">${AGENTICOS.INPUTS.map(i=>`<div class="slrow ag"><label for="ag-${i[0]}">${i[1]}<small>${i[6]}</small></label><input id="ag-${i[0]}" type="range" min="${i[2]}" max="${i[3]}" step="${i[4]}" value="${S.ag[i[0]]}" data-ag="${i[0]}"><b id="agv-${i[0]}">${agInputVal(i[0],S.ag[i[0]])}</b></div>`).join('')}</div></div>`;
+}
+function agRest(r){
+  const D=AGENTICOS.DATA,mx=r.funnel[0][1]||1,P=r.persistence;
+  const fmtRow=(t,v)=>t==='pct'?v+'%':t==='days'?v+' days':v;
+  const chg=(t,a,b)=>{const d=b-a;return (d>0?'+':'')+d.toFixed(1)+(t==='pct'?' pts':t==='days'?' days':'')};
+  return `<div class="grid2 mt">
+   <div class="card"><h3>Student flow</h3><div class="sub">From eligible to retained. Rates sit in the model config.</div>
+    ${r.funnel.map((f,i)=>`<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${f[0]}</span><b>${agInt(f[1])}</b></div><div class="bar"><i style="width:${Math.max(1.5,f[1]/mx*100)}%;background:${i===5?'#0a8f5b':'#0b5cd5'}"></i></div></div>`).join('')}</div>
+   <div class="card"><h3>Persistence lift by segment</h3><div class="sub">Points, active students vs matched non-users</div>
+    <div role="img" aria-label="Persistence lift in points by segment: ${D.segments.map(x=>x[0]+' '+x[1]).join(', ')}">${D.segments.map(x=>`<div style="margin:11px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${x[0]}</span><b>+${x[1]} pts</b></div><div class="bar"><i style="width:${x[1]/6*100}%;background:#0b5cd5"></i></div></div>`).join('')}</div></div></div>
+  <div class="card mt"><h3>Outcome scorecard</h3><div class="sub">Matched active users vs matched non-users. Sources: assistant usage and SIS outcomes, aggregate.</div>
+   <table style="margin-top:8px"><tr><th>Outcome</th><th class="r">Matched non-users</th><th class="r">Active users</th><th class="r">Change</th></tr>
+   <tr><td><b>Term-to-term persistence</b></td><td class="r">${P.nonUsers}%</td><td class="r">${P.users.toFixed(1)}%</td><td class="r" style="color:var(--green)"><b>+${P.change.toFixed(1)} pts</b></td></tr>
+   ${D.scorecard.map(x=>{const good=x[0].indexOf('DFW')===0||x[3]==='days'?x[2]<x[1]:x[2]>x[1];return `<tr><td>${x[0]}</td><td class="r">${fmtRow(x[3],x[1])}</td><td class="r">${fmtRow(x[3],x[2])}</td><td class="r" style="color:${good?'var(--green)':'var(--red)'}">${chg(x[3],x[1],x[2])}</td></tr>`}).join('')}</table></div>
+  <div class="grid2 mt"><div class="card"><h3>Guardrails</h3><div class="sub">Sources: consent registry, escalation log</div>
+   ${D.guardrails.map(g=>`<div class="gr"><span class="pill ${g[2]==='ok'?'green':g[2]==='enforced'?'blue':'amber'}">${g[2]==='ok'?'&#10003; OK':g[2]==='enforced'?'&#128274; Enforced':'! Watch'}</span><span><b>${g[0]}</b><small>${g[1]}${g[3]?'. '+g[3]:''}</small></span></div>`).join('')}</div>
+   <div class="card"><h3>Evidence notes</h3><div style="margin-top:8px;display:flex;flex-direction:column;gap:9px">${D.evidence.map(t=>`<div class="sub" style="font-size:13px">${t}</div>`).join('')}</div></div></div>`;
+}
+function vAg(){
+  const r=AGENTICOS.compute(S.ag);
+  return `<div class="h1">AgenticOS outcomes <span class="pill amber" style="vertical-align:middle;margin-left:8px">Illustrative data</span></div><div class="sub">What the student assistant is worth to the university, using a matched cohort and a credited lift. Net tuition, retention, affordability and cash. Sources: matched cohort model (illustrative), Institutional Research aggregate.</div>
+  <div id="agtop" class="mt">${agTop(r)}</div>${agAssump()}<div id="agrest">${agRest(r)}</div>`;
+}
+document.addEventListener('input',e=>{
+  const k=e.target.dataset&&e.target.dataset.ag;if(!k)return;
+  S.ag[k]=+e.target.value;const r=AGENTICOS.compute(S.ag);
+  $('#agv-'+k).textContent=agInputVal(k,S.ag[k]);$('#agtop').innerHTML=agTop(r);$('#agrest').innerHTML=agRest(r);
+});
+const VIEWS={home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,ag:vAg,trust:vTrust};
+const TITLES={home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',ag:'AgenticOS outcomes',trust:'Compliance & Trust'};
 </script>
 <style>.page.homep{display:flex;flex-direction:column;padding-bottom:14px}.homep .chatwrap{flex:1;width:100%;min-height:0}.thread:empty{display:none}</style>
 <script>
@@ -830,11 +893,11 @@ const RULES=[
   {t:'stats',i:[['Students in Access','11,900','412 of 1,180 sections'],['Savings vs list','$1.61M','$135 per student per term (modeled)'],['Opt-out rate','6.4%','+1.0 pt vs last fall']]},
   P('Access is saving students money and keeping them in class, and the cohort retains <b>'+(CD.OUTCOME.access.retention-CD.OUTCOME.non.retention).toFixed(1)+' points better</b> (an association, not proof of cause). The one drag on the university side is billing: <b>'+fmtK(dispTotal())+'</b> is held, and 52% of it traces to a single census date.'),
   S.done.fixCensus?ACT('confirmCohorts','Send cohort fixes to Registrar','Four corrections, $63.8K.','Send fixes'):ACT('fixCensus','Confirm Sep 12 census date','Releases 7 invoices ($110.2K).','Confirm census date'),F('What is driving Business College opt-outs?','Show me the Access outcome proof'),SRC('CourseTracks','Invoice ledger','Institutional Research (aggregate)')]})},
- {m:/(student assistant|student impact|agentic)/,f:()=>({steps:['Reading student assistant usage (aggregate)','Joining day-one access and week-6 signals at course level'],blocks:[
-  {t:'stats',i:[['Active students','7,420','Last 30 days, pilot figures (illustrative)'],['Day-one access','94%','+6 pts vs last fall'],['Retention delta','+'+(CD.OUTCOME.access.retention-CD.OUTCOME.non.retention).toFixed(1)+' pts','Access vs non-Access, aggregate']]},
-  P('The assistant works at the student\'s side: it reminds them what is due, checks that their course materials are live, and answers money questions in plain language. For you it turns into <b>course-level early signals</b>, never names. Gateway courses under 70% week-6 access are the first place it shows up.'),
-  P('<span class="sub">Label: usage counts are illustrative until the Spring 2027 pilot reports. The retention figure is a cohort association from Institutional Research.</span>'),
-  ACT('outcomeShare','Share outcome proof with Provost and board packet','Aggregate only, with its source.','Share'),F('Which courses need attention?','Can you show student names?'),SRC('Assistant usage (aggregate)','Institutional Research (aggregate)')]})},
+ {m:/(student assistant|student impact|agentic)/,f:()=>{const r=AGENTICOS.compute(S.ag),sg=AGSIG[r.signal];return {steps:['Reading assistant usage and the matched cohort (aggregate)','Applying the credited lift from AgenticOS outcomes'],blocks:[
+  {t:'stats',i:[['Active students',agInt(r.activeStudents),'Weekly active, illustrative'],['Students retained',agInt(r.retained),'At a credited lift of '+(r.creditedLift*100).toFixed(1)+' pts'],['Net tuition retained',agMoney(r.revenueRetained),agX(r.returnPerDollar)+' return per $1 of cost']]},
+  P('The signal is <b>'+sg[0]+'</b>. Active students persist '+S.ag.lift.toFixed(1)+' points better than a matched comparison group, and only '+S.ag.credit+'% of that is credited to AgenticOS because students who opt in tend to differ from those who do not. Break-even is '+(r.breakEvenLift*100).toFixed(2)+' points.'),
+  P('<span class="sub">Label: all figures are illustrative and use a matched cohort, not proof of cause. Change the assumptions in AgenticOS outcomes.</span>'),
+  ACT('outcomeShare','Share outcome proof with Provost and board packet','Aggregate only, with its source.','Share'),F('Which courses need attention?','Can you show student names?'),SRC('Assistant usage (aggregate)','Matched cohort model')]}}},
  {m:/(how is the bookstore performing)/,f:()=>({steps:['Tying POS lines to the statement','Comparing commission and events to plan'],blocks:[
   {t:'stats',i:[['Commission YTD','$1.49M','+10.7% vs last year'],['Guarantee coverage','110%','$2.87M projected vs $2.6M'],['General merchandise','$638K','+18%, led by Homecoming']]},
   P('The store is ahead of plan. The one open item is a <b>$41.8K digital commission variance</b> from three SKUs on the wrong rate table. The spring campus commerce calendar adds <b>'+fmtK(calTotals().revAll)+'</b> in proposed sales if you approve it.'),
