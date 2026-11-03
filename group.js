@@ -46,7 +46,16 @@ function crumbs(){
 function render(){var m=$('#main'),st=m.scrollTop;crumbs();
   var f={home:vHome,campus:vCampus,ops:vOps,growth:vGrowth,programs:vPrograms,spr:vSpr}[S.view];m.innerHTML=f();m.scrollTop=st;
   if(S.anim){S.anim=false;animateDays()}}
-function banner(){var b=$('#banner');b.className='banner'+(S.bannerOn?' on':'');
+function invBanner(){
+  var st=B.state(),is=B.live.invoiceStatus(),tk=(st.tasks||[]).filter(function(t){return t.status!=='done'});
+  if(is==='disputed')return '<b>The CFO disputed the $2.44M fall Access invoice.</b> Reason: '+esc(st.invoiceDispute.reason||'on file')+'.'+(tk.length?' '+tk.length+' open task'+(tk.length>1?'s':'')+' for the partner team.':'');
+  if(is==='reconciliation'||tk.length)return '<b>The CFO requested a reconciliation on the fall Access invoice.</b> '+tk.length+' open task'+(tk.length!==1?'s':'')+' for the partner team.';
+  if(is==='reconciled')return '<b>Reconciliation received.</b> The invoice is ready for the CFO to approve.';
+  return '';
+}
+function banner(){var b=$('#banner'),im=S.bannerOn?'':invBanner(),tk=(B.state().tasks||[]).filter(function(t){return t.status!=='done'});
+  if(!S.bannerOn&&im){b.className='banner on warnb';b.innerHTML='<span class="dot"></span><span>'+im+'</span>'+(tk[0]?'<button class="btn sm" data-a="taskdone:'+tk[0].id+'">Mark task done</button>':'');return}
+  b.className='banner'+(S.bannerOn?' on':'');
   b.innerHTML=S.bannerOn?'<span class="dot"></span><span><b>CFO approved the $2.44M fall Access invoice.</b> Northfield State days-to-pay fell from '+NF.daysToPay.before+' to '+NF.daysToPay.after+' and the cash panel updated.</span><button data-a="bn" aria-label="Dismiss">&times;</button>':''}
 function animateDays(){var el=$('#dtp');if(!el)return;var a=NF.daysToPay.before,z=NF.daysToPay.after,t0=Date.now();
   var cash=$('#cashv');
@@ -595,6 +604,8 @@ document.addEventListener('click',function(e){
    case 'toast':toast(a.slice(1).join(':'));return;
    case 'reset':B.reset();S.step=null;S.ex={};S.loop={};S.leads={};S.motion={};S.plays=[];S.spr=sprFresh();S.bannerOn=false;banner();toast('Demo state reset');break;
    case 'bn':S.bannerOn=false;banner();return;
+   case 'taskdone':{var ts=(B.state().tasks||[]),tt=ts.filter(function(x){return x.id===a[1]})[0];if(tt){B.set('tasks',ts.map(function(x){return x.id===a[1]?Object.assign({},x,{status:'done'}):x}),'Sales Command Center','Partner task done: '+tt.title);
+     if(tt.kind==='recon'){B.set('reconDone',true,'Sales Command Center','Sent the Fall Access invoice reconciliation to the CFO');B.logDecision(tt.title,'Completed','Partner team sent the reconciliation','Follett partner team','Sales Command Center')}}banner();toast('Task marked done. The CFO view updated.');break}
   }
   render();
 });
@@ -606,9 +617,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id=
 
 B.on(function(type,payload,st){
   if(type==='accessPaid'&&st.accessPaid&&!S.bannerOn){S.bannerOn=true;S.anim=true;banner()}
-  if(type==='reset'){S.bannerOn=false;banner()}
-  render();
+  if(type==='reset'){S.bannerOn=false}
+  banner();render();
 });
-if(B.state().accessPaid){S.bannerOn=true;banner()}
+if(B.state().accessPaid){S.bannerOn=true}banner();
 render();
 })();

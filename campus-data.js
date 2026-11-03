@@ -222,7 +222,7 @@ var DERIVED={
 
 /* ---------- Cross-surface bus. State is shared by localStorage and BroadcastChannel (same origin), with a window.postMessage relay as a fallback. ---------- */
 var KEY='campusos.state.v1';
-var DEFAULT={released:false,commissionCredit:false,adoptionReview:false,provostReport:false,campaign:false,memo:false,accessPaid:false,accessPlan:false,outcome:false,calendar:{},services:false,eventRepeat:false,log:[]};
+var DEFAULT={released:false,commissionCredit:false,adoptionReview:false,provostReport:false,campaign:false,memo:false,accessPaid:false,accessPlan:false,outcome:false,calendar:{},services:false,eventRepeat:false,invoiceDispute:null,reconRequested:false,reconDone:false,tasks:[],delegations:[],decisions:[],todayDec:{},log:[]};
 var listeners=[],chan=null;
 function load(){try{var s=localStorage.getItem(KEY);return s?Object.assign({},DEFAULT,JSON.parse(s)):JSON.parse(JSON.stringify(DEFAULT))}catch(e){return JSON.parse(JSON.stringify(DEFAULT))}}
 var state=load();
@@ -248,8 +248,17 @@ Bus.live={
   disputed:function(){var s=state;var t=NF.disputes.total;if(s.released)t-=NF.disputes.causes[0].amt;return Math.round(t*10)/10},
   disputedCount:function(){return NF.disputes.count-(state.released?NF.disputes.causes[0].inv:0)},
   commissionVariance:function(){return state.commissionCredit?0:NF.commission.shortK},
-  daysToPay:function(){return state.accessPaid?NF.daysToPay.after:NF.daysToPay.before}
+  daysToPay:function(){return state.accessPaid?NF.daysToPay.after:NF.daysToPay.before},
+  /* one status for the Fall Access invoice, read by the CFO Today tab and the Sales Command Center */
+  invoiceStatus:function(){var s=state;return s.accessPaid?'approved':s.invoiceDispute?'disputed':s.reconDone?'reconciled':s.reconRequested?'reconciliation':'open'}
 };
+/* decision log and partner tasks live in shared state so both views show the same record */
+Bus.logDecision=function(item,status,detail,who,surface){
+  var e={t:Date.now(),who:who||NF.cfo.name,item:item,status:status,detail:detail||''};
+  Bus.set('decisions',[e].concat(state.decisions||[]).slice(0,40),surface||'Command Center',status+': '+item+(detail?' ('+detail+')':''))};
+Bus.addTask=function(title,owner,due,kind,surface){
+  var t={id:'t'+Date.now(),title:title,owner:owner,due:due,kind:kind||'',status:'open'};
+  Bus.set('tasks',(state.tasks||[]).concat([t]),surface||'Command Center','Task created for '+owner+': '+title)};
 
 window.CAMPUS_DATA={NF:NF,AGENTS:AGENTS,USECASES:USECASES,CALENDAR:CALENDAR,SERVICES:SERVICES,ACCESSPLAN:ACCESSPLAN,OUTCOME:OUTCOME,
   REGIONS:REGIONS,CAMPUSES:CAMPUSES,FEEDS:FEEDS,FEEDSTAT:FEEDSTAT,PROCESSES:PROCESSES,EXCEPTIONS:EXCEPTIONS,CONSUME:CONSUME,VALUE:VALUE,

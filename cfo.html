@@ -253,6 +253,37 @@ html.ipad .alerts{grid-template-columns:repeat(2,1fr)}
 .pcard{padding:0;overflow:hidden}.pcard img{width:100%;height:230px;object-fit:cover;object-position:center top;display:block}
 .pcard .pb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
 .pcard h4{margin:2px 0 0;font-size:16px}
+.tdhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.badge2{background:#0b5cd5;color:#fff;border-radius:99px;padding:5px 12px;font-weight:700;font-size:12.5px;white-space:nowrap}
+.fi{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:none;border-top:1px solid #eceef1;padding:9px 2px;cursor:pointer;font:inherit;color:inherit}
+.fi:first-of-type{border-top:0}.fi:hover{background:#f6f8fc}.fi .rk{flex:none;width:22px;height:22px;border-radius:50%;background:#eaf1fd;color:#0b5cd5;font-weight:700;font-size:12px;display:grid;place-items:center;margin-top:1px}
+.fi b{display:block;font-size:13.5px}.fi small{display:block;color:var(--mut);font-size:12px;line-height:1.35;margin-top:1px}
+.dr{border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:8px;background:#fff}
+.dh{display:flex;justify-content:space-between;gap:8px}.dh b{font-size:13.5px}.amt{font-weight:700}.dm{font-size:12px;color:var(--mut);margin:2px 0 6px}
+.dact{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.dform{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}.dform select,.dform input{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit;background:#fff}
+.dlh{margin:12px 0 4px;font-size:13px}.dlog td,.dlog th{font-size:12px;padding:5px 6px}
+.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}
+.vk{background:#fff;border:1.5px solid var(--line);border-left-width:5px;border-radius:12px;padding:10px 12px}
+.vk.ontrack{border-left-color:#0a8f5b}.vk.watch{border-left-color:#f0a21b}.vk.off{border-left-color:#c62828}
+.vkl{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}.vkv{font-size:24px;font-weight:700;margin:3px 0}.vkd{font-size:12px;color:var(--mut)}
+.vks{display:flex;justify-content:space-between;align-items:center;margin-top:7px}
+.stt{font-size:12px;font-weight:700;border-radius:99px;padding:2px 9px}.stt.ontrack{background:#e1f6ec;color:#0a6b46}.stt.watch{background:#fff0d0;color:#7a5600}.stt.off{background:#fde4e4;color:#a11b1b}
+.lnk2{border:0;background:none;color:#0b5cd5;font:inherit;font-size:12px;cursor:pointer;text-decoration:underline}
+.vkth{display:grid;gap:5px;margin-top:8px;font-size:12px}.vkth input{width:70px;border:1px solid var(--line);border-radius:6px;padding:3px 6px;font:inherit}
+.mdl{font-size:10px;font-weight:700;background:#efe8fb;color:#52368f;border-radius:99px;padding:1px 7px;text-transform:none;letter-spacing:0;white-space:nowrap}
+.hbr{display:grid;grid-template-columns:96px 1fr 84px;gap:8px;align-items:center;margin:6px 0;font-size:12.5px}.hbr .bar{margin:2px 0}
+.callout{margin-top:10px;background:#f3f6fc;border-radius:10px;padding:8px 12px;font-size:12.5px}.callout b{display:block;margin-bottom:3px}
+.calstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:8px}
+.ce{border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;align-items:flex-start;background:#fff}.ce b{font-size:13px}.ce span{font-size:12px;color:var(--mut)}.ce button{cursor:pointer;border:0}
+.chk{display:block;margin:8px 0;font-size:13px}
+.cust2{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#f8f9fb;display:grid;gap:6px}
+.flashbox{animation:flashbox 1.6s ease}@keyframes flashbox{0%,40%{box-shadow:0 0 0 4px rgba(11,92,213,.4)}100%{box-shadow:none}}
+.srx{position:absolute;left:-9999px}
+#printroot{display:none}.prdoc h1{font-size:22px;margin:0 0 4px}.prdoc h3{margin:14px 0 4px}.prdoc ul{padding-left:18px}
+@media print{body>*:not(#printroot){display:none!important}#printroot{display:block!important;padding:16px;background:#fff}.prdoc table{width:100%;border-collapse:collapse}.prdoc td,.prdoc th{border-bottom:1px solid #ccc;padding:4px 6px;text-align:left;font-size:12px}}
+@media(max-width:1180px){.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.tdtop{grid-template-columns:1fr!important}}
+@media(max-width:700px){.vgrid{grid-template-columns:1fr}.hbr{grid-template-columns:80px 1fr 70px}}
 .srcl{font-size:11.5px;color:var(--mut);margin:8px 2px 0}
 .pby{display:flex;align-items:center;gap:8px;margin-left:6px;padding-left:14px;border-left:1px solid #e3e3e3;font-size:11px;color:var(--mut);white-space:nowrap}
 .pby img{height:20px;width:auto}
@@ -314,9 +345,11 @@ html.ipad .greet{font-size:30px}
 <button class="fab" id="fab" data-fab title="Ask Claude"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></button>
 <aside class="drawer" id="drawer"></aside>
 <div class="toast" id="toast"></div>
+<div id="printroot"></div>
 <div class="modalbg" id="modalbg"><div class="modal" id="modal"></div></div>
 <script src="campus-data.js"></script>
 <script src="agenticos-model.js"></script>
+<script src="today-model.js"></script>
 <script>
 /* ===== Campus AOS CFO prototype. All figures are synthetic, shaped like Follett objects. ===== */
 const $=(s,r=document)=>r.querySelector(s);
@@ -499,7 +532,7 @@ function act(fx){
   const r=FX[fx]();S.done[fx]=true;
   const m=FXMETA[fx]||{};
   pushLog({a:'You approved',m:r.log,who:NFD.cfo.name,ag:m.ag?agentName(m.ag):'',surface:'Command Center',uc:m.uc||'',fx});
-  toast(r.toast);busPublish(fx,r.log);renderAll();
+  toast(r.toast);busPublish(fx,r.log);BUS.logDecision(r.log,fx==='boardDoc'?'Drafted':'Approved','',NFD.cfo.name);renderAll();
 }
 /* per-line approval for use case 12 */
 function calApprove(id){
@@ -527,7 +560,7 @@ function syncFromBus(st,initial){
   if(CD.CALENDAR.every(x=>S.cal[x.id]==='approved'))S.done.calendarAll=true;
 }
 function resetAll(fromBus){
-  S.disp=DISP_BASE.map(d=>({...d,st:'open'}));S.done={};S.biz={};S.ag={...AGENTICOS.DEFAULTS};S.dismissed={};S.cal={};S.calNote={};S.calOpen=null;S.log=LOG0.map(l=>({...l}));
+  S.disp=DISP_BASE.map(d=>({...d,st:'open'}));S.done={};S.biz={};S.ag={...AGENTICOS.DEFAULTS};if(typeof todayFresh==='function')S.today=todayFresh();S.dismissed={};S.cal={};S.calNote={};S.calOpen=null;S.log=LOG0.map(l=>({...l}));
   $('#modalbg').classList.remove('on');
   if(!fromBus)BUS.reset();
   renderAll();toast('Demo reset on every surface.');
@@ -547,9 +580,9 @@ function showMemo(){
 </script>
 <script>
 /* ---------- nav + rail ---------- */
-const NAV=[['W','Workspaces'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Partner P&L & Cash','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['ag','Wolfie PA Impact','bulb'],['T','Tools'],['trust','Compliance & Trust','shield']];
+const NAV=[['W','Workspaces'],['today','Today','trend'],['home','Conversations','chat'],['action','Action Center','bolt'],['I','Intelligence'],['fin','Partner P&L & Cash','dollar'],['access','Access & Invoicing','book'],['part','Partnership & Renewal','doc'],['ag','Wolfie PA Impact','bulb'],['T','Tools'],['trust','Compliance & Trust','shield']];
 const IPAD=/[?&]ipad=1/.test(location.search);if(IPAD)document.documentElement.classList.add('ipad');
-const NAV_IPAD=['home','action','fin','access','ag','trust'];
+const NAV_IPAD=['today','home','action','fin','access','ag','trust'];
 function renderNav(){
   $('#nav').innerHTML=`<button class="btn-new" data-new>${ico('plus',16)}<span>New</span></button>`+NAV.filter(n=>!IPAD||(n.length>=3&&NAV_IPAD.includes(n[0]))).map(n=>{
     if(n.length===2)return `<h6>${n[1]}</h6>`;
@@ -910,8 +943,159 @@ document.addEventListener('input',e=>{
   S.ag[k]=+e.target.value;const r=AGENTICOS.compute(S.ag);
   $('#agv-'+k).textContent=agInputVal(k,S.ag[k]);$('#agtop').innerHTML=agTop(r);$('#agrest').innerHTML=agRest(r);
 });
-const VIEWS={home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,ag:vAg,promo:vPromo,trust:vTrust};
-const TITLES={home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',ag:'Wolfie PA Impact',promo:'Active promotions',trust:'Compliance & Trust'};
+/* ---------- Today tab ---------- */
+const TD=window.TODAYDATA,TM=window.TODAYMODEL;
+function todayFresh(){return {th:{},thopen:{},prep:{},types:{cash:true,enroll:true,partner:true,audit:true,invoice:true},cust:false,wi:{enroll:0,disc:0,policy:false},dq:{reason:TD.disputeReasons[0],who:TD.directors[0],due:'2026-11-06',open:null}}}
+S.today=todayFresh();
+const tdM=n=>n>=1?'$'+n.toFixed(2)+'M':'$'+Math.round(n*1000)+'K';
+const tdInv=()=>TM.invoiceState(BUS.state());
+function tdKpi(k){
+  const cur=k.id==='risk'?TD.risks.filter(r=>r.open).length:k.id==='recv'?TM.pastDueTotal(TM.agingBuckets(TD.cash.accounts)):k.cur;
+  const th=S.today.th[k.id]||k.th;return {...k,cur,th,st:TM.status(cur,th,k.dir)};
+}
+function tdFmt(k,v){return k.unit==='days'?Math.round(v)+' days':k.unit==='$M'?'$'+v.toFixed(1)+'M':k.unit==='open items'?String(v):(Math.round(v*10)/10)+'%'}
+function tdDelta(k,a,b){const d=a-b,good=k.dir==='high'?d>=0:d<=0;return `<span class="${d===0?'':good?'up':'dn'}">${d>0?'+':''}${k.unit==='$M'?d.toFixed(1)+'M':k.unit==='days'?Math.round(d)+' d':(Math.round(d*10)/10)+(k.unit.indexOf('%')>-1?' pts':'')}</span>`}
+function tdFeedItems(){
+  const inv=tdInv(),dsp=BUS.live.disputed(),b=TM.agingBuckets(TD.cash.accounts),b60=b[3].amt;
+  return [
+   {id:'invoice',type:'invoice',imp:5,t:'Fall Access invoice: '+inv.label.toLowerCase(),why:'$2.44M leaves cash on Nov 20, so the status decides whether payment is scheduled, held or reconciled first.',link:'t-decisions',dollarsM:2.44,dueDays:TM.dueIn('2026-11-20')},
+   {id:'census',type:'enroll',imp:4,t:'Census headcount is 99.4% of target',why:'24,800 enrolled against 24,950, down from 99.7% last month. It is associated with softer net tuition revenue.',link:'t-census',dollarsM:1.2},
+   {id:'reg',type:'enroll',imp:4,t:'Spring registration pace is 2.1% behind last year',why:'Billing holds are the largest blocker, with 251 students held.',link:'t-enroll',dollarsM:1.5,dueDays:TM.dueIn('2026-12-15')},
+   {id:'recv',type:'cash',imp:3,t:'A receivable crossed 60 days past due',why:tdM(b60)+' is now 61 to 90 days past due, which raises bad debt risk.',link:'t-cash',dollarsM:b60},
+   {id:'audit',type:'audit',imp:3,t:'Audit management letter response is due Nov 14',why:'One open audit item, owned by the Controller, ahead of the board finance committee.',link:'t-risk',dueDays:TM.dueIn('2026-11-14')},
+   {id:'disp',type:'partner',imp:3,t:'Partner invoices held in dispute: '+(dsp>=1?'$'+dsp.toFixed(0)+'K':'none'),why:'One census date mismatch drives most of it. Confirming it releases the largest share.',link:'t-partner',dollarsM:dsp/1000},
+   {id:'disc',type:'cash',imp:2,t:'Tuition discount rate rose to 52.4%',why:'Up 0.3 pts in a month and above the 52% watch line.',link:'t-disc'}];
+}
+function tdFeed(){return TM.rankFeed(tdFeedItems(),S.today,7)}
+function tdVitals(){return TD.kpis.map(tdKpi).map(k=>{const th=k.th,open=S.today.thopen[k.id];
+  return `<div class="vk ${k.st}" id="t-${k.id}"><div class="vkl">${k.label}${k.modeled?' <span class="mdl">Modeled</span>':''}</div><div class="vkv">${tdFmt(k,k.cur)}</div>
+   <div class="vkd">vs last month ${tdDelta(k,k.cur,k.prev)} &middot; vs budget ${tdDelta(k,k.cur,k.budget)}</div>${k.note?`<div class="vkd">${k.note}</div>`:''}
+   <div class="vks"><span class="stt ${k.st}">${TM.STATUS_ICON[k.st]} ${TM.STATUS_LABEL[k.st]}</span><button class="lnk2" data-td="th:${k.id}" aria-expanded="${!!open}">Threshold</button></div>
+   ${open?`<div class="vkth"><label>Watch ${k.dir==='high'?'below':'above'} <input type="number" step="any" data-th="${k.id}:watch" value="${th.watch}"></label><label>Off track ${k.dir==='high'?'below':'above'} <input type="number" step="any" data-th="${k.id}:off" value="${th.off}"></label></div>`:''}</div>`}).join('')}
+function tdDecisions(){
+  const st=BUS.state(),inv=tdInv(),dq=S.today.dq,dl=st.delegations||[],td=st.todayDec||{};
+  const deleg=id=>{const d=dl.find(x=>x.item===id);return d?`<span class="pill blue">Delegated to ${d.who}, due ${d.due}</span>`:`<button class="btn sm" data-td="dopen:${id}">Delegate</button>`};
+  const dform=id=>dq.open==='d:'+id?`<div class="dform"><select data-dq="who">${TD.directors.map(x=>`<option ${dq.who===x?'selected':''}>${x}</option>`).join('')}</select><input type="date" data-dq="due" value="${dq.due}"><button class="btn sm pri" data-td="deleg:${id}">Assign</button></div>`:'';
+  const gated=!S.done.fixCensus;
+  const rows=[];
+  rows.push(`<div class="dr"><div class="dh"><b>Fall Access invoice</b><span class="amt">$2.44M</span></div><div class="dm">Due Nov 20 &middot; Owner: Dana Whitfield, CFO &middot; <span class="pill ${inv.tone==='ok'?'green':inv.tone==='err'?'red':inv.tone==='warn'?'amber':'blue'}">${inv.label}</span></div>
+    <div class="dact">${inv.status==='approved'?'<span class="pill green">Decision logged</span>':`${gated?'<button class="btn sm pri" data-fx="fixCensus">Confirm census date first</button>':'<button class="btn sm pri" data-fx="payInvoice">Approve</button>'}<button class="btn sm" data-td="dispute-open">Dispute with reason</button>${st.reconRequested||st.reconDone?'':'<button class="btn sm" data-td="recon">Request reconciliation</button>'}${deleg('invoice')}`}</div>
+    ${dq.open==='dispute'&&inv.status!=='approved'?`<div class="dform"><select data-dq="reason">${TD.disputeReasons.map(x=>`<option ${dq.reason===x?'selected':''}>${x}</option>`).join('')}</select><button class="btn sm pri" data-td="dispute">Submit dispute</button></div>`:''}${dform('invoice')}</div>`);
+  const cen=S.done.fixCensus;
+  rows.push(`<div class="dr"><div class="dh"><b>Disputed invoices: census date mismatch</b><span class="amt">${fmtK(NFD.disputes.causes[0].amt)}</span></div><div class="dm">7 invoices &middot; Due now &middot; Owner: Registrar &middot; ${cen?'<span class="pill green">Released</span>':'<span class="pill amber">Open</span>'}</div>
+    <div class="dact">${cen?'<span class="pill green">Decision logged</span>':'<button class="btn sm pri" data-fx="fixCensus">Confirm Sep 12 census date</button>'}${deleg('census')}</div>${dform('census')}</div>`);
+  rows.push(`<div class="dr"><div class="dh"><b>Operating agreement notice window opens</b><span class="amt">Jan 15</span></div><div class="dm">Notice window for the Aug 31, 2027 expiry &middot; Owner: General counsel &middot; ${td.notice?'<span class="pill green">Review scheduled</span>':'<span class="pill amber">Open</span>'}</div>
+    <div class="dact">${td.notice?'<span class="pill green">Decision logged</span>':'<button class="btn sm pri" data-td="notice">Schedule review with counsel</button>'}${deleg('notice')}</div>${dform('notice')}</div>`);
+  rows.push(`<div class="dr"><div class="dh"><b>Budget exception: spring pop-up program</b><span class="amt">$85K</span></div><div class="dm">Requested by Auxiliary Services &middot; Due Nov 12 &middot; ${td.budget?`<span class="pill ${td.budget==='approved'?'green':'gray'}">${td.budget==='approved'?'Approved':'Declined'}</span>`:'<span class="pill amber">Open</span>'}</div>
+    <div class="dact">${td.budget?'<span class="pill green">Decision logged</span>':'<button class="btn sm pri" data-td="budget:approved">Approve</button><button class="btn sm" data-td="budget:declined">Decline</button>'}${deleg('budget')}</div>${dform('budget')}</div>`);
+  const log=(st.decisions||[]).slice(0,5);
+  return `<div class="card" id="t-decisions"><div class="sech">${ico('bolt',17)} Decisions queue <span class="sp"></span><span class="sub">Every action is logged</span></div>${rows.join('')}
+   <h4 class="dlh">Decision log</h4>${log.length?`<table class="dlog"><tr><th>When</th><th>Who</th><th>Decision</th></tr>${log.map(e=>`<tr><td>${new Date(e.t).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</td><td>${e.who}</td><td><b>${e.status}:</b> ${e.item}${e.detail?' ('+e.detail+')':''}</td></tr>`).join('')}</table>`:'<div class="sub">Nothing decided yet today.</div>'}</div>`;
+}
+function tdCash(){
+  const C=TD.cash,inv=tdInv(),mx=Math.max(...C.weeks.map(w=>Math.max(w.inM,w.outM))),b=TM.agingBuckets(C.accounts),bm=Math.max(...b.map(x=>x.amt)),dtp=BUS.live.daysToPay();
+  const dt=C.dtp.concat([['Now',dtp]]),dm=Math.max(...dt.map(x=>x[1]));
+  return `<div class="card" id="t-cash"><div class="sech">${ico('dollar',17)} Cash and receivables <span class="sp"></span><span class="sub">Next 30 days <span class="mdl">Modeled</span></span></div>
+   <div class="grid2"><div><h4>Inflows and outflows by week ($M)</h4><div role="img" aria-label="Weekly cash: ${C.weeks.map(w=>w.w+' in '+w.inM+', out '+w.outM).join('; ')}">${C.weeks.map(w=>`<div class="hbr"><span>${w.w}</span><div><div class="bar green"><i style="width:${w.inM/mx*100}%"></i></div><div class="bar red"><i style="width:${w.outM/mx*100}%"></i></div></div><b>+${w.inM} / -${w.outM}</b></div>`).join('')}</div>
+     <div class="sub" style="margin-top:6px"><b style="color:var(--green)">&#9632;</b> In <b style="color:var(--red)">&#9632;</b> Out</div>
+     <div class="callout"><b>Key partner payments</b>${C.partner.map(p=>`<div>${p.date}: ${p.t}, ${p.dir==='in'?'in':'out'} ${tdM(p.amtM)}${p.t.indexOf('Access')>-1?' ('+inv.label.toLowerCase()+')':''}</div>`).join('')}</div></div>
+    <div><h4>Student account aging ($M)</h4><div role="img" aria-label="Aging: ${b.map(x=>x.k+' '+x.amt).join(', ')}">${b.map(x=>`<div class="hbr"><span>${x.k}</span><div class="bar ${x.k==='Current'?'':x.k==='1 to 30'?'mid':'red'}"><i style="width:${x.amt/bm*100}%"></i></div><b>${x.amt.toFixed(1)}</b></div>`).join('')}</div>
+     <h4 style="margin-top:12px">Days to pay the partner</h4><div role="img" aria-label="Days to pay: ${dt.map(x=>x[0]+' '+x[1]).join(', ')}">${dt.map(x=>`<div class="hbr"><span>${x[0]}</span><div class="bar ${x[0]==='Now'?'':'mid'}"><i style="width:${x[1]/dm*100}%"></i></div><b>${x[1]} days</b></div>`).join('')}</div><div class="sub">Lower is better. Updates when the invoice is approved.</div></div></div>
+   <div class="grid3 mt"><div class="tile"><div class="l">Payment plan uptake</div><div class="v">${C.planUptake}%</div><div class="s up">+${C.planDelta} pts vs last term</div></div><div class="tile"><div class="l">Bad debt</div><div class="v">${C.badDebtPct}%</div><div class="s">Budget ${C.badDebtBudget}% of billed</div></div><div class="tile"><div class="l">Past due total</div><div class="v">${tdM(TM.pastDueTotal(b))}</div><div class="s">Buckets above, past due only</div></div></div>
+   <h4 style="margin-top:12px">Invoices due in 30 days</h4><table><tr><th>Invoice</th><th>Due</th><th class="r">Amount</th><th>Status</th></tr>${C.invoices.map(v=>`<tr><td><b>${v.t}</b></td><td>${v.date}</td><td class="r">${tdM(v.amtM)}</td><td>${v.id==='access'?`<span class="pill ${inv.tone==='ok'?'green':inv.tone==='err'?'red':inv.tone==='warn'?'amber':'blue'}">${inv.label}</span>`:`<span class="pill gray">${v.status}</span>`}</td></tr>`).join('')}</table></div>`;
+}
+function tdEnroll(){
+  const E=TD.enroll,f=AGENTICOS.compute(S.ag).funnel[3][1],hm=E.holds.reduce((t,h)=>t+h[1],0);
+  return `<div class="card" id="t-enroll"><div class="sech">${ico('book',17)} Enrollment and retention watch <span class="sp"></span><span class="sub">Aggregate only</span></div>
+   <div class="grid4"><div class="tile"><div class="l">Spring registration pace</div><div class="v dn">${E.regPace}%</div><div class="s">vs last year, ${E.registered.toLocaleString()} registered</div></div>
+    <div class="tile"><div class="l">Term-to-term persistence</div><div class="v">${E.persistence}%</div><div class="s">Budget ${E.persistenceBudget}% <span class="mdl">Modeled</span></div></div>
+    <div class="tile"><div class="l">Students flagged at risk</div><div class="v">${Math.round(f).toLocaleString()}</div><div class="s"><span class="link" data-go="ag">See Wolfie PA Impact</span></div></div>
+    <div class="tile"><div class="l">Holds blocking registration</div><div class="v">${hm}</div><div class="s">${E.holds.map(h=>h[0]+' '+h[1]).join(' &middot; ')}</div></div></div></div>`;
+}
+function tdPartner(){
+  const st=BUS.state(),dsp=BUS.live.disputed(),asked=st.reconRequested||st.reconDone;
+  return `<div class="card" id="t-partner"><div class="sech">${ico('doc',17)} Partner scorecard <span class="sp"></span>${asked?'<span class="pill green">Reconciliation task created</span>':'<button class="btn sm pri" data-td="recon">Ask for reconciliation</button>'}</div>
+   <div class="grid4"><div class="tile"><div class="l">Commission vs guarantee</div><div class="v">$1.49M</div><div class="s">of $2.6M, projected $2.87M</div></div>
+    <div class="tile"><div class="l">Progress to tier</div><div class="v">82%</div><div class="s">Next tier at 100% <span class="mdl">Modeled</span></div></div>
+    <div class="tile"><div class="l">Access participation</div><div class="v">68%</div><div class="s">Opt-out 6.4%, up 1.0 pt</div></div>
+    <div class="tile"><div class="l">Reported student savings</div><div class="v">$1.61M</div><div class="s">Per term <span class="mdl">Modeled</span></div></div>
+    <div class="tile"><div class="l">Customer experience</div><div class="v">81</div><div class="s">Score out of 100</div></div>
+    <div class="tile"><div class="l">Disputed amounts</div><div class="v ${dsp?'dn':'up'}">${dsp?'$'+dsp.toFixed(1)+'K':'$0'}</div><div class="s">${BUS.live.disputedCount()} invoices</div></div></div></div>`;
+}
+function tdRisk(){
+  return `<div class="card" id="t-risk"><div class="sech">${ico('shield',17)} Risk and compliance</div><table><tr><th>Item</th><th>Status</th><th>Owner</th><th>Due</th></tr>${TD.risks.map(r=>`<tr><td><b>${r.t}</b></td><td>${r.open?'<span class="pill amber">! '+r.state+'</span>':'<span class="pill green">&#10003; '+r.state+'</span>'}</td><td>${r.owner}</td><td>${r.due}</td></tr>`).join('')}</table></div>`;
+}
+function tdCal(){
+  const cyc={'not started':'in progress','in progress':'ready','ready':'not started'};
+  return `<div class="card" id="t-cal"><div class="sech">${ico('hist',17)} Fiscal calendar, next 60 days</div><div class="calstrip">${TD.calendar.map(c=>{const p=S.today.prep[c.id]||c.prep;return `<div class="ce"><b>${c.d}</b><span>${c.t}</span><button class="pill ${p==='ready'?'green':p==='in progress'?'amber':'gray'}" data-td="prep:${c.id}" title="Click to change prep status">${p==='ready'?'&#10003; ':p==='in progress'?'! ':''}${p}</button></div>`}).join('')}</div></div>`;
+}
+function tdWiOut(){
+  const w=S.today.wi,r=TM.whatIf(TD.base,{enrollPct:w.enroll,discPts:w.disc,policy:w.policy}),base=TD.base.cashM/TD.base.dailyOpexM;
+  return `<div class="stats"><div class="tile"><div class="l">Net tuition revenue</div><div class="v">$${r.ntrM.toFixed(1)}M</div><div class="s ${r.deltaNtrM>=0?'up':'dn'}">${r.deltaNtrM>=0?'+':'-'}$${Math.abs(r.deltaNtrM).toFixed(1)}M vs base</div></div>
+   <div class="tile"><div class="l">Days cash on hand</div><div class="v">${Math.round(r.daysCash)}</div><div class="s ${r.deltaDays>=0?'up':'dn'}">${r.deltaDays>=0?'+':''}${r.deltaDays.toFixed(1)} days vs ${Math.round(base)}</div></div></div>`;
+}
+function tdWhat(){
+  const w=S.today.wi;
+  return `<div class="card" id="t-whatif"><div class="sech">${ico('trend',17)} What-if <span class="sp"></span><span class="pill amber">Illustrative</span></div>
+   <div class="slrow"><span>Enrollment change</span><input type="range" min="-5" max="5" step="0.5" value="${w.enroll}" data-wi="enroll" aria-label="Enrollment change"><b id="wiv-enroll">${w.enroll>0?'+':''}${w.enroll}%</b></div>
+   <div class="slrow"><span>Discount rate change</span><input type="range" min="-2" max="2" step="0.25" value="${w.disc}" data-wi="disc" aria-label="Discount rate change"><b id="wiv-disc">${w.disc>0?'+':''}${w.disc} pts</b></div>
+   <label class="chk"><input type="checkbox" data-wi="policy" ${w.policy?'checked':''}> Policy exposure: a federal aid rule change takes ${TD.base.policyHitPct}% of net tuition revenue</label>
+   <div id="wi-out" style="margin-top:10px">${tdWiOut()}</div><div class="sub" style="margin-top:6px">Assumes ${Math.round(TD.base.inYearShare*100)}% of the revenue change reaches cash this year. Base: $${TD.base.ntrM}M net tuition revenue, ${TD.base.discountRate}% discount rate.</div></div>`;
+}
+function tdAsk(){
+  return `<div class="card" id="t-ask"><div class="sech">${ico('chat',17)} Ask, export and settings</div>
+   <div class="inputbar" style="margin:0"><input id="tq-today" placeholder="Ask about Northfield State" autocomplete="off" aria-label="Ask about Northfield State"><button class="send" data-td="askgo" aria-label="Ask">${ico('up',18,'#fff')}</button></div>
+   <div class="pchips" style="margin-top:10px">${['Why is cash slow?','What is my exposure if enrollment drops 2%?','What changed this week?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>
+   <div class="dact" style="margin-top:12px"><button class="btn pri" data-td="export">Board one-pager</button><button class="btn" data-td="settings">Alert settings</button></div>
+   ${S.today.cust?`<div class="cust2"><b>Show these events in Since yesterday</b>${[['invoice','Invoice and payment status'],['cash','Cash and receivables'],['enroll','Enrollment and retention'],['partner','Partner items'],['audit','Audit and compliance']].map(t=>`<label><input type="checkbox" data-ty="${t[0]}" ${S.today.types[t[0]]!==false?'checked':''}> ${t[1]}</label>`).join('')}<div class="sub">Edit each vital sign's thresholds with the Threshold link on its card.</div></div>`:''}</div>`;
+}
+function vToday(){
+  const feed=tdFeed();
+  return `<div class="tdhead"><div><div class="h1" style="margin:0">Today</div><div class="sub">Northfield State University &middot; ${TD.dateLabel} &middot; ${TD.phase} &middot; Data as of ${TD.asOf}</div></div><span class="badge2" title="Items since yesterday">${feed.length} since yesterday</span></div>
+  <div class="grid2 mt tdtop"><div class="card" id="t-feed"><div class="sech">${ico('bulb',17,'#6b4bd6')} Since yesterday <span class="sp"></span><span class="sub">Ranked by importance</span></div>
+    ${feed.map((f,i)=>`<button class="fi" data-td="feed:${f.link}"><span class="rk">${i+1}</span><span><b>${f.t}</b><small>Why it matters: ${f.why}</small></span></button>`).join('')}</div>${tdDecisions()}</div>
+  <div class="sech" style="margin-top:16px">${ico('trend',17)} Vital signs <span class="sp"></span><span class="sub">Status uses an icon and a label, and thresholds are editable</span></div><div class="vgrid" id="t-vitals">${tdVitals()}</div>
+  <div class="mt">${tdCash()}</div><div class="mt">${tdEnroll()}</div><div class="mt">${tdPartner()}</div><div class="mt">${tdRisk()}</div><div class="mt">${tdCal()}</div><div class="mt">${tdWhat()}</div><div class="mt">${tdAsk()}</div>
+  <div class="fine" style="text-align:left;margin-top:10px">Modeled figures are illustrative and labeled. Sources: bursar ledger, registrar census file, partner invoice ledger, audit tracker.</div>`;
+}
+function tdOnePager(){
+  const ks=TD.kpis.map(tdKpi),st=BUS.state(),log=(st.decisions||[]).slice(0,8),inv=tdInv();
+  return `<div class="prdoc"><h1>Board one-pager: Northfield State University</h1><div class="sub">${TD.dateLabel} &middot; ${TD.phase} &middot; Data as of ${TD.asOf} &middot; Synthetic data</div>
+   <h3>Vital signs</h3><table><tr><th>Measure</th><th>Value</th><th>Status</th></tr>${ks.map(k=>`<tr><td>${k.label}${k.modeled?' (Modeled)':''}</td><td>${tdFmt(k,k.cur)}</td><td>${TM.STATUS_ICON[k.st]} ${TM.STATUS_LABEL[k.st]}</td></tr>`).join('')}</table>
+   <h3>Decisions</h3><table><tr><th>Item</th><th>Status</th></tr><tr><td>Fall Access invoice, $2.44M due Nov 20</td><td>${inv.label}</td></tr><tr><td>Census date mismatch, ${fmtK(NFD.disputes.causes[0].amt)}</td><td>${S.done.fixCensus?'Released':'Open'}</td></tr><tr><td>Notice window, Jan 15</td><td>${(st.todayDec||{}).notice?'Review scheduled':'Open'}</td></tr><tr><td>Budget exception, $85K</td><td>${(st.todayDec||{}).budget?((st.todayDec||{}).budget==='approved'?'Approved':'Declined'):'Open'}</td></tr></table>
+   ${log.length?`<h3>Decision log</h3><ul>${log.map(e=>`<li>${e.status}: ${e.item}${e.detail?' ('+e.detail+')':''}</li>`).join('')}</ul>`:''}
+   <h3>Risks</h3><ul>${TD.risks.map(r=>`<li>${r.t}: ${r.state} (owner ${r.owner}, due ${r.due})</li>`).join('')}</ul></div>`;
+}
+function tdDo(code){
+  const T=S.today,d=code.split(':'),k=d[0];
+  if(k==='feed'){const el=document.getElementById(d[1]);if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('flashbox');setTimeout(()=>el.classList.remove('flashbox'),1600)}return}
+  if(k==='th'){T.thopen[d[1]]=!T.thopen[d[1]];return renderAll()}
+  if(k==='dispute-open'){T.dq.open=T.dq.open==='dispute'?null:'dispute';return renderAll()}
+  if(k==='dopen'){T.dq.open=T.dq.open==='d:'+d[1]?null:'d:'+d[1];return renderAll()}
+  if(k==='dispute'){const r=T.dq.reason;BUS.set('invoiceDispute',{reason:r},'Command Center','CFO disputed the fall Access invoice: '+r);BUS.addTask('Respond to the CFO dispute: '+r,'Follett Finance','Nov 6','dispute');BUS.logDecision('Fall Access invoice','Disputed',r);T.dq.open=null;toast('Dispute sent to Follett with your reason. The seller view updated.');return renderAll()}
+  if(k==='recon'){BUS.set('reconRequested',true,'Command Center','CFO requested a reconciliation of the fall Access invoice');BUS.addTask('Prepare the fall Access invoice reconciliation','Follett Finance','Nov 6','recon');BUS.logDecision('Fall Access invoice','Requested reconciliation','Task created for Follett Finance');toast('Reconciliation requested. A task was created for the partner team.');return renderAll()}
+  if(k==='notice'){BUS.set('todayDec',Object.assign({},BUS.state().todayDec,{notice:'scheduled'}),'Command Center','Scheduled a review with counsel for the notice window');BUS.logDecision('Notice window review','Scheduled','Counsel invited');toast('Review with counsel scheduled.');return renderAll()}
+  if(k==='budget'){BUS.set('todayDec',Object.assign({},BUS.state().todayDec,{budget:d[1]}),'Command Center',(d[1]==='approved'?'Approved':'Declined')+' the $85K budget exception');BUS.logDecision('Budget exception, $85K',d[1]==='approved'?'Approved':'Declined','Spring pop-up program');toast('Decision logged.');return renderAll()}
+  if(k==='deleg'){const names={invoice:'Fall Access invoice',census:'Census date mismatch',notice:'Notice window',budget:'Budget exception'};BUS.set('delegations',(BUS.state().delegations||[]).concat([{item:d[1],who:T.dq.who,due:T.dq.due}]),'Command Center','Delegated '+names[d[1]]+' to '+T.dq.who);BUS.logDecision(names[d[1]],'Delegated',T.dq.who+', due '+T.dq.due);T.dq.open=null;toast('Delegated to '+T.dq.who+'.');return renderAll()}
+  if(k==='prep'){const c=TD.calendar.find(x=>x.id===d[1]),cur=T.prep[d[1]]||c.prep;T.prep[d[1]]={'not started':'in progress','in progress':'ready','ready':'not started'}[cur];return renderAll()}
+  if(k==='settings'){T.cust=!T.cust;return renderAll()}
+  if(k==='askgo'){const i=$('#tq-today'),v=i&&i.value.trim();if(v){i.value='';openDrawer();ask(v)}return}
+  if(k==='export'){$('#printroot').innerHTML=tdOnePager();toast('Board one-pager ready. Choose Save as PDF in the print dialog.');setTimeout(()=>{try{window.print()}catch(e){}},60);return}
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-td]');if(t)tdDo(t.dataset.td)});
+document.addEventListener('input',e=>{const t=e.target,ds=t.dataset||{};
+  if(ds.th){const p=ds.th.split(':'),k=TD.kpis.find(x=>x.id===p[0]);if(!k||t.value==='')return;const cur=S.today.th[p[0]]||{...k.th};cur[p[1]]=parseFloat(t.value);S.today.th[p[0]]=cur;
+    const keep=t.dataset.th;renderAll();const el=document.querySelector('[data-th="'+keep+'"]');if(el){el.focus();try{el.setSelectionRange(el.value.length,el.value.length)}catch(x){}}return}
+  if(ds.wi){const w=S.today.wi;if(ds.wi==='policy')w.policy=t.checked;else w[ds.wi]=parseFloat(t.value);
+    const ev=$('#wiv-enroll'),dv=$('#wiv-disc');if(ev)ev.textContent=(w.enroll>0?'+':'')+w.enroll+'%';if(dv)dv.textContent=(w.disc>0?'+':'')+w.disc+' pts';const o=$('#wi-out');if(o)o.innerHTML=tdWiOut()}
+});
+document.addEventListener('change',e=>{const t=e.target,ds=t.dataset||{};
+  if(ds.dq){S.today.dq[ds.dq]=t.value}
+  if(ds.ty){S.today.types[ds.ty]=t.checked;renderAll()}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='tq-today')tdDo('askgo')});
+const VIEWS={today:vToday,home:vHome,action:vAction,fin:vFin,access:vAccess,part:vPart,ag:vAg,promo:vPromo,trust:vTrust};
+const TITLES={today:'Today',home:'Home',action:'Action Center',fin:'Partner P&L & Cash',access:'Access & Invoicing',part:'Partnership & Renewal',ag:'Wolfie PA Impact',promo:'Active promotions',trust:'Compliance & Trust'};
 </script>
 <style>.page.homep{display:flex;flex-direction:column;padding-bottom:14px}.homep .chatwrap{flex:1;width:100%;min-height:0}.thread:empty{display:none}
 .homep .chatwrap{display:flex;flex-direction:column;overflow:auto;padding-right:4px}
@@ -924,6 +1108,14 @@ const P=(h)=>({t:'p',h}),F=(...i)=>({t:'fu',i});
 const SRC=(...s)=>({t:'src',s});
 const ACT=(fx,title,desc,label)=>({t:'act',fx,title,desc,label});
 const RULES=[
+ {m:/(exposure|enrollment drops?|enrollment.*(down|drop|fall))/,f:()=>{const r=TM.whatIf(TD.base,{enrollPct:-2,discPts:0,policy:false});return {steps:['Running the enrollment what-if on the base case','Carrying the revenue change into cash'],blocks:[
+  {t:'stats',i:[['Net tuition revenue','$'+r.ntrM.toFixed(1)+'M',(r.deltaNtrM>=0?'+':'-')+'$'+Math.abs(r.deltaNtrM).toFixed(1)+'M vs base'],['Days cash on hand',String(Math.round(r.daysCash)),(r.deltaDays>=0?'+':'')+r.deltaDays.toFixed(1)+' days'],['Enrollment change','-2%','Illustrative']]},
+  P('A 2% drop in enrollment is associated with about <b>$'+Math.abs(r.deltaNtrM).toFixed(1)+'M less net tuition revenue</b> and roughly <b>'+Math.abs(r.deltaDays).toFixed(1)+' fewer days of cash</b> this year. <span class="sub">Illustrative: assumes '+Math.round(TD.base.inYearShare*100)+'% of the revenue change reaches cash this year. Use the sliders on Today for other cases.</span>'),
+  F('What changed this week?','Why is cash slow?'),SRC('Tuition model (illustrative)','Census file')]}}},
+ {m:/(why is cash slow)/,f:()=>{const b=TM.agingBuckets(TD.cash.accounts),inv=tdInv();return {steps:['Reading the 30-day cash forecast','Checking receivables and partner payments'],blocks:[
+  {t:'stats',i:[['Days cash on hand','142','Budget 135'],['Past due receivables','$'+TM.pastDueTotal(b).toFixed(1)+'M','$'+b[3].amt.toFixed(1)+'M past 60 days'],['Fall Access invoice','$2.44M','Due Nov 20, '+inv.label.toLowerCase()]]},
+  P('Cash is not slow in total. <b>Days cash is above budget</b>. The slow parts are student receivables aging past 60 days and the Access invoice timing, which is held until the census date is confirmed.'),
+  F('What is my exposure if enrollment drops 2%?','What changed this week?'),SRC('Bursar ledger','Partner invoice ledger')]}}},
  {m:/(alumni segment|alumni.*perform)/,f:()=>({steps:['Reading alumni sales across store and e-commerce','Comparing channels and the golf pro shop collabs'],blocks:[
   {t:'stats',i:[['Alumni in-store','+2%','vs last year'],['Emblematic merchandise','+19%','Since Q2, driven by golf pro shop collabs'],['E-commerce','+12%','Year over year']]},
   P('Alumni sales in store are up <b>2%</b>, so the growth is not coming from the register. The <b>golf pro shop collabs are driving emblematic merchandise up 19% since Q2</b>, and <b>e-commerce is up 12% year over year</b>. Alumni are buying more online and through partner venues than at the store.'),

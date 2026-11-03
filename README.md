@@ -43,3 +43,13 @@ A strategic partnership review view in `group.html`, replacing the hand-built de
 - **State:** Edited takeaways, pinned or removed highlights, deck choices, notes and action items are kept per campus for the session. Reset demo state clears them. Open action items carry forward for that campus.
 - **Swapping in real data:** replace `SPRDATA.build(campus, period, ctx)` with a function that returns the same shape. Nothing else reads the mock values.
 - **Wording:** generated copy says "associated with" and compares against the prior-year period. It makes no causal claims.
+
+
+## Today tab (CFO view) and shared state
+A morning view in `cfo.html` (Today, first item in the sidebar): what changed, what needs a decision, vital signs, cash, enrollment, partner scorecard, risk, a 60-day calendar, a what-if and a board one-pager. All data is synthetic, and modeled figures are labeled Modeled or Illustrative.
+
+- **Files:** `today-model.js` holds the pure logic (status evaluation, feed ranking, aging buckets, what-if math, invoice state) and the mock data in one module. `cfo.html` only renders it.
+- **Shared state:** `CampusBus` in `campus-data.js` carries `invoiceDispute`, `reconRequested`, `reconDone`, `tasks`, `delegations`, `decisions` and `todayDec`, next to the existing flags. `CampusBus.live.invoiceStatus()` gives one invoice status (open, disputed, reconciliation, reconciled, approved) that both the CFO Today tab and the Sales Command Center read. `CampusBus.logDecision()` and `CampusBus.addTask()` write the decision log and partner tasks. Reset demo state clears all of it.
+- **Two-way flow:** The CFO approving, disputing or requesting a reconciliation updates the seller's banner and creates a task for the partner team. The seller marking that task done flips the invoice to Reconciled for the CFO.
+- **Thresholds:** Each vital sign has a default `{watch, off}` pair in `TODAYDATA.kpis`. Editing it in the UI changes status immediately and is kept for the session.
+- **Swapping in real sources:** replace `TODAYDATA` with an API response of the same shape. The pure functions only read plain objects.
