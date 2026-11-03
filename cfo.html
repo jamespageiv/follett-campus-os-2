@@ -854,7 +854,7 @@ const PROMOS=[
  {id:'hy',t:'Hydro flask sale',d:'Dec 2 to 10',o:'25% off flasks and accessories',img:'promo-hydro.jpg',st:'Upcoming',pill:'blue',n:'Store and online.'},
  {id:'lp',t:'Sequoia Sunrise launch party',d:'Oct 21',o:'Campus coffee collab launch',img:'promo-launch.jpg',st:'Recent',pill:'gray',n:'A campus-exclusive collab with a local roaster.'},
  {id:'gd',t:'Game-day gear',d:'Ongoing',o:'Wolfpack apparel for game day',img:'promo-gameday.jpg',st:'Active',pill:'green',n:'Pairs with the Arena Store pop-up.'},
- {id:'ds',t:'In-store display',d:'Ongoing',o:'Mugs, bottles and plush by the register',img:'promo-store.jpg',st:'Active',pill:'green',n:'Gift-ready merchandise.'}];
+ {id:'ds',t:'Golf Pro Shop Collab',d:'Ongoing',o:'Emblematic merchandise with golf partners',img:'promo-store.jpg',st:'Active',pill:'green',n:'Same merchandise on the e-commerce and POS stack.'}];
 function promoRail(){
   return `<div class="prm"><h6 style="display:flex;justify-content:space-between;align-items:center">Active promotions<span class="link" data-go="promo" style="font-size:11px;text-transform:none;letter-spacing:0">View all</span></h6>${PROMOS.slice(0,2).map(p=>`<div class="prc" data-go="promo" title="${p.t}"><img src="${p.img}" alt=""><div><b>${p.t}</b><small>${p.d}</small></div></div>`).join('')}</div>`;
 }
@@ -1128,7 +1128,7 @@ const RULES=[
   {t:'stats',i:[['Emblematic merchandise','+19%','Since Q2, golf pro shop collabs'],['Spring pilot sales',fmtK(g.revK),'Golf Pro Shop pilot at the university course'],['Your commission',fmtK(g.commK),'Same merch, e-commerce and POS stack']]},
   P('The pro shop collabs are the strongest lift in the alumni segment, and the spring pilot adds a <b>new venue on the same stack</b>, so there is no new system to run. The open questions are venue agreement with the university course and whether the lift holds outside the first season.'),
   ACT('calendarAll','Approve all spring lines','Includes the Golf Pro Shop pilot. Writes every line to the event calendar.','Approve all'),F('Explore campaign attribution','Which spring campus commerce lines should I approve?'),SRC('POS and e-commerce ledgers (aggregate)','Event calendar')]}}},
- {m:/(promotion|black friday|hydro|launch party|game.day gear|in.store display|tell me about the)/,f:()=>({steps:['Reading the Follett marketing calendar','Checking POS offers and online discount rules'],blocks:[
+ {m:/(promotion|black friday|hydro|launch party|game.day gear|golf pro shop|tell me about the)/,f:()=>({steps:['Reading the Follett marketing calendar','Checking POS offers and online discount rules'],blocks:[
   {t:'tbl',h:['Promotion','Dates','Offer','Status'],r:PROMOS.map(p=>[p.t,p.d,p.o,p.st])},
   P('Offers run in store and online through Follett POS. The online discount applies once the order is processed, and the Pre-Black Friday offer cannot be combined with others. Results land in <b>Partner P&amp;L &amp; Cash</b> as the sales come in.'),
   F('Which spring campus commerce lines should I approve?','Show me the Arena Store pop-up results'),SRC('Follett marketing calendar','POS event history')]})},
