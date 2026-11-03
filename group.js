@@ -329,8 +329,100 @@ function commerceMonitor(){
 }
 
 /* ====================== access growth console ====================== */
-function vGrowth(){
-  var ap=B.state().accessPlan,h='<div class="row" style="align-items:center"><h2 style="font-size:20px;flex:1">Access Growth Console</h2><span class="tag new">Access Growth agent</span></div><div class="sub">Leads from market managers, department clusters, campus rollups and automated plays. Two motions: bottoms-up student campaigns and top-down "save students $X" account plans.</div>';
+/* ====================== Access Growth Console: Northfield land-and-expand plan ====================== */
+/* Synthetic. Names are fictional roles for the demo. Percentages are the share of course sections on Access (Assumed). */
+var NG_GOALS=[['Affordability','Lower the cost of course materials for every student'],['Retention','Persistence to 87% by 2028'],['Career readiness','Experiential learning in every college'],['Fund student success','Revenue that returns to campus, including athletics']];
+var NG_COLLEGES=[
+  {id:'bus',n:'Business',students:4200,depts:[['Economics',78],['Accounting',62],['Finance',48],['Management',15],['Marketing',22]]},
+  {id:'as',n:'Arts and Sciences',students:9100,depts:[['Biology',55],['Chemistry',44],['Mathematics',36],['Psychology',18],['English',0]]},
+  {id:'hs',n:'Health Sciences',students:3300,depts:[['Nursing',70],['Public health',10]]},
+  {id:'eng',n:'Engineering',students:4600,depts:[['Engineering core',24],['Computer science',12]]},
+  {id:'edu',n:'Education',students:3600,depts:[['Elementary education',0],['Secondary education',8]]}];
+var NG_PLAYS=[
+ {id:'bus',t:'Business: from two departments to the whole college',move:'Department to college',target:'Business',
+  why:'Economics and Accounting are already above 60%, and Finance is close. A repricing on three Business courses doubled opt-outs to 11.8%, so the college is also where the CFO feels the cost today.',
+  people:[['Raymond Okafor','Dean of Business','Competitive programs and student cost','One college-wide price and one adoption rule, with peer Business schools as proof'],
+          ['Victor Salazar','Economics chair, faculty champion','Day-one access for students','Share the department results with the other four chairs'],
+          ['Dana Whitfield','CFO','Net tuition revenue and opt-out loss','About $21.6K a term of Access revenue is at risk until the pricing is fixed']],
+  solution:['Total Access for Business, priced once for the college','Pricing and adoption review with the publisher before the Nov 14 spring deadline','Early-warning signals for gateway Business courses'],
+  steps:[['Nov 3','Dean','One-pager and email','What peer Business schools save with one college rate'],['Nov 5','Chairs','Department meeting','Economics chair shares day-one access results'],
+         ['Nov 7','Dean and chairs','Peer roundtable','Three peer Business deans, 45 minutes'],['Nov 10','CFO','Executive note','Opt-out revenue at risk and the pricing fix'],
+         ['Nov 14','Faculty','Adoption reminder','Spring adoption deadline nudge to Finance, Management and Marketing']],
+  next:[['Access sales director','Book the dean and chairs roundtable','Nov 5'],['Market manager, Business','Send adoption reminders to three departments','Nov 10'],['Program lead','Draft the college-wide price','Nov 12']],
+  out:{students:1600,saveM:0.52,revM:0.2,ret:'Credited retention lift on gateway Business courses',goals:['Affordability','Retention']},when:'Decision by the Nov 14 adoption deadline, live for spring'},
+ {id:'sci',t:'Sciences: Biology and Chemistry as one gateway cluster',move:'Department to cluster',target:'Arts and Sciences',
+  why:'Week-6 access in CHEM 1101 and BIOL 1106 sits 8 to 13 points below last fall. These are the gateway courses where retention is won or lost.',
+  people:[['Lena Marchetti','Dean of Arts and Sciences','Gateway course success','Link Access to early-warning signals for the five gateway courses'],
+          ['Anita Rao','Chemistry chair','Course materials ready on day one','Show the week-6 gap and how Access closes it'],
+          ['Helen Ostrander','Provost','Retention and academic outcomes','Matched-cohort evidence, aggregate only']],
+  solution:['Access for the Biology and Chemistry gateway sections','Course-level engagement signals shared with the Provost, never student names','Tutoring booking in Wolfie for the same courses'],
+  steps:[['Nov 4','Provost','Executive brief','Gateway course signals and the cohort evidence'],['Nov 6','Chairs','1:1 conversations','Walk through the week-6 data'],
+         ['Nov 12','Dean','Working session','Agree the cluster and the spring sections'],['Nov 17','Faculty','Case study email','What changed in the first Econ sections']],
+  next:[['Market manager, Arts and Sciences','Confirm spring adoptions for Biology and Chemistry','Nov 12'],['Access sales director','Brief the Provost on the gateway signals','Nov 6']],
+  out:{students:1900,saveM:0.46,revM:0.17,ret:'Fewer gateway course drops, associated with day-one access',goals:['Retention','Affordability']},when:'Spring sections, results in the week-6 data'},
+ {id:'hs',t:'Health Sciences: Nursing as the template for the college',move:'Pilot to college',target:'Health Sciences',
+  why:'Nursing is at 70% and the dean already asked for a savings summary. The college has the strongest tie to career readiness.',
+  people:[['Imani Cole','Dean of Health Sciences','Licensure pass rates and clinical placement','Pair Access with exam prep and experiential tracks'],
+          ['Rosa Delgado','Nursing program director','Predictable costs per cohort','One cohort price, set once']],
+  solution:['Cohort-priced Access for Nursing and Public health','Experiential learning bundle tied to clinical rotations'],
+  steps:[['Nov 5','Dean','Savings summary','Cost per cohort and per student'],['Nov 11','Program directors','Working session','Cohort pricing and experiential bundle'],['Nov 19','Dean','Follow-up','Proposal and a start term']],
+  next:[['Access sales director','Send the savings summary to the dean','Nov 5'],['Program lead','Draft the experiential bundle','Nov 18']],
+  out:{students:900,saveM:0.31,revM:0.12,ret:'Cohort stability through a program',goals:['Career readiness','Affordability']},when:'Cohort pricing for the spring intake'},
+ {id:'full',t:'Whole campus: Total Access for the Northfield renewal',move:'College to full Access',target:'Whole campus',
+  why:'The operating agreement ends Aug 31, 2027 and the RFP window opens in January. Full Access is the cleanest way to lock the renewal and the retention story together.',
+  people:[['Helen Ostrander','Provost','Retention and outcomes','Total Access ties to persistence and course-day access'],
+          ['Dana Whitfield','CFO','Net tuition revenue, one rate, one census rule','Billing gets simpler and student savings are reported'],
+          ['Renee Castillo','Registrar','Clean add/drop and census dates','One rule ends the invoice disputes']],
+  solution:['Total Access, campus-wide, tied to the operating agreement','Savings and retention reporting each term','Wolfie assistant included for students'],
+  steps:[['Dec 2','Provost and CFO','Executive briefing','Save students $1.6M a term and the outcome evidence'],['Jan 14','Provost','RFP window briefing','What full Access does for the renewal'],
+         ['Feb 10','Board','Board finance committee','Business case and implementation plan'],['Apr 15','Contract','Signature target','Signed for an August launch']],
+  next:[['Group VP','Agree the executive briefing date with the Provost','Nov 20'],['Access sales director','Draft the account plan','Nov 12'],['Total Access program lead','Scope implementation (90 to 180 days, assumed)','Dec 1']],
+  out:{students:24800,saveM:1.61,revM:0.62,ret:'Persistence tracked against the matched cohort',goals:['Affordability','Retention','Fund student success']},when:'Signed by mid-April for an August 2027 launch (assumed)'}];
+var NG_TEAM=[
+ ['Group Vice President','Ellen Brooks','Executive sponsor','Provost and CFO relationships, renewal'],
+ ['Access sales director, East','Marisol Vega','Net new Access programs','Leads the top-down account plan'],
+ ['Total Access program lead','Teodoro Reyes','Post-sale management','Pricing, faculty education, reporting'],
+ ['Campus store manager','Jordan Ellis','Day-to-day on campus','Adoption lists and faculty access'],
+ ['Course materials market managers','One per college','Faculty relationships','Own the leads in their college'],
+ ['Campaign marketing','B2B campaign owner','Account-based sequences','Runs the touches on each play'],
+ ['Access Growth agent','Agent','Ranks plays, drafts plans','Queues campaigns. People approve every send.']];
+var NG_CMM=[['Business','4','3 leads'],['Arts and Sciences','8','2 leads'],['Health Sciences','2','1 lead'],['Engineering','3','1 lead'],['Education','2','0 leads']];
+function ngCov(c){return Math.round(c.depts.reduce(function(t,d){return t+d[1]},0)/c.depts.length)}
+function ngReady(c){var n=c.depts.filter(function(d){return d[1]>=50}).length;return n/c.depts.length}
+function ngStatus(c){var r=ngReady(c);return r>=0.4?['Within reach','ok']:r>0?['Building','blue']:['Seed','']}
+function vNorthfield(){
+  var allD=[];NG_COLLEGES.forEach(function(c){allD=allD.concat(c.depts)});
+  var d50=allD.filter(function(d){return d[1]>=50}).length,reach=NG_COLLEGES.filter(function(c){return ngReady(c)>=0.4}).length,full=NG_COLLEGES.filter(function(c){return ngCov(c)>=75}).length;
+  var ap=B.state().accessPlan,h='<div class="row" style="align-items:center"><h2 style="font-size:20px;flex:1">Access Growth Console</h2><span class="tag new">Access Growth agent</span></div>'+
+   '<div class="sub">Northfield State: where Access is today, which departments can become whole colleges, and the plan to reach full Access. Each play names the team, the people, the campaign, the next steps and the outcome.</div>';
+  h+='<div class="card" style="margin-top:12px"><div class="row" style="align-items:center;flex-wrap:wrap;gap:8px"><b>Campus goals this plan serves</b>'+NG_GOALS.map(function(g){return '<span class="chip" title="'+esc(g[1])+'">'+g[0]+': '+g[1]+'</span>'}).join('')+'</div></div>';
+  /* the ladder */
+  var rungs=[['Courses','38 courses live','Land with faculty champions'],['Departments',d50+' of '+allD.length+' above 50%','Scale inside the department'],['Colleges',full+' of 5 college-wide ('+reach+' within reach)','Convert departments to a college'],['Campus partial','412 of 1,180 sections (35%)','Add colleges one by one'],['Full Access','Target: Aug 2027','Total Access, tied to the renewal']];
+  h+='<div class="card" style="margin-top:12px"><h3>The path from department to full Access</h3><div class="sub">Northfield is between the department and college rungs.</div><div class="ladder">'+rungs.map(function(r,i){return '<div class="rung '+(i<2?'done':i===2?'now':'')+'"><i>'+(i+1)+'</i><b>'+r[0]+'</b><span>'+r[1]+'</span><small>'+r[2]+'</small></div>'}).join('')+'</div></div>';
+  h+='<div class="card" style="margin-top:12px;padding:0;overflow:auto"><table><thead><tr><th>College</th><th class="num">Students</th><th style="min-width:120px">Sections on Access</th><th>Departments</th><th>Status</th></tr></thead><tbody>'+NG_COLLEGES.map(function(c){var st=ngStatus(c),cv=ngCov(c);
+    return '<tr><td><b>'+c.n+'</b></td><td class="num">'+c.students.toLocaleString()+'</td><td><div class="bar '+(cv<30?'bad':cv<60?'mid':'')+'"><i style="width:'+cv+'%"></i></div><span class="sub">'+cv+'% average</span></td><td style="white-space:normal">'+c.depts.map(function(d){var hu=Math.round(d[1]*1.3);return '<span class="dpt" style="background:hsl('+hu+',60%,90%);color:hsl('+hu+',60%,22%)">'+d[0]+' '+d[1]+'%</span>'}).join('')+'</td><td><span class="tag '+st[1]+'">'+st[0]+'</span></td></tr>'}).join('')+'</tbody></table></div>';
+  /* the plays */
+  h+='<div class="sec"><h2>Growth plays, ranked</h2><span class="sub">Ranked by the agent on student savings, retention fit and timing. Reason on each card.</span></div>';
+  NG_PLAYS.forEach(function(p,i){var cq=S.motion['ngc:'+p.id],ct=S.motion['ngt:'+p.id],o=p.out;
+    h+='<div class="card ngp" id="ng-'+p.id+'"><div class="ngh"><span class="n">'+(i+1)+'</span><div style="flex:1"><h3>'+p.t+'</h3><div class="sub"><span class="tag blue">'+p.move+'</span> Target: '+p.target+' &middot; Timing: '+p.when+'</div></div></div>'+
+     '<div class="why" style="margin:8px 0">Agent reason: '+p.why+'</div>'+
+     '<div class="grid g2" style="gap:14px"><div><h4>Key people and the message for each</h4><table class="ngt"><tbody>'+p.people.map(function(x){return '<tr><td><b>'+x[0]+'</b><br><span class="sub">'+x[1]+'</span></td><td><span class="sub">Cares about:</span> '+x[2]+'<br><span class="sub">Message:</span> '+x[3]+'</td></tr>'}).join('')+'</tbody></table>'+
+       '<h4 style="margin-top:10px">What we bring</h4><ul class="ngl">'+p.solution.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul></div>'+
+     '<div><h4>Account-based campaign</h4><ol class="ngc">'+p.steps.map(function(s){return '<li><b>'+s[0]+'</b> &middot; '+s[1]+' &middot; '+s[2]+'<br><span class="sub">'+s[3]+'</span></li>'}).join('')+'</ol>'+
+       '<h4 style="margin-top:10px">Next steps</h4><table class="ngt"><tbody>'+p.next.map(function(x){return '<tr><td>'+x[1]+'<br><span class="sub">'+x[0]+'</span></td><td class="num">'+(ct?'<span class="tag ok">In CRM</span>':x[2])+'</td></tr>'}).join('')+'</tbody></table></div></div>'+
+     '<div class="kvs ngo" style="margin-top:12px"><div><b>'+o.students.toLocaleString()+'</b><span>Students in scope</span></div><div><b>$'+o.saveM.toFixed(2)+'M</b><span>Student savings per term (modeled)</span></div><div><b>$'+o.revM.toFixed(2)+'M</b><span>Follett revenue per term (assumed)</span></div><div style="min-width:220px"><b style="font-size:13px;font-weight:600">'+o.ret+'</b><span>Expected outcome, associated with Access, not proof of cause</span></div></div>'+
+     '<div class="row" style="align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap"><span class="sub">Serves:</span>'+o.goals.map(function(g){return '<span class="tag new">'+g+'</span>'}).join('')+'<span style="flex:1"></span>'+
+       (ct?'':'<button class="btn" data-a="ngt:'+p.id+'">Add next steps to CRM</button>')+(cq?'<span class="tag ok">Campaign queued: '+p.steps.length+' touches</span>':'<button class="btn pri" data-a="ngc:'+p.id+'">Queue the campaign</button>')+'</div></div>';});
+  /* the team */
+  h+='<div class="sec"><h2>The team working Northfield</h2><span class="sub">Team selling: one owner for each relationship and each rung</span></div>';
+  h+='<div class="grid g2"><div class="card" style="padding:0;overflow:auto"><table><thead><tr><th>Role</th><th>Who</th><th>Owns</th></tr></thead><tbody>'+NG_TEAM.map(function(t){return '<tr><td><b>'+t[0]+'</b></td><td>'+t[1]+'</td><td style="white-space:normal">'+t[2]+'<br><span class="sub">'+t[3]+'</span></td></tr>'}).join('')+'</tbody></table></div>'+
+   '<div class="card"><h3>Course materials market managers by college</h3><div class="sub">The people on campus faculty already call. They own the leads and the department-level nudges.</div><table style="margin-top:6px"><thead><tr><th>College</th><th class="num">Managers</th><th class="num">Open leads</th></tr></thead><tbody>'+NG_CMM.map(function(r){return '<tr><td>'+r[0]+'</td><td class="num">'+r[1]+'</td><td class="num">'+r[2]+'</td></tr>'}).join('')+'</tbody></table>'+
+   '<div class="assume" style="margin-top:10px">Assumed sales rhythm: peak selling in September to October and February to March, with a signature by mid-April for an August launch and 90 to 180 days to implement.</div></div></div>';
+  return h;
+}
+function vGrowth(){return vNorthfield()+vGrowthGroup()}
+function vGrowthGroup(){
+  var ap=B.state().accessPlan,h='<div class="sec"><h2>Across the East Group</h2><span class="sub">Leads from market managers, department clusters, campus rollups and automated plays. Two motions: bottoms-up student campaigns and top-down "save students $X" account plans.</span></div>';
   h+='<div class="grid g2" style="margin-top:12px"><div class="card"><h3>Lead feed</h3><div class="sub">From about 200 market managers who already talk to faculty (Assumed ratio)</div><table style="margin-top:6px"><tbody>'+LEADS.map(function(l){var c=byId[l.c],sent=S.leads[l.id];return '<tr><td><b>'+c.n+'</b><br><span class="sub">'+l.d+' &middot; '+l.s+'</span></td><td style="text-align:right">'+(sent?'<span class="tag ok">With Access team</span>':'<button class="btn sm" data-a="lead:'+l.id+'">Send to Access team</button>')+'</td></tr>'}).join('')+'</tbody></table></div>'+
    '<div class="card"><h3>FOMO clusters by department</h3><div class="sub">Departments where peers already moved. Aggregate only, never individuals.</div><table style="margin-top:6px"><thead><tr><th>Department</th><th>Campuses</th><th class="num">Peers on Access</th></tr></thead><tbody>'+[['Economics','Northfield State, Ridgeway State',D.ACCESSPLAN.clusters.length+4],['Chemistry','Ridgeway State, Calloway University',7],['Biology','Northfield State, Magnolia State',6],['Business','Harbor Point University, Northfield State',9],['Nursing','Lakeshore University',3]].map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td>'+r[1]+'</td><td class="num">'+r[2]+'</td></tr>'}).join('')+'</tbody></table></div></div>';
   h+='<div class="grid g2" style="margin-top:14px"><div class="card"><h3>Automated play: bottoms-up student campaign</h3><div class="sub">Peer signal ("most Econ 2010 sections already use Access"), never individuals.</div>'+
@@ -598,6 +690,8 @@ document.addEventListener('click',function(e){
    case 'spract':{var E8=sprEd(S.campus),acts=spA(E8,sprData(byId[S.campus]));
      if(a[1]==='add'){var ni=$('#actnew'),nv=ni&&ni.value.trim();if(nv)acts.push({id:'n'+acts.length+'x',t:nv,owner:'Seller',due:'2026-11-15',status:'open'})}
      else if(a[1]==='done'){var it=acts[+a[2]];it.status=it.status==='done'?'open':'done'}else if(a[1]==='rm')acts.splice(+a[2],1);break}
+   case 'ngc':S.motion['ngc:'+a[1]]=1;toast('Campaign queued. Marketing has the sequence and every send needs approval.');break;
+   case 'ngt':S.motion['ngt:'+a[1]]=1;toast('Next steps added to the CRM with owners and dates.');break;
    case 'askq':ask(el.getAttribute('data-q'));return;
    case 'askgo':ask($('#askin').value.trim());return;
    case 'cfo':try{window.parent.postMessage({campusosNav:'cfo'},'*')}catch(x){}toast('Opening the CFO workspace');return;

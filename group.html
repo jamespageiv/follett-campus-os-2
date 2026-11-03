@@ -120,6 +120,20 @@ html.ro .nav,html.ro .crumbs{display:none}
 #printroot{display:none}.prdoc h1{font-size:22px;margin-bottom:4px}
 @media print{body{display:block;overflow:visible;height:auto}body>*:not(#printroot){display:none!important}#printroot{display:block;padding:16px}.sprsec{break-inside:avoid}}
 @media(max-width:980px){.sprwrap{grid-template-columns:1fr}.sprjump{position:static;flex-direction:row;flex-wrap:wrap}.hb{grid-template-columns:110px 1fr 60px 50px}}
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:12px}
+.rung{position:relative;padding:34px 10px 4px;text-align:center;font-size:12px}
+.rung:before{content:"";position:absolute;top:13px;left:-50%;right:50%;height:5px;background:#e1e5ea}.rung:first-child:before{display:none}
+.rung.done:before,.rung.now:before{background:var(--teal)}
+.rung i{position:absolute;top:3px;left:50%;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid #b9c0cd;font-style:normal;font-weight:800;font-size:11px;display:grid;place-items:center;z-index:1}
+.rung.done i{background:var(--teal);border-color:var(--teal);color:#fff}.rung.now i{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.rung b{display:block;font-size:13px}.rung span{display:block;color:var(--ink);margin-top:2px}.rung small{display:block;color:var(--mut);margin-top:2px}
+.dpt{display:inline-block;margin:2px 4px 2px 0;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.ngp{margin-top:12px}.ngh{display:flex;gap:12px;align-items:flex-start}.ngh .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;font-size:12px;display:grid;place-items:center}
+.ngp .why{background:#f6f7f9;border-left:3px solid var(--gold);padding:6px 10px;border-radius:0 6px 6px 0;font-size:12.5px;color:var(--ink)}
+.ngp h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:0 0 4px}
+.ngt td{white-space:normal;font-size:12.5px;vertical-align:top}.ngl{margin:4px 0 0;padding-left:18px;font-size:12.5px;display:grid;gap:3px}
+.ngc{margin:4px 0 0;padding-left:18px;font-size:12.5px;display:grid;gap:6px}.ngo{background:#f8f9fb;border-radius:10px;padding:10px 14px}
+@media(max-width:900px){.ladder{grid-template-columns:1fr;gap:8px}.rung{padding:0 0 0 34px;text-align:left}.rung:before{display:none}.rung i{left:0;top:0;transform:none}}
 </style>
 </head>
 <body>
