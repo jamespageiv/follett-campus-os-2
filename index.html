@@ -219,6 +219,9 @@ body.pm .talk{display:block}
 .wrap.wide{max-width:1780px}
 .vig:not(#v-stud) .win{max-width:1378px;margin-left:auto;margin-right:auto}
 .s3grid{display:grid;grid-template-columns:490px 1fr;gap:18px;align-items:start}
+.rsrow{display:flex;justify-content:flex-end;max-width:1378px;margin:0 auto 8px}
+.rsb{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:5px 14px;font:600 12.5px inherit;font-family:inherit;cursor:pointer}
+.rsb:hover{background:rgba(255,255,255,.2)}
 .cfogrid{display:grid;grid-template-columns:924px 400px;gap:18px;align-items:start;justify-content:center;max-width:1378px;margin:0 auto}
 .ipad{position:relative;width:924px;padding:22px;border-radius:44px;background:#15171c;box-shadow:inset 0 0 0 2px #2c2f36,0 14px 40px rgba(14,36,51,.28)}
 .ipad:after{content:"";position:absolute;left:50%;top:8px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#2e323a}
@@ -1281,6 +1284,7 @@ build();
 <div class="talk"><b>Talk track · student vignette (I'll walk through the demo scroll)</b><p>"Hey Emma, midterms are behind you. Let me know if you want me to sign you up for some tutoring in Econ. They have some open spots on Wednesday mornings."</p><p>Someone is going to do this. I have a version of it on my phone right now. I only gave my agent my email address and it just monitors it. About three weeks in, it had figured out what was important to me. One Saturday afternoon I got a text: "James, just a reminder, the kids won't have school on 11/2 and 11/3. Tomorrow's the last day to register for the day camp at Long Elementary. Want me to reserve a spot?"</p><p>That was one data source, and it is full of terrible data. What if it knew all my courses, my learning materials, my faculty, all my past semesters, grades and progress? What if my agent knew every opportunity to engage with my fellow students and help me connect?</p><p>To pull that off takes trust, which is your first company value. What builds trust? Data, and time. The more you learn about someone over a longer period, the more you know how much you can trust them.</p><div id="momNotes"></div></div>
 </div>
 <div class="vig" id="v-cfo">
+<div class="rsrow"><button class="rsb" id="cfoReset" title="Clear every approval on every surface">Reset demo</button></div>
 <div class="win"><div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="url">Follett Partnership Portal · Northfield State University</span><span class="sim">SIMULATED</span></div>
 <iframe class="cfof" title="Follett Partnership Portal" data-src="cfo.html"></iframe></div>
 <div class="talk"><b>Talk track · CFO vignette and close</b><p>Click through. Watch the moment the CFO approves, and the moment Follett's days-to-pay drops.</p><p>The three campus ideas sit on the same screen as decisions to approve: First Shelf, Earn Your Colors and Campus Comes to Town.</p><p>So with the critical data you have today, some you leverage and some stashed in silos, and with data we are confident you can obtain, we believe you can build the Follett Campus OS.</p></div>
@@ -1337,6 +1341,7 @@ build();
 
 <script>
 const $=s=>document.querySelector(s);
+$('#cfoReset').onclick=()=>{const f=document.querySelector('#v-cfo iframe');if(f&&f.contentWindow)f.contentWindow.postMessage({campusosCfo:{cmd:'reset'}},'*')};
 $('#pmt').onclick=()=>{document.body.classList.toggle('pm');$('#pmt').textContent='Presenter notes: '+(document.body.classList.contains('pm')?'on':'off')};
 try{const st=JSON.parse(localStorage.getItem('campusos.state.v1')||'{}');const keep={beatsOn:st.beatsOn,runOfShow:st.runOfShow};if(!keep.beatsOn)delete keep.beatsOn;if(!keep.runOfShow)delete keep.runOfShow;localStorage.setItem('campusos.state.v1',JSON.stringify(keep))}catch(e){}
 let _bo=null;
