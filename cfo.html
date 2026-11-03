@@ -192,16 +192,6 @@ tr.clk{cursor:pointer}tr.clk:hover td{background:#f8f9fb}
 .seg button{border:0;background:#fff;padding:7px 14px;font-size:13px;font-weight:600;border-right:1px solid var(--line)}
 .seg button:last-child{border-right:0}
 .seg button.on{background:var(--blue);color:#fff}
-.tl{position:relative;height:96px;margin:6px 10px 0}
-.tl .ln{position:absolute;left:0;right:0;top:44px;height:6px;border-radius:99px;background:#e1e5ea}
-.tl .done{position:absolute;left:0;top:44px;height:6px;border-radius:99px;background:var(--teal)}
-.tl .m{position:absolute;top:36px;transform:translateX(-50%);text-align:center;width:96px;font-size:11px}
-.tl .m i{display:block;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--maroon);margin:0 auto 4px}
-.tl .m.now i{background:var(--clay);border-color:var(--clay);width:18px;height:18px;margin-top:-2px}
-.tl .m.up i{border-color:var(--gold)}
-.tl .m.top{top:-4px}.tl .m.top i{margin-top:56px}
-.tl .m.top span{position:absolute;top:0;left:0;right:0}
-.tl .m b{display:block;font-size:11.5px}
 input[type=range]{width:100%}
 .slrow{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin:8px 0;font-size:13px}
 .slrow b{text-align:right}
@@ -284,6 +274,17 @@ html.ipad .alerts{grid-template-columns:repeat(2,1fr)}
 @media print{body>*:not(#printroot){display:none!important}#printroot{display:block!important;padding:16px;background:#fff}.prdoc table{width:100%;border-collapse:collapse}.prdoc td,.prdoc th{border-bottom:1px solid #ccc;padding:4px 6px;text-align:left;font-size:12px}}
 @media(max-width:1180px){.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.tdtop{grid-template-columns:1fr!important}}
 @media(max-width:700px){.vgrid{grid-template-columns:1fr}.hbr{grid-template-columns:80px 1fr 70px}}
+.tls{display:grid;grid-template-columns:repeat(5,1fr);margin:14px 0 4px}
+.tls .st{position:relative;text-align:center;padding-top:30px;font-size:12px}
+.tls .st:before{content:"";position:absolute;top:10px;left:-50%;right:50%;height:5px;background:#e1e5ea}
+.tls .st:first-child:before{display:none}
+.tls .st.reached:before{background:var(--teal)}
+.tls .st i{position:absolute;top:3px;left:50%;transform:translateX(-50%);width:19px;height:19px;border-radius:50%;background:#fff;border:3px solid #b9c0cd;z-index:1}
+.tls .st.reached i{border-color:var(--teal)}
+.tls .st.now i{background:var(--clay);border-color:var(--clay)}
+.tls .st.future i{border-color:var(--gold)}
+.tls .st b{display:block;font-size:13px}.tls .st span{color:var(--mut)}
+@media(max-width:700px){.tls{grid-template-columns:1fr;gap:10px}.tls .st{padding:0 0 0 30px;text-align:left}.tls .st:before{display:none}.tls .st i{left:0;top:2px;transform:none}}
 .srcl{font-size:11.5px;color:var(--mut);margin:8px 2px 0}
 .logoimg{height:34px;width:auto;display:block}
 .pby{display:flex;align-items:center;gap:8px;margin-left:6px;padding-left:14px;border-left:1px solid #e3e3e3;font-size:11px;color:var(--mut);white-space:nowrap}
@@ -757,11 +758,10 @@ function vAccess(){
 function vPart(){
   const score=Math.round(DRIVERS.reduce((a,d)=>a+d[1]*d[2],0)/100);
   const C=2*Math.PI*52,off=C*(1-score/100);
-  const markers=[['2017',0,'Agreement starts',0],['Oct 2026',87,'You are here',1],['Jan',92,'RFP expected',0],['Mar',95,'Proposals due',0],['Aug 31, 2027',100,'Expiry',0]];
+  const markers=[['2017',0,'Agreement starts',0],['Oct 2026',87,'You are here',1],['Jan 2027',92,'RFP expected',0],['Mar 2027',95,'Proposals due',0],['Aug 31, 2027',100,'Expiry',0]];
   return `<div class="h1">Partnership &amp; Renewal</div><div class="sub">Operating agreement NSU-2017 | 10-year term | $2.6M annual guarantee | Follett-operated</div>
-  <div class="card mt"><h3>Contract timeline</h3><div class="tl"><div class="ln"></div><div class="done" style="width:87%"></div>
-   ${markers.map((m,i)=>`<div class="m ${m[3]?'now':''} ${m[1]>87?'up':''} ${i%2?'top':''}" style="left:${Math.min(Math.max(m[1],4),96)}%"><i></i><span><b>${m[0]}</b>${m[2]}</span></div>`).join('')}</div>
-   <div class="sub" style="margin-top:6px">~10 months to expiry. About 100 institutions run RFPs or renewals each year. Incumbents win 60 to 70%, and decisions hinge on commission and guaranteed minimums.</div></div>
+  <div class="card mt"><h3>Contract timeline</h3><div class="tls" role="list" aria-label="Contract timeline, not to scale">${markers.map((m,i)=>`<div class="st ${i===0?'reached':i===1?'reached now':'future'}" role="listitem"><i></i><b>${m[0]}</b><span>${m[2]}</span></div>`).join('')}</div>
+   <div class="sub" style="margin-top:6px">Milestones are evenly spaced, not to scale. About 10 months to expiry. About 100 institutions run RFPs or renewals each year. Incumbents win 60 to 70%, and decisions hinge on commission and guaranteed minimums.</div></div>
   <div class="grid2 mt"><div class="card"><div style="display:flex;gap:16px;align-items:center"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#e6e8ec" stroke-width="12"/><circle cx="60" cy="60" r="52" fill="none" stroke="#0b5cd5" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/><text x="60" y="64" text-anchor="middle" font-size="30" font-weight="700">${score}</text><text x="60" y="82" text-anchor="middle" font-size="10" fill="#5d6672">of 100</text></svg><div><h3>Renewal readiness</h3><div class="sub">Weighted score across 5 drivers. Weights shown in brackets (assumed, adjustable).</div></div></div>
     ${DRIVERS.map(d=>`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between"><b>${d[0]} <span class="sub">(${d[2]}%)</span></b><span>${d[1]}</span></div><div class="bar ${d[1]<65?'red':d[1]<80?'amber':'green'}"><i style="width:${d[1]}%"></i></div></div>`).join('')}
     <button class="btn ${S.done.boardDoc?'done':'pri'} mt" style="margin-top:14px" data-fx="boardDoc">${S.done.boardDoc?'Reopen board summary':'Draft board-ready summary'}</button></div>
