@@ -1,26 +1,50 @@
-# Campus OS microsite on Heroku
+# Campus OS: concept microsite for Follett
 
-Static site (public/index.html) served by a zero-dependency Node server. Optional password gate.
+A clickable concept demo of an agentic operating system for campuses, built for conversations with Follett leadership. It shows one idea through three experiences: the student, the CFO and the sales leader. **All data is synthetic.** Campus names, people, figures and dates are placeholders, and anything marked Assumed, Modeled or Illustrative is exactly that.
 
-## Deploy (Heroku CLI)
+- **Live site:** https://jamespageiv.github.io/ollett-campus-os/
+- **Fork it:** https://github.com/jamespageiv/ollett-campus-os/fork
 
-    cd follett-campus-os-heroku
-    git init && git add . && git commit -m "Campus OS"
-    heroku create follett-campus-os        # pick any free name
-    heroku config:set SITE_PASSWORD='choose-a-password'   # optional, recommended
-    git push heroku HEAD:main
-    heroku open
+## Run it
+It is a static site with no build step, no framework and no dependencies. Serve the repo root with any static server and open `index.html`:
 
-Login when prompted: user `follett` (override with SITE_USER) and your password.
+    python3 -m http.server 8000      # then open http://localhost:8000
 
-## Update
-Replace public/index.html, then commit and `git push heroku HEAD:main`.
+Opening `index.html` straight from disk also works for most of it, but the three embedded views are iframes and the shared state uses browser storage, so a local server is more reliable.
 
-## Notes
-- Internal concept for the Follett strategy day. Keep the password on until it is ready to share more widely.
-- Search engines are told not to index it (X-Robots-Tag).
-- Needs only Node 20. Heroku Eco dynos sleep when idle; first load can take a few seconds.
+## Publish your own copy
+1. Fork the repo.
+2. In the fork, open Settings, then Pages, and deploy from branch `main`, folder `/ (root)`.
+3. The site appears at `https://<your-username>.github.io/<repo-name>/` after a minute or two.
 
+## What is in the repo
+| File | What it is |
+| :- | :- |
+| `index.html` | The microsite: opening, why now, the partnership, the demo with a toggle between The student, The CFO and The Sales leader, and the path forward with three Spring 2027 pilots. The student view is a phone-style text thread inside this file. |
+| `cfo.html` | The Partnership Portal (CFO view), loaded in the CFO window. Add `?ipad=1` for the trimmed iPad layout. |
+| `group.html`, `group.js` | The Sales Command Center (sales leader view). |
+| `campus-data.js` | The shared synthetic data for the Northfield State sample campus and 12 campuses, plus `CampusBus`, the shared state both views read and write. |
+| `agenticos-model.js` | Pure logic and mock data for the Wolfie PA Impact tab. |
+| `today-model.js` | Pure logic and mock data for the Today tab. |
+| `spr-model.js`, `spr-data.js` | Pure logic and mock data for the SPR tab. |
+| `teams.html`, `shelf.html` | Extra surfaces (CFO in Microsoft Teams, the idea shelf) that the demo toggle does not link to. |
+| `server.js`, `Procfile`, `app.json` | A legacy Heroku static server. It serves a `public/` folder that this layout does not have, so it does not work as is. Use any static server or GitHub Pages instead. |
+| Images and logos | `logo-*`, `pilot-*`, `promo-*`, `icon-*`, `icons/`, `ucla-*`, `student.png`. |
+
+Images such as `ucla-hero.jpg`, `ucla-data.jpg`, the `promo-*.jpg` photos and the school logos are third-party. Replace them or confirm usage rights before sharing outside the team.
+
+## The three experiences
+- **The student:** a text thread with Wolfie, the campus assistant. Tutoring nudges, a paper-due prompt, an Arena Store purchase tied to the loyalty ledger, the ambassador program and the campus Slack community, and spring registration. A data graph beside it lights up the sources each message uses.
+- **The CFO (Partnership Portal, `cfo.html`):** Today, Conversations, Action Center, Partner P&L and Cash, Access and Invoicing, Partnership and Renewal, Wolfie PA Impact, Active promotions, and Compliance and Trust. Approving, disputing or reconciling the Fall Access invoice updates the sales leader's view.
+- **The sales leader (Sales Command Center, `group.html`):** Sales Command Center, Access Growth Console (Northfield's path from department to full Access, with the team, key people, campaigns and next steps), Campus programs, SPR, and Operations Control.
+
+## Shared state and reset
+`CampusBus` in `campus-data.js` keeps state in `localStorage` (key `campusos.state.v1`) and broadcasts changes between windows with `BroadcastChannel` and `postMessage`. That is how an invoice decision in the CFO view shows up in the sales view. Use the **Reset demo** box above the CFO window, or **Reset demo state** in the Sales Command Center, to clear it.
+
+## How the code is organized
+- Vanilla JavaScript and HTML. There is no build step and no test runner.
+- Logic that matters (the Wolfie PA model, the Today status and ranking rules, the SPR ranking and internal-only filter) lives in separate `*-model.js` files that do not touch the DOM, so it can be unit tested or pointed at real data later. The HTML and `group.js` only render.
+- Mock data sits in one module per feature (`agenticos-model.js`, `today-model.js`, `spr-data.js`) so it is easy to swap for an API.
 
 ## Wolfie PA Impact tab
 A CFO view (Partnership Portal, `cfo.html`) that turns student-assistant outcomes into institutional value. All data is illustrative.
