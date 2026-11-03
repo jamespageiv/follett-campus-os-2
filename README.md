@@ -2,8 +2,9 @@
 
 A clickable concept demo of an agentic operating system for campuses, built for conversations with Follett leadership. It shows one idea through three experiences: the student, the CFO and the sales leader. **All data is synthetic.** Campus names, people, figures and dates are placeholders, and anything marked Assumed, Modeled or Illustrative is exactly that.
 
-- **Live site:** https://jamespageiv.github.io/ollett-campus-os/
-- **Fork it:** https://github.com/jamespageiv/ollett-campus-os/fork
+- **Live site:** https://jamespageiv.github.io/follett-campus-os-2/
+- **Fork it:** https://github.com/jamespageiv/follett-campus-os-2/fork
+- **Version:** this is the 2.0 working copy. The frozen 1.0 site is tagged `v1.0` here and lives at https://github.com/jamespageiv/ollett-campus-os
 
 ## Run it
 It is a static site with no build step, no framework and no dependencies. Serve the repo root with any static server and open `index.html`:
