@@ -23,7 +23,7 @@ Replace public/index.html, then commit and `git push heroku HEAD:main`.
 
 
 ## Wolfie PA Impact tab
-A CFO view (Follett Partnership Portal, `cfo.html`) that turns student-assistant outcomes into institutional value. All data is illustrative.
+A CFO view (Partnership Portal, `cfo.html`) that turns student-assistant outcomes into institutional value. All data is illustrative.
 
 - **Where it lives:** `agenticos-model.js` holds the pure `AGENTICOS.compute(assumptions)` function, the defaults, the slider metadata, the funnel config and the mock data (scorecard, segments, guardrails, trending search terms, resolved issues and Wolfie and Slack insights). `cfo.html` only renders it (`vAg`).
 - **Formulas:** active students = eligible x adoption. Credited lift = observed lift x share credited. Students retained = active x credited lift. Revenue retained = retained x net tuition per student. Program cost = active x cost per active student. Break-even lift = cost per active student / net tuition per student. Ratio = credited lift / break-even lift.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Follett Partnership Portal | Northfield State</title>
+<title>Partnership Portal | Northfield State</title>
 <style>
 :root{
   --bg:#f4f4f3;--card:#fff;--line:#dcdfe4;--ink:#111418;--mut:#5d6672;--faint:#8b94a0;
@@ -325,9 +325,7 @@ html.ipad .greet{font-size:30px}
 <body>
 <div class="app">
   <header class="top">
-    <div class="brand"><img class="logoimg" src="logo-follett-icon.svg" alt="Follett"><div>Follett Partnership Portal<small>Northfield State University</small></div></div>
-    <div class="sep"></div>
-    <div style="font-weight:600;font-size:15px" id="topTitle">CFO Workspace</div>
+    <div class="brand"><img class="logoimg" src="logo-follett-icon.svg" alt="Follett"><div>Partnership Portal<small>Northfield State University</small></div></div>
     <div class="chips">
       <div class="chip">Follett POS <i></i><em>Live</em></div>
       <div class="chip">CourseTracks <i></i><em>Live</em></div>
@@ -636,7 +634,7 @@ function vHome(){
    <div class="xlabel">Explore</div>
    <div class="xcards">${EXPLORE.map(x=>`<button class="xcard" data-ask="${x[2]}"><span class="xi">${ico(x[3],20,'#0b5cd5')}</span><span><b>${x[0]}</b><small>${x[1]}</small></span></button>`).join('')}</div>
    ${IPAD?'':`<div class="xlabel" style="margin-top:18px">Or ask</div><div class="pchips">${['Which courses need attention?','Which spring campus commerce lines should I approve?','Which departments should explore Total Access?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>`}`;
-  return `<div class="chatwrap" style="max-width:920px;margin:0 auto">${greet}${hist}${intro}<div class="thread" id="thread-home"></div>${inputBar('home')}<div class="fine">The Follett Partnership Portal can make mistakes. Validate critical figures. Data is synthetic for this prototype.</div></div>`;
+  return `<div class="chatwrap" style="max-width:920px;margin:0 auto">${greet}${hist}${intro}<div class="thread" id="thread-home"></div>${inputBar('home')}<div class="fine">The Partnership Portal can make mistakes. Validate critical figures. Data is synthetic for this prototype.</div></div>`;
 }
 function inputBar(id){return `<div class="inputbar">${''}<input id="in-${id}" placeholder="Ask a follow-up or type a command" autocomplete="off"><span style="color:var(--mut)">${ico('mic',18)}</span><button class="send" data-send="${id}">${ico('up',18,'#fff')}</button></div>`}
 
@@ -777,7 +775,7 @@ function vTrust(){
     ['CFO','CFO-only zone','Private Workspace questions and drafts.','Nothing','Everything. Never visible to Follett.'],
     ['Enriched','Enriched with consent','Degree, graduation year and interests added by students who opted in.','Aggregate coverage and anonymized segments','Any individual enrichment record']];
   const who=S.log.filter(l=>l.who);
-  return `<div class="h1">Compliance &amp; Trust</div><div class="sub">What the Follett Partnership Portal reads, what it never touches, and how agents are governed.</div>
+  return `<div class="h1">Compliance &amp; Trust</div><div class="sub">What the Partnership Portal reads, what it never touches, and how agents are governed.</div>
   <div class="card mt"><h3>Four zones</h3><div class="sub">Every answer and action carries the zone it came from.</div><div class="zgrid mt" style="margin-top:10px">${zones.map(z=>`<div class="tile"><span class="zone ${z[0]}">${z[1]}</span><div class="sub" style="margin:8px 0 6px">${z[2]}</div><div class="sub"><b style="display:inline">Follett can see:</b> ${z[3]}</div><div class="sub" style="margin-top:3px"><b style="display:inline">Follett cannot see:</b> ${z[4]}</div></div>`).join('')}</div></div>
   <div class="grid2 mt"><div class="card"><h3>Connected sources</h3><table style="margin-top:8px"><tr><th>Source</th><th>Fresh</th><th>Used for</th></tr>${src.map(s=>`<tr><td><b>${s[0]}</b></td><td><span class="pill green">${s[1]}</span></td><td class="sub">${s[2]}</td></tr>`).join('')}</table></div>
    <div class="card"><h3>What it never uses</h3><div style="margin-top:8px;display:flex;flex-direction:column;gap:9px">${['Individual grades, GPAs or transcripts','Dining, dorm swipe or campus card activity beyond tender approvals','Student-level records on any CFO screen (course-level and college-level only, minimum group size 10)','Student information sold or shared with outside brands or publishers'].map(t=>`<div style="display:flex;gap:9px">${ico('lock',16,'#c62828')}<span>${t}</span></div>`).join('')}</div>
@@ -1315,7 +1313,7 @@ function renderAll(){
   const showRail=S.screen==='home'||S.screen==='action';
   const m=$('#main');m.className='main'+(showRail?'':' norail')+(showRail&&S.railOff?' railoff':'');
   m.innerHTML=`<div class="page ${S.screen==='home'?'homep':''}">${VIEWS[S.screen]()}</div>`+(showRail?(S.railOff?`<aside class="rail off"><button class="railtab" data-rail title="Show Live Intelligence" aria-label="Show Live Intelligence" aria-expanded="false"><span class="railbtn" style="writing-mode:horizontal-tb;display:grid;place-items:center">&#8249;</span><span>Live intelligence</span></button></aside>`:`<aside class="rail">${rail()}</aside>`):'');
-  $('#topTitle').textContent=TITLES[S.screen];
+  if($('#topTitle'))$('#topTitle').textContent=TITLES[S.screen];
   $('#fab').classList.toggle('hide',S.screen==='home'||S.drawer);
   if($('#in-home'))$('#in-home').value=hv;
   refreshThreads();
