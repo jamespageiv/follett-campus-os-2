@@ -945,7 +945,7 @@ document.addEventListener('input',e=>{
 });
 /* ---------- Today tab ---------- */
 const TD=window.TODAYDATA,TM=window.TODAYMODEL;
-function todayFresh(){return {th:{},thopen:{},prep:{},types:{cash:true,enroll:true,partner:true,audit:true,invoice:true},cust:false,wi:{enroll:0,disc:0,policy:false},dq:{reason:TD.disputeReasons[0],who:TD.directors[0],due:'2026-11-06',open:null}}}
+function todayFresh(){return {th:{},thopen:{},prep:{},types:{invoice:true,partner:true,renewal:true},cust:false,wi:{enroll:0,disc:0,policy:false},dq:{reason:TD.disputeReasons[0],who:TD.directors[0],due:'2026-11-06',open:null}}}
 S.today=todayFresh();
 const tdM=n=>n>=1?'$'+n.toFixed(2)+'M':'$'+Math.round(n*1000)+'K';
 const tdInv=()=>TM.invoiceState(BUS.state());
@@ -956,15 +956,12 @@ function tdKpi(k){
 function tdFmt(k,v){return k.unit==='days'?Math.round(v)+' days':k.unit==='$M'?'$'+v.toFixed(1)+'M':k.unit==='open items'?String(v):(Math.round(v*10)/10)+'%'}
 function tdDelta(k,a,b){const d=a-b,good=k.dir==='high'?d>=0:d<=0;return `<span class="${d===0?'':good?'up':'dn'}">${d>0?'+':''}${k.unit==='$M'?d.toFixed(1)+'M':k.unit==='days'?Math.round(d)+' d':(Math.round(d*10)/10)+(k.unit.indexOf('%')>-1?' pts':'')}</span>`}
 function tdFeedItems(){
-  const inv=tdInv(),dsp=BUS.live.disputed(),b=TM.agingBuckets(TD.cash.accounts),b60=b[3].amt;
+  const inv=tdInv(),dsp=BUS.live.disputed(),cv=BUS.live.commissionVariance();
   return [
    {id:'invoice',type:'invoice',imp:5,t:'Fall Access invoice: '+inv.label.toLowerCase(),why:'$2.44M leaves cash on Nov 20, so the status decides whether payment is scheduled, held or reconciled first.',link:'t-decisions',dollarsM:2.44,dueDays:TM.dueIn('2026-11-20')},
-   {id:'census',type:'enroll',imp:4,t:'Census headcount is 99.4% of target',why:'24,800 enrolled against 24,950, down from 99.7% last month. It is associated with softer net tuition revenue.',link:'t-census',dollarsM:1.2},
-   {id:'reg',type:'enroll',imp:4,t:'Spring registration pace is 2.1% behind last year',why:'Billing holds are the largest blocker, with 251 students held.',link:'t-enroll',dollarsM:1.5,dueDays:TM.dueIn('2026-12-15')},
-   {id:'recv',type:'cash',imp:3,t:'A receivable crossed 60 days past due',why:tdM(b60)+' is now 61 to 90 days past due, which raises bad debt risk.',link:'t-cash',dollarsM:b60},
-   {id:'audit',type:'audit',imp:3,t:'Audit management letter response is due Nov 14',why:'One open audit item, owned by the Controller, ahead of the board finance committee.',link:'t-risk',dueDays:TM.dueIn('2026-11-14')},
-   {id:'disp',type:'partner',imp:3,t:'Partner invoices held in dispute: '+(dsp>=1?'$'+dsp.toFixed(0)+'K':'none'),why:'One census date mismatch drives most of it. Confirming it releases the largest share.',link:'t-partner',dollarsM:dsp/1000},
-   {id:'disc',type:'cash',imp:2,t:'Tuition discount rate rose to 52.4%',why:'Up 0.3 pts in a month and above the 52% watch line.',link:'t-disc'}];
+   {id:'disp',type:'partner',imp:4,t:'Partner invoices held in dispute: '+(dsp>=1?'$'+dsp.toFixed(0)+'K':'none'),why:'One census date mismatch drives most of it. Confirming the date releases the largest share and shortens days to pay.',link:'t-partner',dollarsM:dsp/1000},
+   {id:'comm',type:'partner',imp:4,t:cv?'Digital commission is $'+cv.toFixed(1)+'K under the contract rate':'Digital commission credit requested',why:cv?'Three new digital SKUs were paid at the physical rate. A same-week credit avoids waiting for the Nov 15 statement.':'Follett Finance has the variance lines and will respond.',link:'t-partner',dollarsM:cv/1000,dueDays:TM.dueIn('2026-11-15')},
+   {id:'renew',type:'renewal',imp:3,t:'Renewal readiness is 74 of 100 with the notice window opening Jan 15',why:'Service score and digital experience are the weak drivers. Peers see lower commission, which strengthens your position.',link:'t-partner',dueDays:TM.dueIn('2027-01-15')}];
 }
 function tdFeed(){return TM.rankFeed(tdFeedItems(),S.today,7)}
 function tdVitals(){return TD.kpis.map(tdKpi).map(k=>{const th=k.th,open=S.today.thopen[k.id];
@@ -981,11 +978,6 @@ function tdDecisions(){
   rows.push(`<div class="dr"><div class="dh"><b>Fall Access invoice</b><span class="amt">$2.44M</span></div><div class="dm">Due Nov 20 &middot; Owner: Dana Whitfield, CFO &middot; <span class="pill ${inv.tone==='ok'?'green':inv.tone==='err'?'red':inv.tone==='warn'?'amber':'blue'}">${inv.label}</span></div>
     <div class="dact">${inv.status==='approved'?'<span class="pill green">Decision logged</span>':`${gated?'<button class="btn sm pri" data-fx="fixCensus">Confirm census date first</button>':'<button class="btn sm pri" data-fx="payInvoice">Approve</button>'}<button class="btn sm" data-td="dispute-open">Dispute with reason</button>${st.reconRequested||st.reconDone?'':'<button class="btn sm" data-td="recon">Request reconciliation</button>'}${deleg('invoice')}`}</div>
     ${dq.open==='dispute'&&inv.status!=='approved'?`<div class="dform"><select data-dq="reason">${TD.disputeReasons.map(x=>`<option ${dq.reason===x?'selected':''}>${x}</option>`).join('')}</select><button class="btn sm pri" data-td="dispute">Submit dispute</button></div>`:''}${dform('invoice')}</div>`);
-  const cen=S.done.fixCensus;
-  rows.push(`<div class="dr"><div class="dh"><b>Disputed invoices: census date mismatch</b><span class="amt">${fmtK(NFD.disputes.causes[0].amt)}</span></div><div class="dm">7 invoices &middot; Due now &middot; Owner: Registrar &middot; ${cen?'<span class="pill green">Released</span>':'<span class="pill amber">Open</span>'}</div>
-    <div class="dact">${cen?'<span class="pill green">Decision logged</span>':'<button class="btn sm pri" data-fx="fixCensus">Confirm Sep 12 census date</button>'}${deleg('census')}</div>${dform('census')}</div>`);
-  rows.push(`<div class="dr"><div class="dh"><b>Operating agreement notice window opens</b><span class="amt">Jan 15</span></div><div class="dm">Notice window for the Aug 31, 2027 expiry &middot; Owner: General counsel &middot; ${td.notice?'<span class="pill green">Review scheduled</span>':'<span class="pill amber">Open</span>'}</div>
-    <div class="dact">${td.notice?'<span class="pill green">Decision logged</span>':'<button class="btn sm pri" data-td="notice">Schedule review with counsel</button>'}${deleg('notice')}</div>${dform('notice')}</div>`);
   rows.push(`<div class="dr"><div class="dh"><b>Budget exception: spring pop-up program</b><span class="amt">$85K</span></div><div class="dm">Requested by Auxiliary Services &middot; Due Nov 12 &middot; ${td.budget?`<span class="pill ${td.budget==='approved'?'green':'gray'}">${td.budget==='approved'?'Approved':'Declined'}</span>`:'<span class="pill amber">Open</span>'}</div>
     <div class="dact">${td.budget?'<span class="pill green">Decision logged</span>':'<button class="btn sm pri" data-td="budget:approved">Approve</button><button class="btn sm" data-td="budget:declined">Decline</button>'}${deleg('budget')}</div>${dform('budget')}</div>`);
   const log=(st.decisions||[]).slice(0,5);
@@ -1047,7 +1039,7 @@ function tdAsk(){
    <div class="inputbar" style="margin:0"><input id="tq-today" placeholder="Ask about Northfield State" autocomplete="off" aria-label="Ask about Northfield State"><button class="send" data-td="askgo" aria-label="Ask">${ico('up',18,'#fff')}</button></div>
    <div class="pchips" style="margin-top:10px">${['Why is cash slow?','What is my exposure if enrollment drops 2%?','What changed this week?'].map(p=>`<button class="pchip" data-ask="${p}">${p}</button>`).join('')}</div>
    <div class="dact" style="margin-top:12px"><button class="btn pri" data-td="export">Board one-pager</button><button class="btn" data-td="settings">Alert settings</button></div>
-   ${S.today.cust?`<div class="cust2"><b>Show these events in Since yesterday</b>${[['invoice','Invoice and payment status'],['cash','Cash and receivables'],['enroll','Enrollment and retention'],['partner','Partner items'],['audit','Audit and compliance']].map(t=>`<label><input type="checkbox" data-ty="${t[0]}" ${S.today.types[t[0]]!==false?'checked':''}> ${t[1]}</label>`).join('')}<div class="sub">Edit each vital sign's thresholds with the Threshold link on its card.</div></div>`:''}</div>`;
+   ${S.today.cust?`<div class="cust2"><b>Show these events in Since yesterday</b>${[['invoice','Invoice and payment status'],['partner','Partner invoices and commission'],['renewal','Renewal and contract']].map(t=>`<label><input type="checkbox" data-ty="${t[0]}" ${S.today.types[t[0]]!==false?'checked':''}> ${t[1]}</label>`).join('')}<div class="sub">Edit each vital sign's thresholds with the Threshold link on its card.</div></div>`:''}</div>`;
 }
 function vToday(){
   const feed=tdFeed();
@@ -1062,7 +1054,7 @@ function tdOnePager(){
   const ks=TD.kpis.map(tdKpi),st=BUS.state(),log=(st.decisions||[]).slice(0,8),inv=tdInv();
   return `<div class="prdoc"><h1>Board one-pager: Northfield State University</h1><div class="sub">${TD.dateLabel} &middot; ${TD.phase} &middot; Data as of ${TD.asOf} &middot; Synthetic data</div>
    <h3>Vital signs</h3><table><tr><th>Measure</th><th>Value</th><th>Status</th></tr>${ks.map(k=>`<tr><td>${k.label}${k.modeled?' (Modeled)':''}</td><td>${tdFmt(k,k.cur)}</td><td>${TM.STATUS_ICON[k.st]} ${TM.STATUS_LABEL[k.st]}</td></tr>`).join('')}</table>
-   <h3>Decisions</h3><table><tr><th>Item</th><th>Status</th></tr><tr><td>Fall Access invoice, $2.44M due Nov 20</td><td>${inv.label}</td></tr><tr><td>Census date mismatch, ${fmtK(NFD.disputes.causes[0].amt)}</td><td>${S.done.fixCensus?'Released':'Open'}</td></tr><tr><td>Notice window, Jan 15</td><td>${(st.todayDec||{}).notice?'Review scheduled':'Open'}</td></tr><tr><td>Budget exception, $85K</td><td>${(st.todayDec||{}).budget?((st.todayDec||{}).budget==='approved'?'Approved':'Declined'):'Open'}</td></tr></table>
+   <h3>Decisions</h3><table><tr><th>Item</th><th>Status</th></tr><tr><td>Fall Access invoice, $2.44M due Nov 20</td><td>${inv.label}</td></tr><tr><td>Budget exception, $85K</td><td>${(st.todayDec||{}).budget?((st.todayDec||{}).budget==='approved'?'Approved':'Declined'):'Open'}</td></tr></table>
    ${log.length?`<h3>Decision log</h3><ul>${log.map(e=>`<li>${e.status}: ${e.item}${e.detail?' ('+e.detail+')':''}</li>`).join('')}</ul>`:''}
    <h3>Risks</h3><ul>${TD.risks.map(r=>`<li>${r.t}: ${r.state} (owner ${r.owner}, due ${r.due})</li>`).join('')}</ul></div>`;
 }
