@@ -31,10 +31,17 @@
       ['Lift gap between Pell and non-Pell students','0.6 pts','ok'],
       ['Opt-out rate after first term','3.1%','ok','Watch if above 5%'],
       ['Data leaving campus','Aggregate insights only, no student records','enforced']],
-    evidence:[
-      'Lift is measured against a matched comparison group, not all non-users.',
-      'The credit slider exists because students who opt in tend to differ from those who do not.',
-      'Consent, data sharing and FERPA treatment are pending validation by product and legal.']};
+    /* what students ask Wolfie this month: questions, and change vs last month. Aggregate and anonymized. */
+    searchTerms:[['Spring registration',1010,61],['Financial aid deadline',1240,34],['Billing hold',780,22],['Tutoring, Econ',520,47],['Game-day gear',380,29],['Access savings',640,18],['Pack Points',350,15],['Parking pass',410,-8]],
+    /* most resolved issues: resolved count, share resolved without a person, typical time to resolve */
+    resolved:[['Billing hold cleared',1180,83,'3.2 days'],['Aid task reminder completed',960,91,'1.1 days'],['Course materials not live on day one',410,88,'0.5 days'],
+      ['Registration hold explained',372,79,'1.8 days'],['Tutoring slot booked',340,94,'0.4 days'],['Pack Points question',295,96,'Same day']],
+    /* insights joined from Wolfie questions and the Slack community. Associations only, never causes. */
+    insights:[
+      {src:'Slack community',t:'Study group members ask fewer tutoring questions',d:'Students active in the course study channels ask Wolfie about 38% fewer tutoring questions and book earlier slots. This is associated with peers answering the first question.',next:'Seed study channels for the five gateway courses before midterms.'},
+      {src:'Wolfie',t:'Registration questions jumped 61%',d:'Most arrive within a day of a billing hold notice. Wolfie answers them, but the hold is the real blocker.',next:'Send the hold reminder before registration opens, not after.'},
+      {src:'Slack community',t:'Ambassador questions doubled after the channel launched',d:'Wolfie questions about the ambassador program roughly doubled in the two weeks after the ambassador channel opened. Applications followed the same pattern.',next:'Pin the apply link in the channel and in the Wolfie answer.'},
+      {src:'Wolfie and Slack',t:'Game-day chatter comes before pop-up sales',d:'Gear questions in Wolfie and game-day threads in Slack rise the day before home games, which is associated with higher Arena Store pop-up traffic.',next:'Time the pop-up offer to the day before, not the day of.'}]};
   function num(v){v=Number(v);return isFinite(v)?v:0}
   function compute(a,cfg){
     a=a||DEFAULTS;cfg=cfg||CONFIG;

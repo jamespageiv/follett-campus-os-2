@@ -929,9 +929,16 @@ function agRest(r){
    <table style="margin-top:8px"><tr><th>Outcome</th><th class="r">Matched non-users</th><th class="r">Active users</th><th class="r">Change</th></tr>
    <tr><td><b>Term-to-term persistence</b></td><td class="r">${P.nonUsers}%</td><td class="r">${P.users.toFixed(1)}%</td><td class="r" style="color:var(--green)"><b>+${P.change.toFixed(1)} pts</b></td></tr>
    ${D.scorecard.map(x=>{const good=x[0].indexOf('DFW')===0||x[3]==='days'?x[2]<x[1]:x[2]>x[1];return `<tr><td>${x[0]}</td><td class="r">${fmtRow(x[3],x[1])}</td><td class="r">${fmtRow(x[3],x[2])}</td><td class="r" style="color:${good?'var(--green)':'var(--red)'}">${chg(x[3],x[1],x[2])}</td></tr>`}).join('')}</table></div>
-  <div class="grid2 mt"><div class="card"><h3>Guardrails</h3><div class="sub">Sources: consent registry, escalation log</div>
-   ${D.guardrails.map(g=>`<div class="gr"><span class="pill ${g[2]==='ok'?'green':g[2]==='enforced'?'blue':'amber'}">${g[2]==='ok'?'&#10003; OK':g[2]==='enforced'?'&#128274; Enforced':'! Watch'}</span><span><b>${g[0]}</b><small>${g[1]}${g[3]?'. '+g[3]:''}</small></span></div>`).join('')}</div>
-   <div class="card"><h3>Evidence notes</h3><div style="margin-top:8px;display:flex;flex-direction:column;gap:9px">${D.evidence.map(t=>`<div class="sub" style="font-size:13px">${t}</div>`).join('')}</div></div></div>`;
+  <div class="grid2 mt"><div class="card"><h3>Trending in Wolfie</h3><div class="sub">Search terms this month. Questions, with change vs last month. Aggregate and anonymized.</div>
+    <div role="img" aria-label="Trending search terms: ${D.searchTerms.map(x=>x[0]+' '+x[1]+', '+(x[2]>0?'up ':'down ')+Math.abs(x[2])+' percent').join('; ')}">${D.searchTerms.slice().sort((a,b)=>b[2]-a[2]).map(x=>`<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${x[0]}</span><span><b>${x[1].toLocaleString()}</b> <span class="${x[2]>=0?'up':'dn'}">${x[2]>0?'+':''}${x[2]}%</span></span></div><div class="bar"><i style="width:${x[1]/1300*100}%;background:#0b5cd5"></i></div></div>`).join('')}</div></div>
+   <div class="card"><h3>Most resolved issues</h3><div class="sub">What Wolfie closed this month, and how often without a person.</div>
+    <table style="margin-top:6px"><tr><th>Issue</th><th class="r">Resolved</th><th class="r">No person needed</th><th class="r">Typical time</th></tr>${D.resolved.map(x=>`<tr><td>${x[0]}</td><td class="r"><b>${x[1].toLocaleString()}</b></td><td class="r">${x[2]}%</td><td class="r">${x[3]}</td></tr>`).join('')}</table></div></div>
+  <div class="grid2 mt"><div class="card"><h3>Insights from Wolfie and the Slack community</h3><div class="sub">Joined at aggregate level. Associations, not causes.</div>
+    ${D.insights.map(x=>`<div class="gr"><span class="pill ${x.src==='Wolfie'?'blue':x.src==='Slack community'?'green':'amber'}">${x.src}</span><span><b>${x.t}</b><small>${x.d}</small><small><b>Next step:</b> ${x.next}</small></span></div>`).join('')}</div>
+   <div class="card"><h3>Guardrails</h3><div class="sub">Sources: consent registry, escalation log</div>
+   ${D.guardrails.map(g=>`<div class="gr"><span class="pill ${g[2]==='ok'?'green':g[2]==='enforced'?'blue':'amber'}">${g[2]==='ok'?'&#10003; OK':g[2]==='enforced'?'&#128274; Enforced':'! Watch'}</span><span><b>${g[0]}</b><small>${g[1]}${g[3]?'. '+g[3]:''}</small></span></div>`).join('')}
+   <div class="sub" style="margin-top:10px">Lift is measured against a matched comparison group. Consent and data-sharing treatment are pending validation by product and legal.</div></div></div>
+  <div class="srcl">Sources: Wolfie conversation topics (aggregate), campus Slack community activity (aggregate), matched cohort model (illustrative)</div>`;
 }
 function vAg(){
   const r=AGENTICOS.compute(S.ag);
