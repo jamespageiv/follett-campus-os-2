@@ -553,6 +553,23 @@ footer{padding:30px 0;font-size:12px;color:var(--mute)}
 .fc .ic.pic img{height:54px;width:auto;display:block;filter:drop-shadow(0 6px 10px rgba(10,30,60,.28))}
 .fc .t{gap:12px;margin-bottom:14px}
 .stats .sc{position:relative}
+.stats-bar{display:flex;justify-content:space-between;align-items:center;margin-top:30px}
+.stats-hint{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#00a1e0}
+.st-flip{background:#fff;border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:8px 18px;font:700 13px var(--sans);cursor:pointer}
+.st-flip:hover{border-color:#00a1e0;color:#00a1e0}
+.stats{margin-top:14px!important}
+.sflip{perspective:1400px;cursor:pointer;outline:none;min-height:262px}
+.sfi{position:relative;height:100%;min-height:262px;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.1,.2,1)}
+.sflip.on .sfi{transform:rotateY(180deg)}
+.sfi>.sc{backface-visibility:hidden;-webkit-backface-visibility:hidden;height:100%;min-height:262px}
+.sfi>.sc.bk{position:absolute;inset:0;transform:rotateY(180deg);color:#fff;border:0;background:linear-gradient(160deg,#0b2a45,#0a4d73)}
+.sfi>.sc.bk.b1{background:linear-gradient(160deg,#006fa3,#00a1e0)}
+.bk-logo{position:absolute;right:20px;top:20px;width:58px;height:58px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(0,0,0,.25)}.bk-logo img{max-width:34px;max-height:34px;width:auto;height:auto;display:block}.bk-logo img[src*='agentforce']{max-width:50px;max-height:50px}.sc.bk .fb{color:#8fe0ff}.sc.bk.b1 .fb{color:#e6f7ff}
+.sc.bk .n{color:#fff}
+.sc.bk p{font-size:14.5px}
+.sc.bk small{color:#cfe9f7}
+.sflip:focus-visible .sfi{box-shadow:0 0 0 3px #00a1e0;border-radius:20px}
+
 .stats .sc-ic{position:absolute;right:22px;top:26px;max-height:68px;max-width:88px;width:auto;height:auto;filter:drop-shadow(0 8px 10px rgba(10,30,60,.25))}
 .stats .sc-ic.down{transform:rotate(90deg);max-height:62px}
 .stats .sc-ic.card{max-width:70px;top:38px}
@@ -641,13 +658,22 @@ footer{padding:30px 0;font-size:12px;color:var(--mute)}
 <div class="eyebrow">Why now</div>
 <h2>The window is <em>open</em></h2>
 <p class="fb-bridge">We're at the crossroads of a once-in-a-generation opportunity: shrinking enrollment, real doubt about what college is for, and a technology shift that happens once in a lifetime.</p>
+<div class="stats-bar"><span class="stats-hint" id="stHint">Higher education</span><button class="st-flip" id="stFlip" type="button">See retail and AI stats</button></div>
 <div class="stats">
-<div class="sc"><div class="fb">Enrollment</div><img class="sc-ic down" src="icon-down.png" alt=""><div class="n">13%</div><p>Fewer high school graduates by 2041 than at the 2025 peak.</p><small>WICHE, 11th ed.</small></div>
-<div class="sc dk"><div class="fb">Value of College</div><img class="sc-ic cost" src="icon-cost.png" alt=""><div class="n">27%</div><p>Say they understand their full cost of attendance.</p><small>Inside Higher Ed Student Voice Survey, 2025</small></div>
-<div class="sc"><div class="fb">Technology</div><img class="sc-ic tech" src="icon-tech.png" alt=""><div class="n">32%</div><p>Of institutions had an AI policy in 2025.</p><small>Tyton Partners, 2026</small></div>
-<div class="sc dk"><div class="fb">Student Outcomes</div><img class="sc-ic card" src="icon-card.png" alt=""><div class="n">70%</div><p>Of students skipped a required textbook or code because of cost.</p><small>Student PIRGs, Feb 2026</small></div>
+<div class="sflip" tabindex="0" role="button" aria-label="Flip card"><div class="sfi"><div class="sc"><div class="fb">Enrollment</div><img class="sc-ic down" src="icon-down.png" alt=""><div class="n">13%</div><p>Fewer high school graduates by 2041 than at the 2025 peak.</p><small>WICHE, 11th ed.</small></div><div class="sc bk b0"><span class="bk-logo"><img src="logo-chatgpt.svg" alt="ChatGPT"></span><div class="fb">Agentic search</div><div class="n">~200%</div><p>Growth in agentic search as the first step of the shopping journey.</p></div></div></div>
+<div class="sflip" tabindex="0" role="button" aria-label="Flip card"><div class="sfi"><div class="sc dk"><div class="fb">Value of College</div><img class="sc-ic cost" src="icon-cost.png" alt=""><div class="n">27%</div><p>Say they understand their full cost of attendance.</p><small>Inside Higher Ed Student Voice Survey, 2025</small></div><div class="sc bk b1"><span class="bk-logo"><img src="logo-muse.png" alt="Muse"></span><div class="fb">Personal agents</div><div class="n">10M+</div><p>Meta claims 10M+ personal agents setup on Muse. But only 8% of US consumers trust Meta with their data.</p></div></div></div>
+<div class="sflip" tabindex="0" role="button" aria-label="Flip card"><div class="sfi"><div class="sc"><div class="fb">Technology</div><img class="sc-ic tech" src="icon-tech.png" alt=""><div class="n">32%</div><p>Of institutions had an AI policy in 2025.</p><small>Tyton Partners, 2026</small></div><div class="sc bk b0"><span class="bk-logo"><img src="logo-google.svg" alt="Google"></span><div class="fb">AI-mediated</div><div class="n">50%+</div><p>Of consumer interactions on Google in 2026 will be mediated by AI-driven assistants or agents rather than direct brand engagement.</p></div></div></div>
+<div class="sflip" tabindex="0" role="button" aria-label="Flip card"><div class="sfi"><div class="sc dk"><div class="fb">Student Outcomes</div><img class="sc-ic card" src="icon-card.png" alt=""><div class="n">70%</div><p>Of students skipped a required textbook or code because of cost.</p><small>Student PIRGs, Feb 2026</small></div><div class="sc bk b1"><span class="bk-logo"><img src="logo-agentforce.png" alt="Salesforce Agentforce" onerror="this.parentNode.style.display='none'"></span><div class="fb">AI shopping</div><div class="n">74%</div><p>Of consumers have used AI shopping assistants and trust their recommendations.</p></div></div></div>
 </div>
 </div></section>
+<script>
+(function(){var f=[].slice.call(document.querySelectorAll('.sflip')),b=document.getElementById('stFlip'),h=document.getElementById('stHint');
+function sync(){var on=f.every(function(c){return c.classList.contains('on')});b.textContent=on?'Back to higher ed stats':'See retail and AI stats';var any=f.some(function(c){return c.classList.contains('on')});h.textContent=on?'Retail and AI':(any?'Higher education and retail and AI':'Higher education')}
+f.forEach(function(c){c.onclick=function(){c.classList.toggle('on');sync()};c.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click()}}});
+b.onclick=function(){var on=!f.every(function(c){return c.classList.contains('on')});f.forEach(function(c){c.classList.toggle('on',on)});sync()};
+})();
+</script>
+
 
 <section id="partnership" class="pt"><div class="wrap">
 <div class="eyebrow">The partnership</div>
